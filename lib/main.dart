@@ -1,3 +1,4 @@
+import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/screens/register_screen.dart';
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'App Comida',
       theme:theme, 
-      home:  registered()?RegisterScreen() :Container(),
+      home:  registered()?const RegisterScreen() : const HomeSreen(),
     );
   }
 }
