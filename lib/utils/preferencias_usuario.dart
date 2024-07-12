@@ -11,11 +11,11 @@ class PreferenciasUsuario {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  set modoOscuro(bool value) {
+  set darkMode(bool value) {
     _prefs.setBool('ModoOscuro', value);
   }
 
-  bool get modoOscuro {
+  bool get darkMode {
     return _prefs.getBool('ModoOscuro') ?? false;
   }
  String get token {
@@ -26,18 +26,18 @@ class PreferenciasUsuario {
     _prefs.setString('Token', value);
   }
 
-  String get usuario {
+  String get user {
     return _prefs.getString('usuario') ?? '';
   }
 
-  set usuario(String value) {
+  set user(String value) {
     _prefs.setString('usuario', value);
   } 
- String get numero {
+ String get phoneNumber {
     return _prefs.getString('numero') ?? '';
   }
 
-  set numero(String value) {
+  set phoneNumber(String value) {
     _prefs.setString('numero', value);
   }
   

@@ -1,27 +1,42 @@
+import 'package:app_tienda_comida/provider/onHoverProvider.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/screens/register_screen.dart';
+import 'package:app_tienda_comida/utils/bloc/loginBloc/provider.dart';
+
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = PreferenciasUsuario();
+  await prefs.initPrefs();
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-   PreferenciasUsuario prefs = PreferenciasUsuario();
-   bool  registered(){
-    return prefs.usuario != '';
-   }
-    return MaterialApp(
-      title: 'App Comida',
-      theme:theme, 
-      home:  registered()?const RegisterScreen() : const HomeSreen(),
+   final prefs = PreferenciasUsuario();
+    return ProviderP(
+      child: MultiProvider(
+        providers: [
+          
+           ChangeNotifierProvider(
+          create: (_) => OnHoverProvider(),
+          lazy: false,
+        ),
+          ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'App Comida',
+          theme:theme, 
+          home:  true?const RegisterScreen() : const HomeSreen(),
+        ),
+      ),
     );
   }
 }
