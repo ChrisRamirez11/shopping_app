@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 ThemeData theme = ThemeData(
   textTheme: TextTheme(
-    bodyLarge: TextStyle(color: Colors.white),
-    bodyMedium: TextStyle(color: Colors.white),
-    bodySmall: TextStyle(color: Colors.white),
+    bodyLarge: TextStyle(color: Colors.black),
+    bodyMedium: TextStyle(color: Colors.black),
+    bodySmall: TextStyle(color: Colors.black),
     displayLarge: TextStyle(color: Colors.white),
     displayMedium: TextStyle(color: Colors.white),
     displaySmall: TextStyle(color: Colors.white),
