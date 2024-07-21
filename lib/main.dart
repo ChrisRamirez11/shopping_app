@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'App Comida',
           theme: theme,
-          home: HomeSreen(),
+          home: RegisterScreen(),
         ),
       ),
     );

@@ -26,6 +26,7 @@ class _HomeSreenState extends State<HomeSreen> {
               decoration: BoxDecoration(color: primary),
               child: Center(
                   child: Text(
+                style: Theme.of(context).textTheme.headlineMedium,
                 'Productos',
               )),
             ),
