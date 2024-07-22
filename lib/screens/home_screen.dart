@@ -18,7 +18,6 @@ class _HomeSreenState extends State<HomeSreen> {
         backgroundColor: primary,
       ),
       drawer: Drawer(
-        backgroundColor: secondary,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
