@@ -1,4 +1,5 @@
 import 'package:app_tienda_comida/provider/onHoverProvider.dart';
+import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/screens/register_screen.dart';
 import 'package:app_tienda_comida/utils/bloc/loginBloc/provider.dart';
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'App Comida',
           theme: theme,
-          home: RegisterScreen(),
+          home: HomeSreen(),
         ),
       ),
     );
