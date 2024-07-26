@@ -15,29 +15,29 @@ Future<void> main() async {
   await prefs.initPrefs();
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final prefs = PreferenciasUsuario();
     return ProviderP(
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(
-            create: (_) => OnHoverProvider(),
-            lazy: false,
-          ),
-        ],
+          
+           ChangeNotifierProvider(
+          create: (_) => OnHoverProvider(),
+          lazy: false,
+        ),
+          ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'App Comida',
-          theme: theme,
-          home: OnHoverButton(),
+          theme:theme, 
+          home:  true?const RegisterScreen() : const HomeSreen(),
         ),
       ),
     );
   }
 }
+

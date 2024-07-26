@@ -21,7 +21,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
     final prefs = PreferenciasUsuario();
-Widget _login_form(BuildContext context) {
+Widget _loginForm(BuildContext context) {
 
   final bloc = ProviderP.of(context);
     final size = MediaQuery.of(context).size;
@@ -32,7 +32,7 @@ Widget _login_form(BuildContext context) {
           margin: const EdgeInsets.symmetric(vertical: 30.0),
           padding: const EdgeInsets.symmetric(vertical: 30.0),
           decoration: BoxDecoration(
-              color: Color.fromARGB(213, 254, 254, 254),
+              color:const Color.fromARGB(213, 254, 254, 254),
               borderRadius: BorderRadius.circular(5.0),
               boxShadow: const [
                 BoxShadow(
@@ -42,40 +42,37 @@ Widget _login_form(BuildContext context) {
                     spreadRadius: 3.0)
               ]),
           child: RawScrollbar(
-            radius:Radius.circular(4),
+            radius:const Radius.circular(4),
             thumbVisibility: true,
           thumbColor: theme.primaryColor,
             child: SingleChildScrollView(
               
-              child: Container(
-                
-                child: Column(
-                  children: [
-                    Text(
-                      'Don Pepito',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                      
-                          fontSize: 25.0,
-                          color: theme.primaryColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 15.0,
-                    ),
-                    _crearName(bloc),
-                    const SizedBox(
-                      height: 15.0,
-                    ),
-                    _crearNumero(bloc),
-                    const SizedBox(
-                      height: 15.0,
-                    ),
-                   
-                    _crearBoton(bloc,context)
-                  ],
-                ),
+              child: Column(
+                children: [
+                  Text(
+                    'Don Pepito',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                    
+                        fontSize: 25.0,
+                        color: theme.primaryColor,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 15.0,
+                  ),
+                  _crearName(bloc),
+                  const SizedBox(
+                    height: 15.0,
+                  ),
+                  _crearNumero(bloc),
+                  const SizedBox(
+                    height: 15.0,
+                  ),
+                 
+                  _crearBoton(bloc,context)
+                ],
               ),
             ),
           ),
@@ -128,7 +125,7 @@ Widget _crearNumero(LoginBloc bloc) {
   );
 } 
 Widget _crearBoton(LoginBloc bloc,BuildContext context) {
-   Color? buttonColor = theme.primaryColor;
+  
      var onhover = Provider.of<OnHoverProvider>(context);
     
     return StreamBuilder(
@@ -159,12 +156,12 @@ Widget _crearBoton(LoginBloc bloc,BuildContext context) {
           onPressed: snapshot.hasData ? () {
           prefs.user = bloc.name;
           prefs.phoneNumber = bloc.phone;
-          Navigator.pushReplacement(context,  crearRuta(HomeSreen(), Duration(microseconds: 700)));
+          Navigator.pushReplacement(context,  crearRuta(const HomeSreen(), const Duration(microseconds: 700)));
           } : null,
           child: Container(
             padding:
                 const EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
-            child: Text('Ingresar'),
+            child: const Text('Ingresar'),
           ),
         );
       },
@@ -174,14 +171,14 @@ Widget _crearBoton(LoginBloc bloc,BuildContext context) {
   Widget build(BuildContext context) {
       var size =MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
+      body: SizedBox(
       height: size.height,
       width: size.width,
       child:  Stack(
         children: [
           const _FondoRegister(),
         Center(
-          child: _login_form(context),
+          child: _loginForm(context),
         )
         ],
       ),
@@ -191,30 +188,9 @@ Widget _crearBoton(LoginBloc bloc,BuildContext context) {
   
 }
 
-class _Formulario extends StatelessWidget {
-  const _Formulario({
-    super.key,
-    required this.size,
-  });
 
-  final Size size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: size.width*0.8,
-        height: size.height*0.6,
-      color: const Color.fromARGB(107, 255, 255, 255),
-      child: Column(
-        
-      ),
-      ),
-    );
-  }
-}
 class _FondoRegister extends StatelessWidget {
-  const _FondoRegister({super.key});
+  const _FondoRegister();
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +250,7 @@ class _FondoRegister extends StatelessWidget {
   }
 }
 class _DatosUsuarioForm extends StatefulWidget {
-  const _DatosUsuarioForm({super.key});
+  const _DatosUsuarioForm();
 
   @override
   State<_DatosUsuarioForm> createState() => __DatosUsuarioFormState();
