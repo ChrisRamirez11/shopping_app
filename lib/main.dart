@@ -1,6 +1,5 @@
 import 'package:app_tienda_comida/provider/onHoverProvider.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
-import 'package:app_tienda_comida/screens/on_hover_screen.dart';
 import 'package:app_tienda_comida/screens/register_screen.dart';
 import 'package:app_tienda_comida/utils/bloc/loginBloc/provider.dart';
 
@@ -21,6 +20,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // final prefs = PreferenciasUsuario();
     return ProviderP(
       child: MultiProvider(
         providers: [
@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'App Comida',
-          theme:theme, 
-          home:  true?const RegisterScreen() : const HomeSreen(),
+          theme: theme,
+          home: HomeSreen(),
         ),
       ),
     );
