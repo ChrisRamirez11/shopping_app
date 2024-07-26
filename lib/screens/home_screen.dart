@@ -1,4 +1,5 @@
 import 'package:app_tienda_comida/utils/theme.dart';
+import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomeSreen extends StatefulWidget {
@@ -15,10 +16,30 @@ class _HomeSreenState extends State<HomeSreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Center(
+          child: Text(
+            'Home Screen',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+        foregroundColor: secondary,
         backgroundColor: primary,
+        actions: [
+          Container(
+              child: IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.search_outlined),
+          )),
+          Container(
+              child: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              IconData(0xe59c, fontFamily: 'MaterialIcons'),
+            ),
+          ))
+        ],
       ),
       drawer: Drawer(
-        backgroundColor: secondary,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -41,7 +62,7 @@ class _HomeSreenState extends State<HomeSreen> {
           ],
         ),
       ),
-      body: Center(),
+      body: GridViewWidget(),
     );
   }
 }

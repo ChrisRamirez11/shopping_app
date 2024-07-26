@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 
+Color primary = const Color.fromARGB(255, 243, 33, 33);
+Color secondary = const Color.fromARGB(255, 244, 241, 54);
 ThemeData theme = ThemeData(
   textTheme: TextTheme(
     bodyLarge: TextStyle(color: Colors.black),
     bodyMedium: TextStyle(color: Colors.black),
     bodySmall: TextStyle(color: Colors.black),
-    displayLarge: TextStyle(color: Colors.white),
     displayMedium: TextStyle(color: Colors.white),
     displaySmall: TextStyle(color: Colors.white),
     headlineLarge: TextStyle(color: Colors.white),
-    headlineMedium: TextStyle(color: Colors.white),
+    headlineMedium: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
     headlineSmall: TextStyle(color: Colors.white),
     labelLarge: TextStyle(color: Colors.white),
     labelMedium: TextStyle(color: Colors.white),
     labelSmall: TextStyle(color: Colors.white),
-    titleLarge: TextStyle(color: Colors.white),
-    titleMedium: TextStyle(color: Colors.white),
-    titleSmall: TextStyle(color: Colors.white),
+    titleLarge: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
+    titleMedium: TextStyle(color: Colors.black),
+    titleSmall: TextStyle(color: Colors.black),
   ),
   scrollbarTheme: const ScrollbarThemeData(
     trackVisibility: MaterialStatePropertyAll(true),
@@ -25,9 +26,9 @@ ThemeData theme = ThemeData(
     thumbVisibility: MaterialStatePropertyAll(true),
   ),
 
-  primaryColor: const Color.fromARGB(255, 243, 33, 33),
+  primaryColor: primary,
   // Color azul
-  secondaryHeaderColor: const Color.fromARGB(255, 244, 241, 54), // Color rojo
+  secondaryHeaderColor: secondary, // Color rojo
 
   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
   useMaterial3: true,
