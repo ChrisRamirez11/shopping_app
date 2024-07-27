@@ -48,7 +48,7 @@ class _HomeSreenState extends State<HomeSreen> {
               child: Center(
                   child: Text(
                 style: Theme.of(context).textTheme.headlineMedium,
-                'Productos',
+                'Don Pepito',
               )),
             ),
             ListTile(
