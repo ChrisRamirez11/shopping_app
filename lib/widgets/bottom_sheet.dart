@@ -12,22 +12,60 @@ class CustomizedBottomSheet extends StatefulWidget {
 class _CustomizedBottomSheetState extends State<CustomizedBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    return ClipShadowPath(
-              shadow: const BoxShadow(
-                  color: Colors.black,
-                  offset: Offset(4, 4),
-                  blurRadius: 4,
-                  spreadRadius: 8),
-              clipper: HomeScreenClipper(),
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.yellow, Colors.amber])),
-              ),
-            );
+    return SizedBox(
+      
+      height: 100,
+      child: Column(
+        children: [
+          SizedBox(height:20,),
+          Container(
+            height: 80,
+            width: MediaQuery.of(context).size.width,
+            child: SheetCarritoWidget(cantidadCarrito: 2, onAgregar: (){}, onEliminar: () {
+              
+            },),
+          ),
+        ],
+      ),
+    );
+                  
+                
+  }}
+
+class SheetCarritoWidget extends StatelessWidget {
+  final int cantidadCarrito; // La cantidad actual del carrito
+  final Function() onAgregar; // Callback para añadir un elemento
+  final Function() onEliminar; // Callback para eliminar un elemento
+
+  const SheetCarritoWidget({
+    Key? key,
+    required this.cantidadCarrito,
+    required this.onAgregar,
+    required this.onEliminar,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('Cantidad en el carrito: $cantidadCarrito'),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [ElevatedButton.icon(
+            onPressed: () => onAgregar,
+            icon: Icon(Icons.add),
+            label: Text('Añadir'),
+          ),
+          ElevatedButton.icon(
+            onPressed: () => onEliminar,
+            icon: Icon(Icons.remove),
+            label: Text('Eliminar'),
+          ),],
+          )
+        ],
+      ),
+    );
   }
 }

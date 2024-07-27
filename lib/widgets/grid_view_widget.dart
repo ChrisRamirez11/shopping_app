@@ -18,16 +18,14 @@ class GridViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Future _displayButtomSheet (BuildContext context)async{
       return showModalBottomSheet(
-      
+        
     context: context,
-    builder: (context) => ClipPath(
-      clipper: HomeScreenClipper(),
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
-        child: const CustomizedBottomSheet(),
-      ),
-    ),
-  );
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(
+      topLeft: Radius.elliptical(400, 40),
+      topRight: Radius.elliptical(400, 40) 
+      
+      )),
+    builder: (context) => CustomizedBottomSheet());
     }
     return GridView.builder(
       itemCount: list.length,

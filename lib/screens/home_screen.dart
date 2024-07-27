@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:app_tienda_comida/utils/theme.dart';
-import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
 import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
@@ -31,11 +30,10 @@ class _HomeSreenState extends State<HomeSreen> {
         foregroundColor: secondary,
         backgroundColor: primary,
         actions: [
-          Container(
-              child: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search_outlined),
-          )),
+          IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.search_outlined),
+                    ),
           IconButton(
                       onPressed: () {},
                       icon: const Icon(
