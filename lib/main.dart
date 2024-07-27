@@ -1,6 +1,5 @@
 import 'package:app_tienda_comida/provider/onHoverProvider.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
-import 'package:app_tienda_comida/screens/register_screen.dart';
 import 'package:app_tienda_comida/utils/bloc/loginBloc/provider.dart';
 
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
