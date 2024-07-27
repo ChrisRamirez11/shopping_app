@@ -151,7 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Container(
             padding:
                 const EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
-            child: Text('Ingresar'),
+            child: const Text('Ingresar'),
           ),
         );
       },
@@ -200,7 +200,7 @@ class _Formulario extends StatelessWidget {
 }
 
 class _FondoRegister extends StatelessWidget {
-  const _FondoRegister({super.key});
+  const _FondoRegister();
 
   @override
   Widget build(BuildContext context) {
@@ -254,7 +254,7 @@ class _FondoRegister extends StatelessWidget {
 }
 
 class _DatosUsuarioForm extends StatefulWidget {
-  const _DatosUsuarioForm({super.key});
+  const _DatosUsuarioForm();
 
   @override
   State<_DatosUsuarioForm> createState() => __DatosUsuarioFormState();

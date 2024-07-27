@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:app_tienda_comida/utils/theme.dart';
+import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
 import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
+import 'package:app_tienda_comida/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 
 class HomeSreen extends StatefulWidget {
@@ -28,40 +32,17 @@ class _HomeSreenState extends State<HomeSreen> {
           Container(
               child: IconButton(
             onPressed: () {},
-            icon: Icon(Icons.search_outlined),
+            icon: const Icon(Icons.search_outlined),
           )),
-          Container(
-              child: IconButton(
+          IconButton(
             onPressed: () {},
-            icon: Icon(
+            icon: const Icon(
               IconData(0xe59c, fontFamily: 'MaterialIcons'),
             ),
-          ))
+          )
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(color: primary),
-              child: Center(
-                  child: Text(
-                style: Theme.of(context).textTheme.headlineMedium,
-                'Don Pepito',
-              )),
-            ),
-            ListTile(
-              title: Text('Opción 1'),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text('Opción 2'),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
+      drawer: MenuDrawer(primary: primary),
       body: GridViewWidget(),
     );
   }

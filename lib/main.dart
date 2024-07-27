@@ -1,6 +1,5 @@
 import 'package:app_tienda_comida/provider/onHoverProvider.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
-import 'package:app_tienda_comida/screens/register_screen.dart';
 import 'package:app_tienda_comida/utils/bloc/loginBloc/provider.dart';
 
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
@@ -14,7 +13,6 @@ Future<void> main() async {
   await prefs.initPrefs();
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -25,11 +23,12 @@ class MyApp extends StatelessWidget {
     return ProviderP(
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(
-            create: (_) => OnHoverProvider(),
-            lazy: false,
-          ),
-        ],
+          
+           ChangeNotifierProvider(
+          create: (_) => OnHoverProvider(),
+          lazy: false,
+        ),
+          ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'App Comida',
@@ -40,3 +39,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

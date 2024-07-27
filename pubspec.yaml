@@ -38,7 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   rxdart: ^0.28.0
   provider: ^6.1.2
-  connection_status_bar: ^1.1.6
+
 
 dev_dependencies:
   flutter_test:
