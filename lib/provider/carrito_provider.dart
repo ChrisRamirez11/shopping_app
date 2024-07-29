@@ -20,6 +20,7 @@ getTotal(){
   productos.map(
 (e) => total+=e.precio,
   );
+  return total;
 }
 
 
