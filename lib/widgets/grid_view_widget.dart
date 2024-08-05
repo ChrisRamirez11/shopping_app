@@ -1,4 +1,3 @@
-import 'package:app_tienda_comida/widgets/HomeScreen_CliperShadowPathdart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
@@ -16,17 +15,16 @@ class GridViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future _displayButtomSheet (BuildContext context)async{
+    Future _displayButtomSheet(BuildContext context) async {
       return showModalBottomSheet(
-        
-    context: context,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(
-      topLeft: Radius.elliptical(400, 40),
-      topRight: Radius.elliptical(400, 40) 
-      
-      )),
-    builder: (context) => CustomizedBottomSheet());
+          context: context,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.elliptical(400, 40),
+                  topRight: Radius.elliptical(400, 40))),
+          builder: (context) => CustomizedBottomSheet());
     }
+
     return GridView.builder(
       itemCount: list.length,
       gridDelegate:
