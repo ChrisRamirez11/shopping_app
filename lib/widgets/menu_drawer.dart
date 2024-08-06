@@ -19,7 +19,7 @@ class MenuDrawer extends StatelessWidget {
             child: Center(
                 child: Text(
               style: Theme.of(context).textTheme.headlineMedium,
-              'Productos',
+              'Don Pepito',
             )),
           ),
           ListTile(
