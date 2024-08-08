@@ -10,7 +10,7 @@ class AddProductSecreen extends StatefulWidget {
 
 class _AddProductSecreenState extends State<AddProductSecreen> {
   final formKey = GlobalKey<FormState>();
-  ProductsProviderSupabase productosProviders = ProductsProviderSupabase();
+  ProductsProviderSupabase productsProviders = ProductsProviderSupabase();
   Producto producto = new Producto(
       id: 0, nombre: '', tipo: '', precio: 1, disponibilidad: true);
 
@@ -112,7 +112,7 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
   void _submit() {
     if (!formKey.currentState!.validate()) return;
     formKey.currentState!.save();
-    productosProviders.insertProduct(producto.nombre, producto.tipo,
+    productsProviders.insertProduct(producto.nombre, producto.tipo,
         producto.precio, producto.disponibilidad);
     // setState(() {
     //   _saving = true;
