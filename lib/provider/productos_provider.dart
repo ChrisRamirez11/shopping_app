@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:app_tienda_comida/models/Producto.dart';
+import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
