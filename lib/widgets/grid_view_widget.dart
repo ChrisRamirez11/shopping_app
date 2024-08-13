@@ -89,18 +89,29 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                 SizedBox(
                   width: 10,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      product['name'].toString(),
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    Text(
-                      product['price'].toString(),
-                      style: Theme.of(context).textTheme.titleSmall,
-                    )
-                  ],
+                SizedBox(
+                  width: 120,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 110,
+                        child: Text(
+                          overflow: TextOverflow.ellipsis,
+                          product['name'].toString(),
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 110,
+                        child: Text(
+                          overflow: TextOverflow.ellipsis,
+                          product['price'].toString(),
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 Expanded(child: Container()),
                 IconButton(
