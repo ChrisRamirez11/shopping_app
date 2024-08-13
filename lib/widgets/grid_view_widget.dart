@@ -33,81 +33,78 @@ class _GridViewWidgetState extends State<GridViewWidget> {
       return Future.value();
     }
 
-    return RefreshIndicator(
-      onRefresh: () => idk(),
-      child: StreamBuilder<List<Map<String, dynamic>>>(
-        stream: fetchData,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
-          }
-          final data = snapshot.data!;
-          return GridView.builder(
-            itemCount: data.length,
-            gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  elevation: 10,
-                  child: GestureDetector(
-                    onTap: () => _displayButtomSheet(context),
-                    child:
-                        Container(child: _createGridTile(context, index, data)),
-                  ),
+    return StreamBuilder<List<Map<String, dynamic>>>(
+      stream: fetchData,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        }
+        final data = snapshot.data!;
+        return GridView.builder(
+          itemCount: data.length,
+          gridDelegate:
+              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                elevation: 10,
+                child: GestureDetector(
+                  onTap: () => _displayButtomSheet(context),
+                  child:
+                      Container(child: _createGridTile(context, index, data)),
                 ),
-              );
-            },
-          );
-        },
-      ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
   _createGridTile(BuildContext context, int index, data) {
     return GridTile(
-        footer: GridTileBar(
-          title: Text(
-            data[index]['name'].toString(),
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          subtitle: Text(
-            '${data[index]['price']}\$',
-            style: Theme.of(context).textTheme.bodySmall,
+        header: GridTileBar(
+          title: Center(
+            child: Text(data[index]['type'],
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.titleMedium),
           ),
         ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          SizedBox(
-            width: 200,
-            height: 40,
-            child: Row(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 40.0),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: Image.asset('assets/images/er.jpg')),
+            Row(
               children: [
                 SizedBox(
-                  width: 130,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Text(
-                      data[index]['type'],
-                      overflow: TextOverflow.ellipsis,
+                  width: 10,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      data[index]['name'].toString(),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                  ),
+                    Text(
+                      data[index]['price'].toString(),
+                      style: Theme.of(context).textTheme.titleSmall,
+                    )
+                  ],
                 ),
                 Expanded(child: Container()),
                 IconButton(
                     onPressed: () {
                       _products.deleteProduct(context, data[index]['id']);
                     },
-                    icon: const Icon(Icons.add))
+                    icon: const Icon(Icons.add)),
               ],
-            ),
-          ),
-          Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              child: Image.asset('assets/images/er.jpg')),
-          SizedBox(
-            height: 10,
-          )
-        ]));
+            )
+          ]),
+        ));
   }
 }

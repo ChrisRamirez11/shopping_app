@@ -4,20 +4,17 @@ Color primary = const Color.fromARGB(255, 243, 33, 33);
 Color secondary = const Color.fromARGB(255, 244, 241, 54);
 ThemeData theme = ThemeData(
   textTheme: TextTheme(
-    bodyLarge: TextStyle(color: Colors.black),
-    bodyMedium: TextStyle(color: Colors.black),
-    bodySmall: TextStyle(color: Colors.black),
-    displayMedium: TextStyle(color: Colors.white),
-    displaySmall: TextStyle(color: Colors.white),
+    bodyLarge: TextStyle(
+      color: Colors.black,
+    ),
+    bodyMedium: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+    bodySmall: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
     headlineLarge: TextStyle(color: Colors.white),
     headlineMedium: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
     headlineSmall: TextStyle(color: Colors.white),
-    labelLarge: TextStyle(color: Colors.white),
-    labelMedium: TextStyle(color: Colors.white),
-    labelSmall: TextStyle(color: Colors.white),
     titleLarge: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
-    titleMedium: TextStyle(color: Colors.black),
-    titleSmall: TextStyle(color: Colors.black),
+    titleMedium: TextStyle(color: Colors.black, fontWeight: FontWeight.normal),
+    titleSmall: TextStyle(color: Colors.black, fontWeight: FontWeight.normal),
   ),
   scrollbarTheme: const ScrollbarThemeData(
     trackVisibility: MaterialStatePropertyAll(true),
