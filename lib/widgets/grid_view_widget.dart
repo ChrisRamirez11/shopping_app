@@ -1,9 +1,6 @@
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
-import 'package:app_tienda_comida/widgets/topModalSheet.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:top_modal_sheet/top_modal_sheet.dart';
 
 class GridViewWidget extends StatefulWidget {
   GridViewWidget({super.key});
@@ -13,26 +10,14 @@ class GridViewWidget extends StatefulWidget {
 }
 
 class _GridViewWidgetState extends State<GridViewWidget> {
-  final _products = ProductsProviderSupabase().products;
+  final _products = ProductsProviderSupabase();
 
   @override
   Widget build(BuildContext context) {
-  
-    Future _showTopModal(BuildContext context) async {
-   return showTopModalSheet<String?>(
-      context,
-      CustomizedTopShet(productName: 'Platanito Frito', onEdit: (){} , onDelete: (){}),
-      backgroundColor: Colors.white,
-      borderRadius: const BorderRadius.vertical(
-        bottom: Radius.circular(20),
-      ),
-    );
-
-  }
+    var fetchData = _products.productsStream;
 
     Future _displayButtomSheet(BuildContext context) async {
       return showModalBottomSheet(
-       scrollControlDisabledMaxHeightRatio: MediaQuery.of(context).size.height*0.7,
           context: context,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -41,8 +26,15 @@ class _GridViewWidgetState extends State<GridViewWidget> {
           builder: (context) => CustomizedBottomSheet());
     }
 
+    Future<void> idk() {
+      setState(() {
+        fetchData = _products.productsStream;
+      });
+      return Future.value();
+    }
+
     return StreamBuilder<List<Map<String, dynamic>>>(
-      stream: _products,
+      stream: fetchData,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
@@ -59,10 +51,8 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                 elevation: 10,
                 child: GestureDetector(
                   onTap: () => _displayButtomSheet(context),
-                  onLongPress: () => _showTopModal(context),
-                  child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: _createGridTile(context, index, data)),
+                  child:
+                      Container(child: _createGridTile(context, index, data)),
                 ),
               ),
             );
@@ -74,29 +64,47 @@ class _GridViewWidgetState extends State<GridViewWidget> {
 
   _createGridTile(BuildContext context, int index, data) {
     return GridTile(
-        footer: GridTileBar(
-          title: Text(
-            data[index]['name'].toString(),
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          trailing: Text(
-            data[index]['price'].toString() + '\$',
-            style: Theme.of(context).textTheme.bodySmall,
+        header: GridTileBar(
+          title: Center(
+            child: Text(data[index]['type'],
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.titleMedium),
           ),
         ),
-        child: Container(
-          child: Column(
-            children: [
-              Text(
-                data[index]['type'],
-                overflow: TextOverflow.ellipsis,
-              ),
-              Container(
-                  padding: EdgeInsets.only(top: 15),
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Image.asset('assets/images/er.jpg'))
-            ],
-          ),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 40.0),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: Image.asset('assets/images/er.jpg')),
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      data[index]['name'].toString(),
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    Text(
+                      data[index]['price'].toString(),
+                      style: Theme.of(context).textTheme.titleSmall,
+                    )
+                  ],
+                ),
+                Expanded(child: Container()),
+                IconButton(
+                    onPressed: () {
+                      _products.deleteProduct(context, data[index]['id']);
+                    },
+                    icon: const Icon(Icons.add)),
+              ],
+            )
+          ]),
         ));
   }
 }

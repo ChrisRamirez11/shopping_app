@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
-import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +12,6 @@ class HomeSreen extends StatefulWidget {
 }
 
 class _HomeSreenState extends State<HomeSreen> {
-  Color primary = theme.primaryColor;
-  Color secondary = theme.secondaryHeaderColor;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

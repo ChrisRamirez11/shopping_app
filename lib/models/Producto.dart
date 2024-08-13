@@ -5,24 +5,24 @@ class ListarProductos {
     required this.results,
   });
 
-  List<Producto> results;
+  List<Product> results;
 
   factory ListarProductos.fromJson(String str) =>
       ListarProductos.fromMap(json.decode(str));
 
   factory ListarProductos.fromMap(List<dynamic> json) => ListarProductos(
-        results: List<Producto>.from(json.map((x) => Producto.fromJson(x))),
+        results: List<Product>.from(json.map((x) => Product.fromJson(x))),
       );
 }
 
-class Producto {
+class Product {
   int id;
   String nombre;
   String tipo;
   double precio;
   bool disponibilidad;
 
-  Producto({
+  Product({
     required this.id,
     required this.nombre,
     required this.tipo,
@@ -30,12 +30,11 @@ class Producto {
     required this.disponibilidad,
   });
 
-  factory Producto.fromRawJson(String str) =>
-      Producto.fromJson(json.decode(str));
+  factory Product.fromRawJson(String str) => Product.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Producto.fromJson(Map<String, dynamic> json) => Producto(
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
         nombre: json["nombre"],
         precio: json["precio"],
