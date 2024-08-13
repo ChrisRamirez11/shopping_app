@@ -40,6 +40,7 @@ dependencies:
   provider: ^6.1.2
   dio: ^5.5.0+1
   supabase_flutter: ^1.0.1
+  top_modal_sheet: ^2.1.0
 
 
 dev_dependencies:

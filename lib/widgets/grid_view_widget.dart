@@ -1,16 +1,38 @@
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
+import 'package:app_tienda_comida/widgets/topModalSheet.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:top_modal_sheet/top_modal_sheet.dart';
 
-class GridViewWidget extends StatelessWidget {
+class GridViewWidget extends StatefulWidget {
   GridViewWidget({super.key});
+
+  @override
+  State<GridViewWidget> createState() => _GridViewWidgetState();
+}
+
+class _GridViewWidgetState extends State<GridViewWidget> {
   final _products = ProductsProviderSupabase().products;
 
   @override
   Widget build(BuildContext context) {
+  
+    Future _showTopModal(BuildContext context) async {
+   return showTopModalSheet<String?>(
+      context,
+      CustomizedTopShet(productName: 'Platanito Frito', onEdit: (){} , onDelete: (){}),
+      backgroundColor: Colors.white,
+      borderRadius: const BorderRadius.vertical(
+        bottom: Radius.circular(20),
+      ),
+    );
+
+  }
+
     Future _displayButtomSheet(BuildContext context) async {
       return showModalBottomSheet(
+       scrollControlDisabledMaxHeightRatio: MediaQuery.of(context).size.height*0.7,
           context: context,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -37,6 +59,7 @@ class GridViewWidget extends StatelessWidget {
                 elevation: 10,
                 child: GestureDetector(
                   onTap: () => _displayButtomSheet(context),
+                  onLongPress: () => _showTopModal(context),
                   child: Container(
                       margin: EdgeInsets.all(10),
                       child: _createGridTile(context, index, data)),
