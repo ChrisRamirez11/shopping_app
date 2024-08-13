@@ -1,23 +1,61 @@
 import 'package:app_tienda_comida/models/Producto.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
+import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddProductSecreen extends StatefulWidget {
+  final Product? product;
+  const AddProductSecreen({super.key, this.product});
+
   @override
   State<AddProductSecreen> createState() => _AddProductSecreenState();
 }
 
 class _AddProductSecreenState extends State<AddProductSecreen> {
+  bool _saving = false;
   final formKey = GlobalKey<FormState>();
   ProductsProviderSupabase productsProviders = ProductsProviderSupabase();
-  Producto producto = new Producto(
-      id: 0, nombre: '', tipo: '', precio: 1, disponibilidad: true);
+  late Product product;
+
+  @override
+  void initState() {
+    if (widget.product != null) {
+      product = widget.product!;
+    } else {
+      product = new Product(
+          id: 0, nombre: '', tipo: '', precio: 1, disponibilidad: true);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          foregroundColor: secondary,
+          backgroundColor: primary,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  _selectImage(ImageSource.camera);
+                },
+                icon: Icon(
+                  Icons.camera_alt,
+                  color: secondary,
+                )),
+            IconButton(
+                onPressed: () {
+                  _selectImage(ImageSource.gallery);
+                },
+                icon: Icon(
+                  Icons.photo,
+                  color: secondary,
+                )),
+          ],
+        ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
@@ -27,6 +65,10 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
                 children: [
                   SizedBox(
                     height: 50,
+                  ),
+                  _createPicContainer(),
+                  SizedBox(
+                    height: 10,
                   ),
                   _nameField(),
                   _typeField(),
@@ -47,7 +89,7 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.name,
       decoration: InputDecoration(labelText: 'Nombre del producto'),
-      onSaved: (newValue) => producto.nombre = newValue!,
+      onSaved: (newValue) => product.nombre = newValue!,
       validator: (value) {
         if (value!.length < 1) {
           return 'Ingrese el nombre del producto';
@@ -63,7 +105,7 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.name,
       decoration: InputDecoration(labelText: 'Tipo de producto'),
-      onSaved: (newValue) => producto.tipo = newValue!,
+      onSaved: (newValue) => product.tipo = newValue!,
       validator: (value) {
         if (value!.length < 1) {
           return 'Ingrese el tipo de producto';
@@ -78,7 +120,7 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
     return TextFormField(
       keyboardType: TextInputType.number,
       decoration: InputDecoration(labelText: 'Precio del producto'),
-      onSaved: (newValue) => producto.precio = double.parse(newValue!),
+      onSaved: (newValue) => product.precio = double.parse(newValue!),
       validator: (value) {
         if (utils.isNumeric(value!)) {
           return null;
@@ -90,11 +132,17 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
   }
 
   _availabilityField() {
-    return SwitchListTile(
-        value: producto.disponibilidad,
-        onChanged: (value) => setState(() {
-              producto.disponibilidad = value;
-            }));
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: SwitchListTile(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: Text('Disponibilidad'),
+          value: product.disponibilidad,
+          onChanged: (value) => setState(() {
+                product.disponibilidad = value;
+              })),
+    );
   }
 
   _createButton() {
@@ -112,8 +160,8 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
   void _submit() {
     if (!formKey.currentState!.validate()) return;
     formKey.currentState!.save();
-    productsProviders.insertProduct(producto.nombre, producto.tipo,
-        producto.precio, producto.disponibilidad);
+    productsProviders.insertProduct(context, product.nombre, product.tipo,
+        product.precio, product.disponibilidad);
     // setState(() {
     //   _saving = true;
     // });
@@ -133,4 +181,42 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
     //     ));
     // });
   }
+
+  _createPicContainer() {
+    return Container(
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+            offset: Offset(1, 3),
+            blurRadius: 4,
+            spreadRadius: 2,
+            color: Colors.black38)
+      ]),
+      child: Image(
+        image: _loadImage(),
+        height: 300,
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+
+  _selectImage(ImageSource source) async {
+    final XFile? pickedFile = await ImagePicker().pickImage(source: source);
+    if (pickedFile != null) {
+      try {
+        // List<int> imageData = await pickedFile.readAsBytes();
+        setState(() {});
+      } catch (e) {
+        print("Error reading file: $e");
+      }
+    }
+  }
+
+  _loadImage() {
+    //     if (pic.length != 0) {
+    //   product.pic = pic;
+    //   return MemoryImage(base64Decode(pic));
+    // } else {
+    return const AssetImage('assets/images/no-image.png');
+  }
+  // }}
 }

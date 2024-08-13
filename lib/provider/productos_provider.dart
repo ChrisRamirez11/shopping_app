@@ -6,13 +6,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class ProductosProviders extends ChangeNotifier {
-  ProductosProviders(){
-    productos= getproducto();
-    }
- //TODO: Cambiar URL
+  ProductosProviders() {
+    productos = getproducto();
+  }
+  //TODO: Cambiar URL
   final Dio dio = Dio();
-List<Producto> productos=[];
-int productosPage=0;
+  List<Product> productos = [];
+  int productosPage = 0;
 
   PreferenciasUsuario prefs = PreferenciasUsuario();
 
@@ -32,10 +32,7 @@ int productosPage=0;
       return status! < 500;
     };
     try {
-      final response = await dio.post(
-          '',
-          data: data,
-          options: options);
+      final response = await dio.post('', data: data, options: options);
 
       if (response.statusCode == 200 || response.statusCode == 200) {
         return response.data;
@@ -66,9 +63,7 @@ int productosPage=0;
     };
 
     try {
-      final response = await dio.delete(
-          '',
-          options: options);
+      final response = await dio.delete('', options: options);
 
       if (response.statusCode == 200) {
         return 'Eliminado Con Exito';
@@ -80,7 +75,7 @@ int productosPage=0;
     }
   }
 
-  Future<String> _getJsonData( {int page = 1}) async {
+  Future<String> _getJsonData({int page = 1}) async {
     final prefs = PreferenciasUsuario();
     var options = Options(
       method: 'GET',
@@ -96,9 +91,7 @@ int productosPage=0;
     };
 
     try {
-      final response = await dio.get(
-          '',
-          options: options);
+      final response = await dio.get('', options: options);
 
       if (response.statusCode == 200) {
         return response.data;
@@ -110,8 +103,7 @@ int productosPage=0;
     }
   }
 
-  Future<String> _patchproducto(
-       Map<String, dynamic> data) async {
+  Future<String> _patchproducto(Map<String, dynamic> data) async {
     final prefs = PreferenciasUsuario();
     var options = Options(
       method: 'PATCH',
@@ -126,10 +118,7 @@ int productosPage=0;
       return status! < 500;
     };
     try {
-      final response = await dio.patch(
-          '',
-          data: data,
-          options: options);
+      final response = await dio.patch('', data: data, options: options);
 
       if (response.statusCode == 200) {
         return response.data;
@@ -140,63 +129,64 @@ int productosPage=0;
       throw Exception('Error al realizar la solicitud: $e');
     }
   }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-getproducto()async{
-  //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
+  getproducto() async {
+    //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
 
-  final jsonData = await _getJsonData( page: productosPage);
-  final productoResponse = Producto.fromRawJson(jsonData);
-  
-  notifyListeners();
-  return productoResponse;
-}
-deleteproductos(int id)async{
-  //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
-  final response = await _deleteproducto(id);
-  if (response == 'Eliminado Con Exito') {
+    final jsonData = await _getJsonData(page: productosPage);
+    final productoResponse = Product.fromRawJson(jsonData);
+
+    notifyListeners();
+    return productoResponse;
+  }
+
+  deleteproductos(int id) async {
+    //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
+    final response = await _deleteproducto(id);
+    if (response == 'Eliminado Con Exito') {
       //TODO:ACTUALIZAR productoTRAMITE
-  notifyListeners();
-  return response;
-}
+      notifyListeners();
+      return response;
+    }
+  }
 
-}
-patchproducto(String id,nombre,tipo,double precio,bool disponibilidad) async {
-  
- final data = {
-    "id": id,
-    "nombre": nombre,
-    "tipo": tipo,
-    "precio":precio,
-    "disponibilidad":disponibilidad
- };
- //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
- final responseBody = await _patchproducto( data);
+  patchproducto(
+      String id, nombre, tipo, double precio, bool disponibilidad) async {
+    final data = {
+      "id": id,
+      "nombre": nombre,
+      "tipo": tipo,
+      "precio": precio,
+      "disponibilidad": disponibilidad
+    };
+    //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
+    final responseBody = await _patchproducto(data);
 
-
- final updateproductoJson = json.decode(responseBody);
- final updatedproducto = Producto.fromJson(updateproductoJson);
+    final updateproductoJson = json.decode(responseBody);
+    final updatedproducto = Product.fromJson(updateproductoJson);
 //TODO:ACTUALIZAR producto
 
+    notifyListeners();
+  }
 
- notifyListeners(); 
-}
-postproducto(String id,nombre,tipo,double precio,bool disponibilidad) async {
-  
-final data = {
-    "id": id,
-    "nombre": nombre,
-    "tipo": tipo,
-    "precio":precio,
-    "disponibilidad":disponibilidad
- };
- //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
- final responseBody = await _postproducto( data);
+  postproducto(
+      String id, nombre, tipo, double precio, bool disponibilidad) async {
+    final data = {
+      "id": id,
+      "nombre": nombre,
+      "tipo": tipo,
+      "precio": precio,
+      "disponibilidad": disponibilidad
+    };
+    //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
+    final responseBody = await _postproducto(data);
 
- // Suponiendo que el servidor devuelve el vuelo actualizado en formato JSON
- final updateproductoJson = json.decode(responseBody);
- final updatedproducto = Producto.fromJson(updateproductoJson);
+    // Suponiendo que el servidor devuelve el vuelo actualizado en formato JSON
+    final updateproductoJson = json.decode(responseBody);
+    final updatedproducto = Product.fromJson(updateproductoJson);
 //TODO:ACTUALIZAR productoTRAMITE
- // Encuentra el índice del producto a actualizar
+    // Encuentra el índice del producto a actualizar
 //  int indexToUpdate = productosItalianos.indexWhere((productoItaliano) => productoItaliano.id == updatedproducto.id);
 
 //  // Si el producto existe en la lista, actualízalo
@@ -204,17 +194,6 @@ final data = {
 //     productosItalianos[indexToUpdate] = updatedproducto;
 //  }
 
- notifyListeners(); 
-}
-
-
-
-
-
-
-
-
-
-
-
+    notifyListeners();
+  }
 }
