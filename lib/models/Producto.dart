@@ -17,18 +17,19 @@ class ListarProductos {
 
 class Product {
   int id;
-  String nombre;
-  String tipo;
-  double precio;
-  bool disponibilidad;
+  String name;
+  String type;
+  double price;
+  bool availability;
+  String pic;
 
-  Product({
-    required this.id,
-    required this.nombre,
-    required this.tipo,
-    required this.precio,
-    required this.disponibilidad,
-  });
+  Product(
+      {required this.id,
+      required this.name,
+      required this.type,
+      required this.price,
+      required this.availability,
+      required this.pic});
 
   factory Product.fromRawJson(String str) => Product.fromJson(json.decode(str));
 
@@ -36,17 +37,19 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
-        nombre: json["nombre"],
-        precio: json["precio"],
-        disponibilidad: json["disponibilidad"],
-        tipo: json["tipo"],
+        name: json["name"],
+        price: json["price"],
+        availability: json["availability"],
+        type: json["type"],
+        pic: json["pic"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "nombre": nombre,
-        "precio": precio,
-        "disponibilidad": disponibilidad,
-        "tipo": tipo,
+        "name": name,
+        "price": price,
+        "availability": availability,
+        "type": type,
+        "pic": pic
       };
 }

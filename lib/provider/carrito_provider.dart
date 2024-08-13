@@ -1,4 +1,4 @@
-import 'package:app_tienda_comida/models/Producto.dart';
+import 'package:app_tienda_comida/models/producto.dart';
 import 'package:flutter/material.dart';
 
 class Carrito extends ChangeNotifier {
@@ -20,7 +20,7 @@ class Carrito extends ChangeNotifier {
   getTotal() {
     double total = 0;
     productos.map(
-      (e) => total += e.precio,
+      (e) => total += e.price,
     );
     return total;
   }

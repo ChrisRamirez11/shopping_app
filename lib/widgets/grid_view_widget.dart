@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -63,10 +65,11 @@ class _GridViewWidgetState extends State<GridViewWidget> {
   }
 
   _createGridTile(BuildContext context, int index, data) {
+    final product = data[index];
     return GridTile(
         header: GridTileBar(
           title: Center(
-            child: Text(data[index]['type'],
+            child: Text(product['type'],
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.titleMedium),
           ),
@@ -76,8 +79,11 @@ class _GridViewWidgetState extends State<GridViewWidget> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Container(
+                color: Colors.white70,
+                height: 90,
+                width: 160,
                 margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: Image.asset('assets/images/er.jpg')),
+                child: Image(image: _loadImage(product))),
             Row(
               children: [
                 SizedBox(
@@ -87,11 +93,11 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      data[index]['name'].toString(),
+                      product['name'].toString(),
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     Text(
-                      data[index]['price'].toString(),
+                      product['price'].toString(),
                       style: Theme.of(context).textTheme.titleSmall,
                     )
                   ],
@@ -106,5 +112,13 @@ class _GridViewWidgetState extends State<GridViewWidget> {
             )
           ]),
         ));
+  }
+
+  _loadImage(product) {
+    if (product['pic'].toString().isNotEmpty) {
+      return MemoryImage(base64Decode(product['pic']));
+    } else {
+      return const AssetImage('assets/images/no-image.png');
+    }
   }
 }

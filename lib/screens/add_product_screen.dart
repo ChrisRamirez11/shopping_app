@@ -1,5 +1,9 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:app_tienda_comida/models/Producto.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
+import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
@@ -15,8 +19,10 @@ class AddProductSecreen extends StatefulWidget {
 
 class _AddProductSecreenState extends State<AddProductSecreen> {
   bool _saving = false;
+  String pic = '';
   final formKey = GlobalKey<FormState>();
-  ProductsProviderSupabase productsProviders = ProductsProviderSupabase();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  ProductsProviderSupabase productProvider = ProductsProviderSupabase();
   late Product product;
 
   @override
@@ -25,7 +31,7 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
       product = widget.product!;
     } else {
       product = new Product(
-          id: 0, nombre: '', tipo: '', precio: 1, disponibilidad: true);
+          id: 0, name: '', type: '', price: 1, availability: true, pic: '');
     }
     super.initState();
   }
@@ -34,24 +40,25 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: scaffoldKey,
         appBar: AppBar(
           foregroundColor: secondary,
           backgroundColor: primary,
           actions: [
             IconButton(
                 onPressed: () {
-                  _selectImage(ImageSource.camera);
-                },
-                icon: Icon(
-                  Icons.camera_alt,
-                  color: secondary,
-                )),
-            IconButton(
-                onPressed: () {
                   _selectImage(ImageSource.gallery);
                 },
                 icon: Icon(
                   Icons.photo,
+                  color: secondary,
+                )),
+            IconButton(
+                onPressed: () {
+                  _selectImage(ImageSource.camera);
+                },
+                icon: Icon(
+                  Icons.camera_alt,
                   color: secondary,
                 )),
           ],
@@ -63,9 +70,6 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
               key: formKey,
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 50,
-                  ),
                   _createPicContainer(),
                   SizedBox(
                     height: 10,
@@ -89,7 +93,7 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.name,
       decoration: InputDecoration(labelText: 'Nombre del producto'),
-      onSaved: (newValue) => product.nombre = newValue!,
+      onSaved: (newValue) => product.name = newValue!,
       validator: (value) {
         if (value!.length < 1) {
           return 'Ingrese el nombre del producto';
@@ -105,7 +109,7 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.name,
       decoration: InputDecoration(labelText: 'Tipo de producto'),
-      onSaved: (newValue) => product.tipo = newValue!,
+      onSaved: (newValue) => product.type = newValue!,
       validator: (value) {
         if (value!.length < 1) {
           return 'Ingrese el tipo de producto';
@@ -120,7 +124,7 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
     return TextFormField(
       keyboardType: TextInputType.number,
       decoration: InputDecoration(labelText: 'Precio del producto'),
-      onSaved: (newValue) => product.precio = double.parse(newValue!),
+      onSaved: (newValue) => product.price = double.parse(newValue!),
       validator: (value) {
         if (utils.isNumeric(value!)) {
           return null;
@@ -138,18 +142,16 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: Text('Disponibilidad'),
-          value: product.disponibilidad,
+          value: product.availability,
           onChanged: (value) => setState(() {
-                product.disponibilidad = value;
+                product.availability = value;
               })),
     );
   }
 
   _createButton() {
     return ElevatedButton(
-      onPressed: () {
-        _submit();
-      },
+      onPressed: _saving ? null : () => _submit(),
       child: Text("Guardad"),
       style: ButtonStyle(
           shape: WidgetStatePropertyAll(
@@ -160,26 +162,24 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
   void _submit() {
     if (!formKey.currentState!.validate()) return;
     formKey.currentState!.save();
-    productsProviders.insertProduct(context, product.nombre, product.tipo,
-        product.precio, product.disponibilidad);
-    // setState(() {
-    //   _saving = true;
-    // });
-    // ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
-    // Timer(Duration(milliseconds: 1500), () {
-    //   ScaffoldMessenger.of(context)
-    //       .showSnackBar(_showSnackBar('Registro Guardado'));
-    //   if (widget.pet == null) {
-    //     petProvider.createPet(pet);
-    //   } else {
-    //     petProvider.editPet(pet);
-    //   }
-    // Navigator.pushReplacement(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) => MainMenu(),
-    //     ));
-    // });
+    setState(() {
+      _saving = true;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
+    Timer(Duration(milliseconds: 1500), () {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(_showSnackBar('Registro Guardado'));
+      if (widget.product == null) {
+        productProvider.insertProduct(context, product);
+      } else {
+        productProvider.updateProduct(context, product);
+      }
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomeSreen(),
+          ));
+    });
   }
 
   _createPicContainer() {
@@ -203,7 +203,8 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
     final XFile? pickedFile = await ImagePicker().pickImage(source: source);
     if (pickedFile != null) {
       try {
-        // List<int> imageData = await pickedFile.readAsBytes();
+        List<int> imageData = await pickedFile.readAsBytes();
+        pic = base64Encode(imageData);
         setState(() {});
       } catch (e) {
         print("Error reading file: $e");
@@ -212,11 +213,18 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
   }
 
   _loadImage() {
-    //     if (pic.length != 0) {
-    //   product.pic = pic;
-    //   return MemoryImage(base64Decode(pic));
-    // } else {
-    return const AssetImage('assets/images/no-image.png');
+    if (pic.length > 0) {
+      product.pic = pic;
+      return MemoryImage(base64Decode(pic));
+    } else {
+      return const AssetImage('assets/images/no-image.png');
+    }
   }
-  // }}
+
+  _showSnackBar(String s) {
+    return SnackBar(
+      content: Text(s),
+      duration: Duration(milliseconds: 1500),
+    );
+  }
 }

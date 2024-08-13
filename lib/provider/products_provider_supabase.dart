@@ -1,3 +1,4 @@
+import 'package:app_tienda_comida/models/Producto.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -7,15 +8,15 @@ class ProductsProviderSupabase {
   final productsStream =
       Supabase.instance.client.from('products').stream(primaryKey: ['id']);
 
-  Future<void> insertProduct(BuildContext context, String name, String type,
-      double price, bool availability) async {
+  Future<void> insertProduct(BuildContext context, Product product) async {
     try {
       await _client.from('products').insert([
         {
-          'name': name,
-          'type': type,
-          'price': price,
-          'availability': availability
+          'name': product.name,
+          'type': product.type,
+          'price': product.price,
+          'availability': product.availability,
+          'pic': product.pic
         }
       ]);
     } on AuthException catch (error) {
@@ -29,15 +30,14 @@ class ProductsProviderSupabase {
     }
   }
 
-  Future<void> updateProduct(BuildContext context, int id, String name,
-      String type, double price, bool availability) async {
+  Future<void> updateProduct(BuildContext context, Product product) async {
     try {
       await _client.from('products').update({
-        'name': name,
-        'type': type,
-        'price': price,
-        'availability': availability
-      }).eq('id', id);
+        'name': product.name,
+        'type': product.type,
+        'price': product.price,
+        'availability': product.availability
+      }).eq('id', product.id);
     } on AuthException catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(error.message),
