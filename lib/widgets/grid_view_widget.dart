@@ -1,38 +1,59 @@
 import 'dart:convert';
 
+import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
+import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
+import 'package:app_tienda_comida/widgets/topModalSheet.dart';
 import 'package:flutter/material.dart';
+import 'package:top_modal_sheet/top_modal_sheet.dart';
 
 class GridViewWidget extends StatefulWidget {
-  GridViewWidget({super.key});
+  const GridViewWidget({super.key});
 
   @override
   State<GridViewWidget> createState() => _GridViewWidgetState();
 }
 
 class _GridViewWidgetState extends State<GridViewWidget> {
-  final _products = ProductsProviderSupabase();
+  final _productsProvider = ProductsProviderSupabase();
 
   @override
   Widget build(BuildContext context) {
-    var fetchData = _products.productsStream;
+    var fetchData = _productsProvider.productsStream;
 
-    Future _displayButtomSheet(BuildContext context) async {
+    Future displayButtomSheet(BuildContext context) async {
       return showModalBottomSheet(
           context: context,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.elliptical(400, 40),
                   topRight: Radius.elliptical(400, 40))),
-          builder: (context) => CustomizedBottomSheet());
+          builder: (context) => const CustomizedBottomSheet());
     }
 
-    Future<void> idk() {
-      setState(() {
-        fetchData = _products.productsStream;
-      });
-      return Future.value();
+    Future displayTopSheet(BuildContext context, productMap) async {
+      Product product = Product(
+          id: productMap['id'],
+          name: productMap['name'],
+          type: productMap['type'],
+          price: double.parse(productMap['price'].toString()),
+          availability: productMap['availability'],
+          pic: productMap['pic']);
+      return showTopModalSheet(
+          context,
+          CustomizedTopShet(
+              productName: product.name,
+              onDelete: () {
+                _productsProvider.deleteProduct(context, product.id);
+              },
+              onEdit: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => AddProductScreen(
+                    product: product,
+                  ),
+                ));
+              }));
     }
 
     return StreamBuilder<List<Map<String, dynamic>>>(
@@ -52,7 +73,10 @@ class _GridViewWidgetState extends State<GridViewWidget> {
               child: Card(
                 elevation: 10,
                 child: GestureDetector(
-                  onTap: () => _displayButtomSheet(context),
+                  onLongPress: () => displayTopSheet(context, data[index]),
+                  onTap: () {
+                    displayButtomSheet(context);
+                  },
                   child:
                       Container(child: _createGridTile(context, index, data)),
                 ),
@@ -114,11 +138,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                   ),
                 ),
                 Expanded(child: Container()),
-                IconButton(
-                    onPressed: () {
-                      _products.deleteProduct(context, data[index]['id']);
-                    },
-                    icon: const Icon(Icons.add)),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
               ],
             )
           ]),

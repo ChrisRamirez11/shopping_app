@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:app_tienda_comida/models/Producto.dart';
+import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
@@ -9,15 +9,15 @@ import 'package:app_tienda_comida/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddProductSecreen extends StatefulWidget {
+class AddProductScreen extends StatefulWidget {
   final Product? product;
-  const AddProductSecreen({super.key, this.product});
+  const AddProductScreen({super.key, this.product});
 
   @override
-  State<AddProductSecreen> createState() => _AddProductSecreenState();
+  State<AddProductScreen> createState() => _AddProductScreenState();
 }
 
-class _AddProductSecreenState extends State<AddProductSecreen> {
+class _AddProductScreenState extends State<AddProductScreen> {
   bool _saving = false;
   String pic = '';
   final formKey = GlobalKey<FormState>();
@@ -29,8 +29,9 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
   void initState() {
     if (widget.product != null) {
       product = widget.product!;
+      pic = product.pic;
     } else {
-      product = new Product(
+      product = Product(
           id: 0, name: '', type: '', price: 1, availability: true, pic: '');
     }
     super.initState();
@@ -90,6 +91,7 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
 
   TextFormField _nameField() {
     return TextFormField(
+      initialValue: product.name,
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.name,
       decoration: InputDecoration(labelText: 'Nombre del producto'),
@@ -106,6 +108,7 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
 
   TextFormField _typeField() {
     return TextFormField(
+      initialValue: product.type,
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.name,
       decoration: InputDecoration(labelText: 'Tipo de producto'),
@@ -122,6 +125,7 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
 
   TextFormField _priceField() {
     return TextFormField(
+      initialValue: product.price.toString(),
       keyboardType: TextInputType.number,
       decoration: InputDecoration(labelText: 'Precio del producto'),
       onSaved: (newValue) => product.price = double.parse(newValue!),
@@ -170,9 +174,9 @@ class _AddProductSecreenState extends State<AddProductSecreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(_showSnackBar('Registro Guardado'));
       if (widget.product == null) {
-        productProvider.insertProduct(context, product);
+        productProvider.insertProduct(context, product as Product);
       } else {
-        productProvider.updateProduct(context, product);
+        productProvider.updateProduct(context, product as Product);
       }
       Navigator.pushReplacement(
           context,
