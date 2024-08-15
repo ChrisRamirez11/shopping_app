@@ -1,4 +1,4 @@
-import 'package:app_tienda_comida/models/Producto.dart';
+import 'package:app_tienda_comida/models/producto.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

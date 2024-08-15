@@ -14,39 +14,41 @@ class HomeSreen extends StatefulWidget {
 class _HomeSreenState extends State<HomeSreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        foregroundColor: secondary,
-        backgroundColor: primary,
-        child: Icon(Icons.add),
-        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => AddProductSecreen(),
-        )),
-      ),
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Home Screen',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+    return SafeArea(
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          foregroundColor: secondary,
+          backgroundColor: primary,
+          child: Icon(Icons.add),
+          onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => AddProductScreen(),
+          )),
         ),
-        foregroundColor: secondary,
-        backgroundColor: primary,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search_outlined),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              IconData(0xe59c, fontFamily: 'MaterialIcons'),
+        appBar: AppBar(
+          title: Center(
+            child: Text(
+              'Home Screen',
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-          )
-        ],
+          ),
+          foregroundColor: secondary,
+          backgroundColor: primary,
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.search_outlined),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                IconData(0xe59c, fontFamily: 'MaterialIcons'),
+              ),
+            )
+          ],
+        ),
+        drawer: MenuDrawer(primary: primary),
+        body: const GridViewWidget(),
       ),
-      drawer: MenuDrawer(primary: primary),
-      body: GridViewWidget(),
     );
   }
 }
