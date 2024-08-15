@@ -46,6 +46,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
               productName: product.name,
               onDelete: () {
                 _productsProvider.deleteProduct(context, product.id);
+                Navigator.of(context).pop();
               },
               onEdit: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
