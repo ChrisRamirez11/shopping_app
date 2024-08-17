@@ -2,12 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:app_tienda_comida/models/producto.dart';
+import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class AddProductScreen extends StatefulWidget {
   final Product? product;
@@ -18,12 +20,18 @@ class AddProductScreen extends StatefulWidget {
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
-  bool _saving = false;
-  String pic = '';
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   ProductsProviderSupabase productProvider = ProductsProviderSupabase();
   late Product product;
+
+  //picture
+  bool _saving = false;
+  String pic = '';
+
+  //DropDownButton
+
+  String? _selectedOption;
 
   @override
   void initState() {
@@ -32,13 +40,15 @@ class _AddProductScreenState extends State<AddProductScreen> {
       pic = product.pic;
     } else {
       product = Product(
-          id: 0, name: '', type: '', price: 1, availability: true, pic: '');
+          id: 0, name: '', type: '', price: 0, availability: true, pic: '');
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final notifier = Provider.of<ProductsListNotifier>(context);
+    List<String> productList = notifier.productsListNotifier;
     return SafeArea(
       child: Scaffold(
         key: scaffoldKey,
@@ -73,12 +83,24 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 children: [
                   _createPicContainer(),
                   SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                   _nameField(),
-                  _typeField(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _productTypeRow(productList),
+                  SizedBox(
+                    height: 15,
+                  ),
                   _priceField(),
+                  SizedBox(
+                    height: 15,
+                  ),
                   _availabilityField(),
+                  SizedBox(
+                    height: 15,
+                  ),
                   _createButton(),
                 ],
               ),
@@ -94,7 +116,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
       initialValue: product.name,
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.name,
-      decoration: InputDecoration(labelText: 'Nombre del producto'),
+      decoration: InputDecoration(
+        labelText: 'Nombre del producto',
+        border: OutlineInputBorder(),
+      ),
       onSaved: (newValue) => product.name = newValue!,
       validator: (value) {
         if (value!.length < 1) {
@@ -106,28 +131,99 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 
-  TextFormField _typeField() {
-    return TextFormField(
-      initialValue: product.type,
-      textCapitalization: TextCapitalization.sentences,
-      keyboardType: TextInputType.name,
-      decoration: InputDecoration(labelText: 'Tipo de producto'),
-      onSaved: (newValue) => product.type = newValue!,
-      validator: (value) {
-        if (value!.length < 1) {
-          return 'Ingrese el tipo de producto';
-        } else {
-          return null;
-        }
-      },
+  _productTypeRow(List<String> productList) {
+    String type = '';
+    return Row(
+      children: [
+        Expanded(
+          child: _typeSelectorField(productList),
+          flex: 7,
+        ),
+        Expanded(
+          flex: 1,
+          child: IconButton(
+            style: ButtonStyle(
+              shape: WidgetStatePropertyAll(ContinuousRectangleBorder()),
+            ),
+            icon: Icon(Icons.add),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => SimpleDialog(
+                  title: Text('Ingrese el nuevo tipo de producto: '),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextFormField(
+                        onChanged: (value) => type = value,
+                        textCapitalization: TextCapitalization.sentences,
+                        keyboardType: TextInputType.name,
+                        decoration: InputDecoration(
+                          labelText: 'Tipo de Producto',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(child: Container()),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Cancel')),
+                        TextButton(
+                            onPressed: () {
+                              type.isEmpty
+                                  ? null
+                                  : {
+                                      productList.add(type),
+                                      setState(() {}),
+                                      Navigator.of(context).pop()
+                                    };
+                            },
+                            child: const Text('Ok'))
+                      ],
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        )
+      ],
     );
+  }
+
+  DropdownButtonFormField _typeSelectorField(List<String> productList) {
+    return DropdownButtonFormField<String>(
+        decoration: const InputDecoration(
+          labelText: 'Seleccione tipo de producto',
+          border: OutlineInputBorder(),
+        ),
+        value: _selectedOption,
+        items: productList.map((String option) {
+          return DropdownMenuItem<String>(
+            value: option,
+            child: Text(option),
+          );
+        }).toList(),
+        onChanged: (String? nuevaOpcion) {
+          setState(() {
+            _selectedOption = nuevaOpcion.toString();
+            product.type = _selectedOption.toString();
+          });
+        });
   }
 
   TextFormField _priceField() {
     return TextFormField(
       initialValue: product.price.toString(),
       keyboardType: TextInputType.number,
-      decoration: InputDecoration(labelText: 'Precio del producto'),
+      decoration: InputDecoration(
+        labelText: 'Precio del producto',
+        border: OutlineInputBorder(),
+      ),
       onSaved: (newValue) => product.price = double.parse(newValue!),
       validator: (value) {
         if (utils.isNumeric(value!)) {
@@ -140,17 +236,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   _availabilityField() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: SwitchListTile(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          title: Text('Disponibilidad'),
-          value: product.availability,
-          onChanged: (value) => setState(() {
-                product.availability = value;
-              })),
-    );
+    return SwitchListTile(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        title: Text('Disponibilidad'),
+        value: product.availability,
+        onChanged: (value) => setState(() {
+              product.availability = value;
+            }));
   }
 
   _createButton() {
@@ -174,9 +266,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(_showSnackBar('Registro Guardado'));
       if (widget.product == null) {
-        productProvider.insertProduct(context, product as Product);
+        productProvider.insertProduct(context, product);
       } else {
-        productProvider.updateProduct(context, product as Product);
+        productProvider.updateProduct(context, product);
       }
       Navigator.pushReplacement(
           context,

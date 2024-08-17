@@ -61,13 +61,13 @@ class _GridViewWidgetState extends State<GridViewWidget> {
       stream: fetchData,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         final data = snapshot.data!;
         return GridView.builder(
           itemCount: data.length,
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2),
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.all(8.0),

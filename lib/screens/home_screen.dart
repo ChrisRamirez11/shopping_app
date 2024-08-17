@@ -46,7 +46,7 @@ class _HomeSreenState extends State<HomeSreen> {
             )
           ],
         ),
-        drawer: MenuDrawer(primary: primary),
+        drawer: MenuDrawer(),
         body: const GridViewWidget(),
       ),
     );
