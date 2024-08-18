@@ -37,6 +37,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     if (widget.product != null) {
       product = widget.product!;
       pic = product.pic;
+      _selectedOption = product.type;
     } else {
       product = Product(
           id: 0, name: '', type: '', price: 0, availability: true, pic: '');
@@ -260,7 +261,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
   _createButton() {
     return ElevatedButton(
       onPressed: _saving ? null : () => _submit(),
-      child: Text("Guardad"),
+      child: Text(
+        "Guardar",
+        style: Theme.of(context).textTheme.labelLarge,
+      ),
       style: ButtonStyle(
           shape: WidgetStatePropertyAll(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),

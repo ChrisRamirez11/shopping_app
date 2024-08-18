@@ -25,8 +25,8 @@ class ProductsProviderSupabase {
         backgroundColor: Theme.of(context).colorScheme.error,
       ));
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Ha ocurrido un error, vuelva a intentarlo')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Ha ocurrido un error, vuelva a intentarlo')));
     }
   }
 
