@@ -20,7 +20,8 @@ class _HomeSreenState extends State<HomeSreen> {
           foregroundColor: secondary,
           backgroundColor: primary,
           child: Icon(Icons.add),
-          onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+          onPressed: () =>
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => AddProductScreen(),
           )),
         ),
