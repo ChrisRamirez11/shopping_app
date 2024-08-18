@@ -201,23 +201,31 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   DropdownButtonFormField _typeSelectorField(List<String> notifier) {
     return DropdownButtonFormField<String>(
-        decoration: const InputDecoration(
-          labelText: 'Seleccione tipo de producto',
-          border: OutlineInputBorder(),
-        ),
-        value: _selectedOption,
-        items: notifier.map((String option) {
-          return DropdownMenuItem<String>(
-            value: option,
-            child: Text(option),
-          );
-        }).toList(),
-        onChanged: (String? nuevaOpcion) {
-          setState(() {
-            _selectedOption = nuevaOpcion.toString();
-            product.type = _selectedOption.toString();
-          });
+      decoration: const InputDecoration(
+        labelText: 'Seleccione tipo de producto',
+        border: OutlineInputBorder(),
+      ),
+      value: _selectedOption,
+      items: notifier.map((String option) {
+        return DropdownMenuItem<String>(
+          value: option,
+          child: Text(option),
+        );
+      }).toList(),
+      onChanged: (String? nuevaOpcion) {
+        setState(() {
+          _selectedOption = nuevaOpcion.toString();
+          product.type = _selectedOption.toString();
         });
+      },
+      validator: (value) {
+        if (value != null) {
+          return null;
+        } else {
+          return 'Seleccione el tipo de producto';
+        }
+      },
+    );
   }
 
   TextFormField _priceField() {
