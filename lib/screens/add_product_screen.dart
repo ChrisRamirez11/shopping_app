@@ -30,7 +30,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String pic = '';
 
   //DropDownButton
-
   String? _selectedOption;
 
   @override
@@ -48,7 +47,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   Widget build(BuildContext context) {
     final notifier = Provider.of<ProductsListNotifier>(context);
-    List<String> productList = notifier.productsListNotifier;
     return SafeArea(
       child: Scaffold(
         key: scaffoldKey,
@@ -89,7 +87,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  _productTypeRow(productList),
+                  _productTypeRow(notifier),
                   SizedBox(
                     height: 15,
                   ),
@@ -131,12 +129,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 
-  _productTypeRow(List<String> productList) {
+  _productTypeRow(ProductsListNotifier notifier) {
     String type = '';
     return Row(
       children: [
         Expanded(
-          child: _typeSelectorField(productList),
+          child: _typeSelectorField(notifier.productsListNotifier),
           flex: 7,
         ),
         Expanded(
@@ -177,9 +175,15 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               type.isEmpty
                                   ? null
                                   : {
-                                      productList.add(type),
-                                      setState(() {}),
-                                      Navigator.of(context).pop()
+                                      if (!notifier.productsListNotifier
+                                          .contains(type))
+                                        {
+                                          notifier.addItem(type),
+                                          setState(() {}),
+                                          Navigator.of(context).pop()
+                                        }
+                                      else
+                                        {Navigator.of(context).pop()}
                                     };
                             },
                             child: const Text('Ok'))
@@ -195,14 +199,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 
-  DropdownButtonFormField _typeSelectorField(List<String> productList) {
+  DropdownButtonFormField _typeSelectorField(List<String> notifier) {
     return DropdownButtonFormField<String>(
         decoration: const InputDecoration(
           labelText: 'Seleccione tipo de producto',
           border: OutlineInputBorder(),
         ),
         value: _selectedOption,
-        items: productList.map((String option) {
+        items: notifier.map((String option) {
           return DropdownMenuItem<String>(
             value: option,
             child: Text(option),

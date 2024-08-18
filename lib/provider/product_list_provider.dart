@@ -3,23 +3,22 @@ import 'package:flutter/material.dart';
 
 class ProductsListNotifier extends ChangeNotifier {
   PreferenciasUsuario prefs = PreferenciasUsuario();
-  List<String> _productsLitsNotifier = [];
+  List<String> _productsListNotifier = [];
 
-  List<String> get productsListNotifier => _productsLitsNotifier;
+  List<String> get productsListNotifier => _productsListNotifier;
 
   ProductsListNotifier() {
-    _productsLitsNotifier = prefs.prefsProductsTypesList;
     _loadList();
   }
 
   Future<void> _loadList() async {
     final List<String> list = prefs.prefsProductsTypesList;
-    _productsLitsNotifier = list;
+    _productsListNotifier = list;
     notifyListeners();
   }
 
   Future<void> addItem(String item) async {
-    _productsLitsNotifier.add(item);
+    _productsListNotifier.add(item);
     await _saveList();
     _loadList();
     notifyListeners();
