@@ -1,5 +1,5 @@
-
 import 'package:shared_preferences/shared_preferences.dart';
+
 class PreferenciasUsuario {
   static final PreferenciasUsuario _instancia = PreferenciasUsuario._internal();
   factory PreferenciasUsuario() {
@@ -18,7 +18,8 @@ class PreferenciasUsuario {
   bool get darkMode {
     return _prefs.getBool('ModoOscuro') ?? false;
   }
- String get token {
+
+  String get token {
     return _prefs.getString('Token') ?? '';
   }
 
@@ -32,14 +33,21 @@ class PreferenciasUsuario {
 
   set user(String value) {
     _prefs.setString('usuario', value);
-  } 
- String get phoneNumber {
+  }
+
+  String get phoneNumber {
     return _prefs.getString('numero') ?? '';
   }
 
   set phoneNumber(String value) {
     _prefs.setString('numero', value);
   }
-  
- 
+
+  List<String> get prefsProductsTypesList {
+    return _prefs.getStringList('productsTypeList') ?? [];
+  }
+
+  set prefsProductsTypesList(List<String> value) {
+    _prefs.setStringList('productsTypeList', value);
+  }
 }
