@@ -43,6 +43,11 @@ class MyApp extends StatelessWidget {
           title: 'App Comida',
           theme: theme,
           home: const HomeSreen(),
+          onGenerateRoute: (settings) {
+            MaterialPageRoute(
+              builder: (context) => const HomeSreen(),
+            );
+          },
         ),
       ),
     );
