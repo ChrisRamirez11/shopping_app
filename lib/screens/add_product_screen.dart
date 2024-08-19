@@ -286,11 +286,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       } else {
         productProvider.updateProduct(context, product);
       }
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeSreen(),
-          ));
+      Navigator.of(context).pop();
     });
   }
 
