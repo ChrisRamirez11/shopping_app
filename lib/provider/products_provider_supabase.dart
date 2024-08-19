@@ -36,7 +36,8 @@ class ProductsProviderSupabase {
         'name': product.name,
         'type': product.type,
         'price': product.price,
-        'availability': product.availability
+        'availability': product.availability,
+        'pic': product.pic
       }).eq('id', product.id);
     } on AuthException catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

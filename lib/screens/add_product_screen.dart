@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
-import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
@@ -312,8 +311,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
     if (pickedFile != null) {
       try {
         List<int> imageData = await pickedFile.readAsBytes();
-        pic = base64Encode(imageData);
-        setState(() {});
+        setState(() {
+          pic = base64Encode(imageData);
+        });
       } catch (e) {
         print("Error reading file: $e");
       }
@@ -321,9 +321,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   _loadImage() {
-    if (pic.length > 0) {
+    if (pic.isNotEmpty) {
       product.pic = pic;
-      return MemoryImage(base64Decode(pic));
+      return MemoryImage(base64Decode(product.pic));
     } else {
       return const AssetImage('assets/images/no-image.png');
     }
@@ -332,7 +332,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   _showSnackBar(String s) {
     return SnackBar(
       content: Text(s),
-      duration: Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1500),
     );
   }
 }
