@@ -28,6 +28,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final prefs = PreferenciasUsuario();
     // _listBackToZero(prefs);
+    // _setTheme(prefs);
+
     return ProviderP(
       child: MultiProvider(
         providers: [
@@ -41,8 +43,11 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'App Comida',
-          theme: theme,
+          theme: prefs.darkMode ? themeDark : theme,
           home: const HomeSreen(),
+          onGenerateRoute: (settings) => MaterialPageRoute(
+            builder: (context) => const HomeSreen(),
+          ),
         ),
       ),
     );
@@ -51,5 +56,9 @@ class MyApp extends StatelessWidget {
   void _listBackToZero(prefs) {
     List<String> list = [];
     prefs.prefsProductsTypesList = list;
+  }
+
+  void _setTheme(prefs) {
+    prefs.darkMode = false;
   }
 }

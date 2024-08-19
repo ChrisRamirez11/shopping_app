@@ -21,7 +21,7 @@ class _HomeSreenState extends State<HomeSreen> {
           backgroundColor: primary,
           child: Icon(Icons.add),
           onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => AddProductScreen(),
+            builder: (context) => const AddProductScreen(),
           )),
         ),
         appBar: AppBar(
