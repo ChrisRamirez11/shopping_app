@@ -28,6 +28,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final prefs = PreferenciasUsuario();
     // _listBackToZero(prefs);
+    // _setTheme(prefs);
+
     return ProviderP(
       child: MultiProvider(
         providers: [
@@ -54,5 +56,9 @@ class MyApp extends StatelessWidget {
   void _listBackToZero(prefs) {
     List<String> list = [];
     prefs.prefsProductsTypesList = list;
+  }
+
+  void _setTheme(prefs) {
+    prefs.darkMode = false;
   }
 }

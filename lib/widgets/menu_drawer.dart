@@ -24,7 +24,7 @@ class MenuDrawer extends StatelessWidget {
             child: Center(
                 child: Text(
               style: Theme.of(context).textTheme.headlineMedium,
-              'Don Pepito',
+              'Menú',
             )),
           ),
           const Divider(
