@@ -148,7 +148,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
               showDialog(
                 context: context,
                 builder: (context) => SimpleDialog(
-                  title: Text('Ingrese el nuevo tipo de producto: '),
+                  title: Text(
+                    'Ingrese el nuevo tipo de producto: ',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(10),

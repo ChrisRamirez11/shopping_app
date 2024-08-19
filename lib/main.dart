@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'App Comida',
-          theme: theme,
+          theme: prefs.darkMode ? themeDark : theme,
           home: const HomeSreen(),
           onGenerateRoute: (settings) => MaterialPageRoute(
             builder: (context) => const HomeSreen(),
