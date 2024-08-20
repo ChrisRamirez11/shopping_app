@@ -4,12 +4,13 @@ import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
-import 'package:app_tienda_comida/widgets/topModalSheet.dart';
+import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:top_modal_sheet/top_modal_sheet.dart';
 
 class GridViewWidget extends StatefulWidget {
-  const GridViewWidget({super.key});
+  final String appBarTitle;
+  const GridViewWidget({super.key, required this.appBarTitle});
 
   @override
   State<GridViewWidget> createState() => _GridViewWidgetState();
@@ -20,12 +21,12 @@ class _GridViewWidgetState extends State<GridViewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var fetchData = _productsProvider.productsStream;
+    var fetchData = _fetchDataSelector(widget.appBarTitle);
 
     Future displayButtomSheet(BuildContext context) async {
       return showModalBottomSheet(
           context: context,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.elliptical(400, 40),
                   topRight: Radius.elliptical(400, 40))),
@@ -58,7 +59,9 @@ class _GridViewWidgetState extends State<GridViewWidget> {
     }
 
     return StreamBuilder<List<Map<String, dynamic>>>(
-      stream: fetchData,
+      stream: fetchData
+          ? _productsProvider.productsStream
+          : _productsProvider.getProduct(context, widget.appBarTitle),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
@@ -111,7 +114,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                 child: Image(image: _loadImage(product))),
             Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 SizedBox(
@@ -151,6 +154,14 @@ class _GridViewWidgetState extends State<GridViewWidget> {
       return MemoryImage(base64Decode(product['pic']));
     } else {
       return const AssetImage('assets/images/no-image.png');
+    }
+  }
+
+  _fetchDataSelector(String appBarTitle) {
+    if (appBarTitle.contains('Home Screen')) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

@@ -4,14 +4,15 @@ import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 
-class HomeSreen extends StatefulWidget {
-  const HomeSreen({super.key});
+class DynamicScreens extends StatefulWidget {
+  final Map<String, dynamic> args;
+  const DynamicScreens({super.key, required this.args});
 
   @override
-  State<HomeSreen> createState() => _HomeSreenState();
+  State<DynamicScreens> createState() => _DynamicScreensState();
 }
 
-class _HomeSreenState extends State<HomeSreen> {
+class _DynamicScreensState extends State<DynamicScreens> {
   @override
   void dispose() {
     super.dispose();
@@ -32,7 +33,7 @@ class _HomeSreenState extends State<HomeSreen> {
         appBar: AppBar(
           title: Center(
             child: Text(
-              'Home Screen',
+              widget.args['name'],
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
@@ -51,10 +52,8 @@ class _HomeSreenState extends State<HomeSreen> {
             )
           ],
         ),
-        drawer: MenuDrawer(appBarTitle: 'Home Screen'),
-        body: const GridViewWidget(
-          appBarTitle: 'Home Screen',
-        ),
+        drawer: MenuDrawer(appBarTitle: widget.args['name']),
+        body: GridViewWidget(appBarTitle: widget.args['name']),
       ),
     );
   }

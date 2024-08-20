@@ -1,4 +1,3 @@
-import 'package:app_tienda_comida/widgets/clipShadowPath.dart';
 import 'package:flutter/material.dart';
 
 class CustomizedBottomSheet extends StatefulWidget {
@@ -9,25 +8,23 @@ class CustomizedBottomSheet extends StatefulWidget {
 }
 
 class _CustomizedBottomSheetState extends State<CustomizedBottomSheet> {
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: MediaQuery.of(context).size.height*0.7,
+      height: MediaQuery.of(context).size.height * 0.7,
       child: Column(
         children: [
           SizedBox(
             height: 20,
           ),
           Container(
-             height: MediaQuery.of(context).size.height*0.66,
+            height: MediaQuery.of(context).size.height * 0.66,
             width: MediaQuery.of(context).size.width,
             child: SheetCarritoWidget(
-       
               onAgregar: () {},
               onEliminar: () {},
-             
-              descripcion: 'Platano frito. Una receta facil, muy típica de latinoamérica. En España estamos más que acostumbrados a la guarnición de patatas fritas para acompañar nuestros platos. Hoy traemos una alternativa muy sabrosa',
+              descripcion:
+                  'Platano frito. Una receta facil, muy típica de latinoamérica. En España estamos más que acostumbrados a la guarnición de patatas fritas para acompañar nuestros platos. Hoy traemos una alternativa muy sabrosa',
             ),
           ),
         ],
@@ -41,15 +38,14 @@ class SheetCarritoWidget extends StatelessWidget {
   final String descripcion; // Descripción del producto
   final Function() onAgregar; // Callback para añadir un elemento
   final Function() onEliminar; // Callback para eliminar un elemento
- // Callback para eliminar un producto
+  // Callback para eliminar un producto
 
-
-  const SheetCarritoWidget({
-    Key? key,
-   
-    required this.onAgregar,
-    required this.onEliminar, required this.descripcion
-  }) : super(key: key);
+  const SheetCarritoWidget(
+      {Key? key,
+      required this.onAgregar,
+      required this.onEliminar,
+      required this.descripcion})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,21 +53,27 @@ class SheetCarritoWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: EdgeInsets.all(25),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset('assets/images/er.jpg'))),
-            Center(child: Text('Nombre del Producto',style: TextStyle(
-              fontSize: 20
-            ),),),
+            padding: EdgeInsets.all(25),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset('assets/images/er.jpg'))),
+        Center(
+          child: Text(
+            'Nombre del Producto',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
         Padding(
-          padding: EdgeInsets.all(12),
-          child: Container(
-            height: MediaQuery.of(context).size.height*0.19,
-            child: Text('Descripción: $descripcion',style: TextStyle(
-              fontSize: 16
-            ),))),
-            Center(child: Text('Precio: 420 cup'),), // Muestra la descripción del producto
+            padding: EdgeInsets.all(12),
+            child: Container(
+                height: MediaQuery.of(context).size.height * 0.19,
+                child: Text(
+                  'Descripción: $descripcion',
+                  style: TextStyle(fontSize: 16),
+                ))),
+        Center(
+          child: Text('Precio: 420 cup'),
+        ), // Muestra la descripción del producto
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -85,8 +87,6 @@ class SheetCarritoWidget extends StatelessWidget {
               icon: Icon(Icons.remove),
               label: Text('Eliminar'),
             ),
-           
-            
           ],
         )
       ],

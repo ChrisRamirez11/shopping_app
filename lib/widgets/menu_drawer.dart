@@ -3,11 +3,20 @@ import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MenuDrawer extends StatelessWidget {
+import '../screens/settings.dart';
+
+class MenuDrawer extends StatefulWidget {
+  final String appBarTitle;
   const MenuDrawer({
     super.key,
+    required this.appBarTitle,
   });
 
+  @override
+  State<MenuDrawer> createState() => _MenuDrawerState();
+}
+
+class _MenuDrawerState extends State<MenuDrawer> {
   @override
   Widget build(BuildContext context) {
     final productListNotifier = Provider.of<ProductsListNotifier>(context);
@@ -35,15 +44,29 @@ class MenuDrawer extends StatelessWidget {
             return Column(children: [
               ListTile(
                 title: Text(name),
-                onTap: () {},
+                onTap: () {
+                  if (widget.appBarTitle.contains('Home Screen')) {
+                    Navigator.of(context)
+                        .pushNamed(name, arguments: {'name': name});
+                  } else {
+                    Navigator.of(context)
+                        .pushReplacementNamed(name, arguments: {'name': name});
+                  }
+                },
               ),
-              Divider(
+              const Divider(
                 endIndent: 5,
                 indent: 5,
                 height: 0,
               )
             ]);
           }).toList(),
+          ListTile(
+            title: Text('Settings'),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const Settings(),
+            )),
+          )
         ],
       ),
     );

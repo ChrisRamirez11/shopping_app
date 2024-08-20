@@ -21,7 +21,7 @@ class _CustomizedTopShetState extends State<CustomizedTopShet> {
       child: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
           boxShadow: [
             BoxShadow(color: Colors.black.withOpacity(0.1), spreadRadius: 1),
           ],

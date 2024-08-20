@@ -5,8 +5,17 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class ProductsProviderSupabase {
   final _client = Supabase.instance.client;
 
-  final productsStream =
-      Supabase.instance.client.from('products').stream(primaryKey: ['id']);
+  late final productsStream =
+      _client.from('products').stream(primaryKey: ['id']);
+
+  Stream<List<Map<String, dynamic>>> getProduct(
+      BuildContext context, String from) {
+    if (from == 'Home Screen') {
+      return productsStream;
+    } else {
+      return productsStream.eq('type', from);
+    }
+  }
 
   Future<void> insertProduct(BuildContext context, Product product) async {
     try {

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:app_tienda_comida/utils/bloc/loginBloc/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -82,7 +81,9 @@ class CreateClientBloc extends ChangeNotifier with Validators {
     _registrationEmailController.add('');
   }
 
+  @override
   dispose() {
+    super.dispose();
     _passwordController.close();
     _confirmarPasswordController.close();
 
