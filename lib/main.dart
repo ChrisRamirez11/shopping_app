@@ -1,13 +1,13 @@
 import 'package:app_tienda_comida/provider/onHoverProvider.dart';
+import 'package:app_tienda_comida/utils/theme.dart';
+import 'package:provider/provider.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
+import 'package:app_tienda_comida/provider/theme_provider.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/screens/dynamic_screens.dart';
 import 'package:app_tienda_comida/utils/bloc/loginBloc/provider.dart';
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
-
-import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final prefs = PreferenciasUsuario();
+    final prefs = PreferenciasUsuario();
     // _listBackToZero(prefs);
     // _setTheme(prefs);
 
@@ -40,11 +40,12 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (_) => ProductsListNotifier(),
           ),
+          ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'App Comida',
-            theme: theme,
+            theme: ThemeProvider().themeData ? themeDark : theme,
             home: const HomeSreen(),
             onGenerateRoute: (settings) {
               final Map<String, dynamic> args =

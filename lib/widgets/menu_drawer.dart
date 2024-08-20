@@ -3,6 +3,8 @@ import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../screens/settings.dart';
+
 class MenuDrawer extends StatefulWidget {
   final String appBarTitle;
   const MenuDrawer({
@@ -59,6 +61,12 @@ class _MenuDrawerState extends State<MenuDrawer> {
               )
             ]);
           }).toList(),
+          ListTile(
+            title: Text('Settings'),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const Settings(),
+            )),
+          )
         ],
       ),
     );
