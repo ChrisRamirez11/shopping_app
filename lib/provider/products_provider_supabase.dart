@@ -5,6 +5,24 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class ProductsProviderSupabase {
   final _client = Supabase.instance.client;
 
+  Future<List<Map<String, dynamic>>> selectProduct(BuildContext context) async {
+    try {
+      List<Map<String, dynamic>> products =
+          await _client.from('products').select('*');
+      return products;
+    } on AuthException catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(error.message),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
+      return [];
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Ha ocurrido un error, vuelva a intentarlo')));
+      return [];
+    }
+  }
+
   Future<void> insertProduct(BuildContext context, Product product) async {
     try {
       await _client.from('products').insert([
@@ -44,27 +62,6 @@ class ProductsProviderSupabase {
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Ha ocurrido un error, vuelva a intentarlo')));
-    }
-  }
-
-  Future<List<Map<String, dynamic>>> selectProduct(BuildContext context) async {
-    try {
-      // Assuming _client.from('products').select('*') returns a Future<List<Map<String, dynamic>>>
-      List<Map<String, dynamic>> products =
-          await _client.from('products').select('*');
-      return products;
-    } on AuthException catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(error.message),
-        backgroundColor: Theme.of(context).colorScheme.error,
-      ));
-      // Return an empty list or handle the error appropriately
-      return [];
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Ha ocurrido un error, vuelva a intentarlo')));
-      // Return an empty list or handle the error appropriately
-      return [];
     }
   }
 
