@@ -4,14 +4,15 @@ import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 
-class HomeSreen extends StatefulWidget {
-  const HomeSreen({super.key});
+class Screens extends StatefulWidget {
+  final Map<String, dynamic> args;
+  const Screens({super.key, required this.args});
 
   @override
-  State<HomeSreen> createState() => _HomeSreenState();
+  State<Screens> createState() => _ScreensState();
 }
 
-class _HomeSreenState extends State<HomeSreen> {
+class _ScreensState extends State<Screens> {
   @override
   void dispose() {
     super.dispose();
@@ -24,7 +25,7 @@ class _HomeSreenState extends State<HomeSreen> {
         floatingActionButton: FloatingActionButton(
           foregroundColor: secondary,
           backgroundColor: primary,
-          child: const Icon(Icons.add),
+          child: Icon(Icons.add),
           onPressed: () => Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => const AddProductScreen(),
           )),
@@ -32,7 +33,7 @@ class _HomeSreenState extends State<HomeSreen> {
         appBar: AppBar(
           title: Center(
             child: Text(
-              'Home Screen',
+              widget.args['name'],
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
@@ -51,10 +52,8 @@ class _HomeSreenState extends State<HomeSreen> {
             )
           ],
         ),
-        drawer: MenuDrawer(appBarTitle: 'Home Screen'),
-        body: const GridViewWidget(
-          appBarTitle: 'Home Screen',
-        ),
+        drawer: MenuDrawer(appBarTitle: widget.args['name']),
+        body: GridViewWidget(appBarTitle: widget.args['name']),
       ),
     );
   }

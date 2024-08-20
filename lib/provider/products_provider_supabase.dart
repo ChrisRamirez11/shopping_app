@@ -10,7 +10,11 @@ class ProductsProviderSupabase {
 
   Stream<List<Map<String, dynamic>>> getProduct(
       BuildContext context, String from) {
-    return productsStream;
+    if (from == 'Home Screen') {
+      return productsStream;
+    } else {
+      return productsStream.eq('type', from);
+    }
   }
 
   Future<void> insertProduct(BuildContext context, Product product) async {

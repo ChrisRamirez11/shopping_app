@@ -1,6 +1,7 @@
 import 'package:app_tienda_comida/provider/onHoverProvider.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
+import 'package:app_tienda_comida/screens/screens.dart';
 import 'package:app_tienda_comida/utils/bloc/loginBloc/provider.dart';
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = PreferenciasUsuario();
+    // final prefs = PreferenciasUsuario();
     // _listBackToZero(prefs);
     // _setTheme(prefs);
 
@@ -41,15 +42,18 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'App Comida',
-          theme: theme,
-          darkTheme: themeDark,
-          home: const HomeSreen(),
-          onGenerateRoute: (settings) => MaterialPageRoute(
-            builder: (context) => const HomeSreen(),
-          ),
-        ),
+            debugShowCheckedModeBanner: false,
+            title: 'App Comida',
+            theme: theme,
+            darkTheme: themeDark,
+            home: const HomeSreen(),
+            onGenerateRoute: (settings) {
+              final Map<String, dynamic> args =
+                  settings.arguments as Map<String, dynamic>;
+              return MaterialPageRoute(
+                builder: (context) => Screens(args: args),
+              );
+            }),
       ),
     );
   }

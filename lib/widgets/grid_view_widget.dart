@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:top_modal_sheet/top_modal_sheet.dart';
 
 class GridViewWidget extends StatefulWidget {
-  const GridViewWidget({super.key});
+  final String appBarTitle;
+  const GridViewWidget({super.key, required this.appBarTitle});
 
   @override
   State<GridViewWidget> createState() => _GridViewWidgetState();
@@ -25,7 +26,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
     Future displayButtomSheet(BuildContext context) async {
       return showModalBottomSheet(
           context: context,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.elliptical(400, 40),
                   topRight: Radius.elliptical(400, 40))),
@@ -111,7 +112,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                 child: Image(image: _loadImage(product))),
             Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 SizedBox(
