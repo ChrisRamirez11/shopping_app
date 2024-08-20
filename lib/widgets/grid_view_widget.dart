@@ -20,9 +20,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var fetchData = _productsProvider.selectProduct(
-      context,
-    );
+    var fetchData = _productsProvider.productsStream;
 
     Future displayButtomSheet(BuildContext context) async {
       return showModalBottomSheet(
@@ -59,8 +57,8 @@ class _GridViewWidgetState extends State<GridViewWidget> {
               }));
     }
 
-    return FutureBuilder<List<Map<String, dynamic>>>(
-      future: fetchData,
+    return StreamBuilder<List<Map<String, dynamic>>>(
+      stream: fetchData,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());

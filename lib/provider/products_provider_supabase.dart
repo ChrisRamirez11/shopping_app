@@ -5,23 +5,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class ProductsProviderSupabase {
   final _client = Supabase.instance.client;
 
-  Future<List<Map<String, dynamic>>> selectProduct(BuildContext context) async {
-    try {
-      List<Map<String, dynamic>> products =
-          await _client.from('products').select('*');
-      return products;
-    } on AuthException catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(error.message),
-        backgroundColor: Theme.of(context).colorScheme.error,
-      ));
-      return [];
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Ha ocurrido un error, vuelva a intentarlo')));
-      return [];
-    }
-  }
+  final productsStream =
+      Supabase.instance.client.from('products').stream(primaryKey: ['id']);
 
   Future<void> insertProduct(BuildContext context, Product product) async {
     try {
