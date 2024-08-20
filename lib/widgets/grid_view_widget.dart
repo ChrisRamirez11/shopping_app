@@ -21,7 +21,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var fetchData = _productsProvider.productsStream;
+    var fetchData = _fetchDataSelector(widget.appBarTitle);
 
     Future displayButtomSheet(BuildContext context) async {
       return showModalBottomSheet(
@@ -59,7 +59,9 @@ class _GridViewWidgetState extends State<GridViewWidget> {
     }
 
     return StreamBuilder<List<Map<String, dynamic>>>(
-      stream: fetchData,
+      stream: fetchData
+          ? _productsProvider.productsStream
+          : _productsProvider.getProduct(context, widget.appBarTitle),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
@@ -152,6 +154,14 @@ class _GridViewWidgetState extends State<GridViewWidget> {
       return MemoryImage(base64Decode(product['pic']));
     } else {
       return const AssetImage('assets/images/no-image.png');
+    }
+  }
+
+  _fetchDataSelector(String appBarTitle) {
+    if (appBarTitle.contains('Home Screen')) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

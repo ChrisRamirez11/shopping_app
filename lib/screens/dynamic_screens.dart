@@ -4,15 +4,15 @@ import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 
-class Screens extends StatefulWidget {
+class DynamicScreens extends StatefulWidget {
   final Map<String, dynamic> args;
-  const Screens({super.key, required this.args});
+  const DynamicScreens({super.key, required this.args});
 
   @override
-  State<Screens> createState() => _ScreensState();
+  State<DynamicScreens> createState() => _DynamicScreensState();
 }
 
-class _ScreensState extends State<Screens> {
+class _DynamicScreensState extends State<DynamicScreens> {
   @override
   void dispose() {
     super.dispose();
@@ -25,7 +25,7 @@ class _ScreensState extends State<Screens> {
         floatingActionButton: FloatingActionButton(
           foregroundColor: secondary,
           backgroundColor: primary,
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
           onPressed: () => Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => const AddProductScreen(),
           )),
