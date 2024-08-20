@@ -35,7 +35,9 @@ class MenuDrawer extends StatelessWidget {
             return Column(children: [
               ListTile(
                 title: Text(name),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pushNamed(name);
+                },
               ),
               Divider(
                 endIndent: 5,
