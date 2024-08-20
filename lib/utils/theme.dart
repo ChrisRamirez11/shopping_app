@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 Color primary = const Color.fromARGB(255, 243, 33, 33);
 Color secondary = const Color.fromARGB(255, 244, 241, 54);
@@ -9,6 +8,7 @@ Color white = Colors.white;
 //ThemeData
 //
 ThemeData theme = ThemeData(
+  primaryColor: white,
   textTheme: TextTheme(
     bodyLarge: TextStyle(
       color: tertiary,
@@ -37,6 +37,7 @@ ThemeData theme = ThemeData(
   //
   colorScheme: ColorScheme.fromSeed(
       seedColor: primary,
+      brightness: Brightness.light,
       primary: primary,
       secondary: secondary,
       error: Colors.red.shade300),
