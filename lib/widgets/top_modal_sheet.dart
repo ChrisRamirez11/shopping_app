@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class CustomizedTopShet extends StatefulWidget {
+  
   final String productName;
   final Function onEdit;
   final Function onDelete;
@@ -17,37 +20,78 @@ class CustomizedTopShet extends StatefulWidget {
 class _CustomizedTopShetState extends State<CustomizedTopShet> {
   @override
   Widget build(BuildContext context) {
+  bool multiSelect= true;
+
+
+
+
+ 
+
+
+
+
     return SafeArea(
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           boxShadow: [
             BoxShadow(color: Colors.black.withOpacity(0.1), spreadRadius: 1),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Acciones para ${widget.productName}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            ListTile(
-              leading: Icon(Icons.edit),
-              title: Text('Editar'),
-              onTap: () => widget.onEdit(),
-            ),
-            ListTile(
-              leading: Icon(Icons.delete),
-              title: Text('Eliminar'),
-              onTap: () => widget.onDelete(),
-            ),
+        child: Row(
+        
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children:[
+           if(!multiSelect)_Editar(widget: widget),
+              _Eliminar(widget: widget)
           ],
         ),
       ),
     );
+  }
+}
+
+class _Eliminar extends StatelessWidget {
+  const _Eliminar({
+    super.key,
+    required this.widget,
+  });
+
+  final CustomizedTopShet widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(onPressed: () => widget.onDelete, child: const Row(
+    children: [
+     
+     Text('Eliminar') ,
+     SizedBox(width: 4,),
+     Icon(Icons.delete),
+    ],
+               ),);
+  }
+}
+
+class _Editar extends StatelessWidget {
+  const _Editar({
+    super.key,
+    required this.widget,
+  });
+
+  final CustomizedTopShet widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(onPressed: () => widget.onEdit(), child: const Row(
+     children: [
+      
+         Text('Editar') ,
+      SizedBox(width: 4,),
+      Icon(Icons.edit),
+     ],
+    ),);
   }
 }

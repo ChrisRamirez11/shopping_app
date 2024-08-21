@@ -69,11 +69,12 @@ class _GridViewWidgetState extends State<GridViewWidget> {
         final data = snapshot.data!;
         return GridView.builder(
           itemCount: data.length,
+
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2),
           itemBuilder: (context, index) {
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(4.0),
               child: Card(
                 elevation: 10,
                 child: GestureDetector(
