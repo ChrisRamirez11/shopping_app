@@ -62,7 +62,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
             ]);
           }).toList(),
           ListTile(
-            title: Text('Settings'),
+            title: const Text('Configuraciones'),
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => const Settings(),
             )),

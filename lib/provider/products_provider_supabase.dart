@@ -1,5 +1,6 @@
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductsProviderSupabase {
@@ -8,15 +9,41 @@ class ProductsProviderSupabase {
   late final productsStream =
       _client.from('products').stream(primaryKey: ['id']);
 
+//get Product
+////////////////////////////////////////////////////////
   Stream<List<Map<String, dynamic>>> getProduct(
       BuildContext context, String from) {
     if (from == 'Home Screen') {
-      return productsStream;
+      try {
+        return productsStream;
+      } catch (e) {
+        SchedulerBinding.instance.addPostFrameCallback(
+          (timeStamp) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                    'Ha ocurrido un error: Vuelva a cargar la pagina. $e')));
+          },
+        );
+        return productsStream;
+      }
     } else {
-      return productsStream.eq('type', from);
+      try {
+        return productsStream.eq('type', from);
+      } catch (e) {
+        SchedulerBinding.instance.addPostFrameCallback(
+          (timeStamp) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                    'Ha ocurrido un error: Vuelva a cargar la pagina. $e')));
+          },
+        );
+        return const Stream.empty();
+      }
     }
   }
 
+//insert Product
+////////////////////////////////////////////////////////
   Future<void> insertProduct(BuildContext context, Product product) async {
     try {
       await _client.from('products').insert([
@@ -39,6 +66,8 @@ class ProductsProviderSupabase {
     }
   }
 
+//update Product
+////////////////////////////////////////////////////////
   Future<void> updateProduct(BuildContext context, Product product) async {
     try {
       await _client.from('products').update({
@@ -59,6 +88,8 @@ class ProductsProviderSupabase {
     }
   }
 
+//delete Product
+//////////////////////////////////////////////////////
   Future<void> deleteProduct(BuildContext context, int id) async {
     try {
       await _client.from('products').delete().eq('id', id);

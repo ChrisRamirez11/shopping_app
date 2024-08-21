@@ -36,7 +36,7 @@ class _SettingsState extends State<Settings> {
   _createThemeSelector(flag, ThemeProvider notifier) {
     return SwitchListTile(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        title: const Text('Tema'),
+        title: const Text('Tema Oscuro'),
         value: flag,
         onChanged: (value) {
           setState(() {});
