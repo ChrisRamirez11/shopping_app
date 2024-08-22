@@ -1,6 +1,6 @@
 import 'package:app_tienda_comida/provider/onHoverProvider.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/provider/theme_provider.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
@@ -31,29 +31,17 @@ class MyApp extends StatelessWidget {
     // _listBackToZero(prefs);
 
     return ProviderP(
-      child: MultiProvider(
+      child: provider.MultiProvider(
         providers: [
-          ChangeNotifierProvider(
+          provider.ChangeNotifierProvider(
             create: (_) => OnHoverProvider(),
           ),
-          ChangeNotifierProvider(
+          provider.ChangeNotifierProvider(
             create: (_) => ProductsListNotifier(),
           ),
-          ChangeNotifierProvider(create: (_) => ThemeProvider()),
+          provider.ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ],
-        child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'App Comida',
-            theme: ThemeProvider().themeData ? themeDark : theme,
-            darkTheme: themeDark,
-            home: const HomeSreen(),
-            onGenerateRoute: (settings) {
-              final Map<String, dynamic> args =
-                  settings.arguments as Map<String, dynamic>;
-              return MaterialPageRoute(
-                builder: (context) => DynamicScreens(args: args),
-              );
-            }),
+        child: MaterialAppFood(),
       ),
     );
   }
@@ -61,5 +49,29 @@ class MyApp extends StatelessWidget {
   void _listBackToZero(prefs) {
     List<String> list = [];
     prefs.prefsProductsTypesList = list;
+  }
+}
+
+class MaterialAppFood extends StatelessWidget {
+  const MaterialAppFood({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'App Comida',
+        theme: provider.Provider.of<ThemeProvider>(context).themeData
+            ? themeDark
+            : theme,
+        home: const HomeSreen(),
+        onGenerateRoute: (settings) {
+          final Map<String, dynamic> args =
+              settings.arguments as Map<String, dynamic>;
+          return MaterialPageRoute(
+            builder: (context) => DynamicScreens(args: args),
+          );
+        });
   }
 }

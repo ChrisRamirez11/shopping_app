@@ -12,35 +12,40 @@ class _CustomizedBottomSheetState extends State<CustomizedBottomSheet> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.7,
-      child: Column(
-        children: [
-          SizedBox(
-            height: 20,
+      child: Padding(
+        padding: EdgeInsets.only(top: 20),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.66,
+                width: MediaQuery.of(context).size.width,
+                child: SheetBottomWidget(
+                  onAgregar: () {},
+                  onEliminar: () {},
+                  descripcion:
+                      'Platano frito. Una receta facil, muy típica de latinoamérica. En España estamos más que acostumbrados a la guarnición de patatas fritas para acompañar nuestros platos. Hoy traemos una alternativa muy sabrosa',
+                ),
+              ),
+            ],
           ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.66,
-            width: MediaQuery.of(context).size.width,
-            child: SheetCarritoWidget(
-              onAgregar: () {},
-              onEliminar: () {},
-              descripcion:
-                  'Platano frito. Una receta facil, muy típica de latinoamérica. En España estamos más que acostumbrados a la guarnición de patatas fritas para acompañar nuestros platos. Hoy traemos una alternativa muy sabrosa',
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 }
 
-class SheetCarritoWidget extends StatelessWidget {
+class SheetBottomWidget extends StatelessWidget {
 // La cantidad actual del carrito
   final String descripcion; // Descripción del producto
   final Function() onAgregar; // Callback para añadir un elemento
   final Function() onEliminar; // Callback para eliminar un elemento
   // Callback para eliminar un producto
 
-  const SheetCarritoWidget(
+  const SheetBottomWidget(
       {Key? key,
       required this.onAgregar,
       required this.onEliminar,
