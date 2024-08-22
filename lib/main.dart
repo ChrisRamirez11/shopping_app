@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = PreferenciasUsuario();
+    // final prefs = PreferenciasUsuario();
     // _listBackToZero(prefs);
 
     return ProviderP(
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           ),
           provider.ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ],
-        child: MaterialAppFood(),
+        child: const MaterialAppFood(),
       ),
     );
   }
