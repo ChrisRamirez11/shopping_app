@@ -1,6 +1,6 @@
 import 'package:app_tienda_comida/provider/onHoverProvider.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
-import 'package:provider/provider.dart'as provider;
+import 'package:provider/provider.dart' as provider;
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/provider/theme_provider.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
@@ -27,9 +27,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = PreferenciasUsuario();
+    // final prefs = PreferenciasUsuario();
     // _listBackToZero(prefs);
-    // _setTheme(prefs);
 
     return ProviderP(
       child: provider.MultiProvider(
@@ -42,7 +41,7 @@ class MyApp extends StatelessWidget {
           ),
           provider.ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ],
-        child: MaterialAppFood(),
+        child: const MaterialAppFood(),
       ),
     );
   }
@@ -50,10 +49,6 @@ class MyApp extends StatelessWidget {
   void _listBackToZero(prefs) {
     List<String> list = [];
     prefs.prefsProductsTypesList = list;
-  }
-
-  void _setTheme(prefs) {
-    prefs.darkMode = false;
   }
 }
 
@@ -67,7 +62,9 @@ class MaterialAppFood extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'App Comida',
-        theme: provider.Provider.of<ThemeProvider>(context).themeData ? themeDark : theme,
+        theme: provider.Provider.of<ThemeProvider>(context).themeData
+            ? themeDark
+            : theme,
         home: const HomeSreen(),
         onGenerateRoute: (settings) {
           final Map<String, dynamic> args =

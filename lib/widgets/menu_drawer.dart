@@ -62,11 +62,18 @@ class _MenuDrawerState extends State<MenuDrawer> {
             ]);
           }).toList(),
           ListTile(
-            title: Text('Settings'),
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const Settings(),
-            )),
-          )
+              title: const Text('Configuraciones'),
+              onTap: () {
+                if (!widget.appBarTitle.contains('Home Screen')) {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const Settings(),
+                  ));
+                } else {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const Settings(),
+                  ));
+                }
+              })
         ],
       ),
     );
