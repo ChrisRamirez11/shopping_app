@@ -20,6 +20,7 @@ class ProductsProviderSupabase {
         SchedulerBinding.instance.addPostFrameCallback(
           (timeStamp) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                duration: const Duration(milliseconds: 100),
                 content: Text(
                     'Ha ocurrido un error: Vuelva a cargar la pagina. $e')));
           },

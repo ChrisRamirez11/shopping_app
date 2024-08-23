@@ -51,7 +51,7 @@ class _HomeSreenState extends State<HomeSreen> {
             )
           ],
         ),
-        drawer: MenuDrawer(appBarTitle: 'Home Screen'),
+        drawer: const MenuDrawer(appBarTitle: 'Home Screen'),
         body: const GridViewWidget(
           appBarTitle: 'Home Screen',
         ),
