@@ -7,7 +7,7 @@ class ProductsProviderSupabase {
   final _client = Supabase.instance.client;
 
   late final productsStream =
-      _client.from('products').stream(primaryKey: ['id']);
+      _client.from('products').stream(primaryKey: ['id']).limit(10);
 
 //get Product
 ////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ class ProductsProviderSupabase {
       }
     } else {
       try {
-        return productsStream.eq('type', from);
+        return productsStream.eq('type', from).limit(50);
       } catch (e) {
         SchedulerBinding.instance.addPostFrameCallback(
           (timeStamp) {
