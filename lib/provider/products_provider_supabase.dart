@@ -6,40 +6,29 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class ProductsProviderSupabase {
   final _client = Supabase.instance.client;
 
-  late final productsStream =
-      _client.from('products').stream(primaryKey: ['id']);
+  late final productsStream = _client
+      .from('products')
+      .stream(primaryKey: ['id'])
+      .order('id', ascending: false)
+      .limit(10);
 
 //get Product
 ////////////////////////////////////////////////////////
   Stream<List<Map<String, dynamic>>> getProduct(
       BuildContext context, String from) {
-    if (from == 'Home Screen') {
-      try {
-        return productsStream;
-      } catch (e) {
-        SchedulerBinding.instance.addPostFrameCallback(
-          (timeStamp) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                duration: const Duration(milliseconds: 100),
-                content: Text(
-                    'Ha ocurrido un error: Vuelva a cargar la pagina. $e')));
-          },
-        );
-        return productsStream;
-      }
-    } else {
-      try {
-        return productsStream.eq('type', from);
-      } catch (e) {
-        SchedulerBinding.instance.addPostFrameCallback(
-          (timeStamp) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                    'Ha ocurrido un error: Vuelva a cargar la pagina. $e')));
-          },
-        );
-        return const Stream.empty();
-      }
+    try {
+      return _client
+          .from('products')
+          .stream(primaryKey: ['id']).eq('type', from);
+    } catch (e) {
+      SchedulerBinding.instance.addPostFrameCallback(
+        (timeStamp) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content:
+                  Text('Ha ocurrido un error: Vuelva a cargar la pagina. $e')));
+        },
+      );
+      return const Stream.empty();
     }
   }
 

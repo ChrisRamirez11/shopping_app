@@ -42,7 +42,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
               leading: const Icon(Icons.home),
               title: const Text('Inicio'),
               onTap: () {
-                if (!widget.appBarTitle.contains('Home Screen')) {
+                if (!widget.appBarTitle.contains('Inicio')) {
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (context) => const HomeSreen(),
@@ -68,7 +68,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 leading: const Icon(Icons.local_mall_outlined),
                 title: Text(name),
                 onTap: () {
-                  if (widget.appBarTitle.contains('Home Screen')) {
+                  if (widget.appBarTitle.contains('Inicio')) {
                     Navigator.pop(context);
                     Navigator.of(context)
                         .pushNamed(name, arguments: {'name': name});
@@ -98,7 +98,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
               leading: const Icon(Icons.favorite),
               title: const Text('Favoritos'),
               onTap: () {
-                if (widget.appBarTitle.contains('Home Screen')) {
+                if (widget.appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const FavoriteScreen(),
                   ));
@@ -112,7 +112,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
               leading: const Icon(Icons.settings),
               title: const Text('Configuraciones'),
               onTap: () {
-                if (widget.appBarTitle.contains('Home Screen')) {
+                if (widget.appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const Settings(),
                   ));

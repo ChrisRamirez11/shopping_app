@@ -69,7 +69,6 @@ class _GridViewWidgetState extends State<GridViewWidget> {
         final data = snapshot.data!;
         return GridView.builder(
           itemCount: data.length,
-
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2),
           itemBuilder: (context, index) {
@@ -159,7 +158,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
   }
 
   _fetchDataSelector(String appBarTitle) {
-    if (appBarTitle.contains('Home Screen')) {
+    if (appBarTitle.contains('Inicio')) {
       return true;
     } else {
       return false;

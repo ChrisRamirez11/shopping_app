@@ -19,7 +19,7 @@ class _HomeSreenState extends State<HomeSreen> {
 
   @override
   Widget build(BuildContext context) {
-    String appBarTitle = 'Home Screen';
+    String appBarTitle = 'Inicio';
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
