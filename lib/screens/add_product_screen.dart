@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
@@ -32,7 +33,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   //picture
   bool _saving = false;
   String pic = '';
-  late XFile imageFile;
+  late XFile imageFile = XFile.fromData(Uint8List.fromList([]));
 
   //DropDownButton
   String? _selectedOption;
@@ -308,8 +309,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
     });
 
     String imageName = '${product.name}.png'..replaceAll(' ', '_');
-    productImageUpload(imageName);
-    productImageURLSet(imageName);
+    if (imageFile.path.isNotEmpty) {
+      productImageUpload(imageName);
+      productImageURLSet(imageName);
+    }
 
     ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
     Timer(const Duration(milliseconds: 1500), () {
@@ -379,7 +382,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   void productImageUpload(imageName) {
     File file;
-    if (imageFile.path.isNotEmpty && widget.product == null) {
+    if (widget.product == null) {
       file = File.fromUri(Uri.parse(imageFile.path));
       Supabase.instance.client.storage.from('pictures').upload(imageName, file);
     } else {
