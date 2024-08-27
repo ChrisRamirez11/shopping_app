@@ -1,14 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
+import 'package:app_tienda_comida/utils/image_compressor.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/src/provider.dart' as provider;
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../models/producto.dart';
 
 class AddProductScreen extends StatefulWidget {
   final Product? product;
@@ -27,6 +33,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   //picture
   bool _saving = false;
   String pic = '';
+  late XFile imageFile = XFile.fromData(Uint8List.fromList([]));
 
   //DropDownButton
   String? _selectedOption;
@@ -46,7 +53,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final notifier = Provider.of<ProductsListNotifier>(context);
+    final notifier = provider.Provider.of<ProductsListNotifier>(context);
     return SafeArea(
       child: Scaffold(
         key: scaffoldKey,
@@ -80,23 +87,23 @@ class _AddProductScreenState extends State<AddProductScreen> {
               child: Column(
                 children: [
                   _createPicContainer(),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   _nameField(),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   _productTypeRow(notifier),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   _priceField(),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   _availabilityField(),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   _createButton(),
@@ -114,13 +121,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
       initialValue: product.name,
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.name,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Nombre del producto',
         border: OutlineInputBorder(),
       ),
       onSaved: (newValue) => product.name = newValue!,
       validator: (value) {
-        if (value!.length < 1) {
+        if (value!.isEmpty) {
           return 'Ingrese el nombre del producto';
         } else {
           return null;
@@ -134,16 +141,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
     return Row(
       children: [
         Expanded(
-          child: _typeSelectorField(notifier.productsListNotifier),
           flex: 7,
+          child: _typeSelectorField(notifier.productsListNotifier),
         ),
         Expanded(
           flex: 1,
           child: IconButton(
-            style: ButtonStyle(
+            style: const ButtonStyle(
               shape: WidgetStatePropertyAll(ContinuousRectangleBorder()),
             ),
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () {
               showDialog(
                 context: context,
@@ -159,7 +166,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         onChanged: (value) => type = value,
                         textCapitalization: TextCapitalization.sentences,
                         keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Tipo de Producto',
                           border: OutlineInputBorder(),
                         ),
@@ -172,7 +179,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: Text('Cancel')),
+                            child: const Text('Cancel')),
                         TextButton(
                             onPressed: () {
                               type.isEmpty
@@ -235,7 +242,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     return TextFormField(
       initialValue: product.price.toString(),
       keyboardType: TextInputType.number,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Precio del producto',
         border: OutlineInputBorder(),
       ),
@@ -253,7 +260,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   _availabilityField() {
     return SwitchListTile(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        title: Text('Disponibilidad'),
+        title: const Text('Disponibilidad'),
         value: product.availability,
         onChanged: (value) => setState(() {
               product.availability = value;
@@ -263,24 +270,52 @@ class _AddProductScreenState extends State<AddProductScreen> {
   _createButton() {
     return ElevatedButton(
       onPressed: _saving ? null : () => _submit(),
+      style: ButtonStyle(
+          shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
       child: Text(
         "Guardar",
         style: Theme.of(context).textTheme.labelLarge,
       ),
-      style: ButtonStyle(
-          shape: WidgetStatePropertyAll(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
     );
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (!formKey.currentState!.validate()) return;
     formKey.currentState!.save();
+
+    if (await productProvider.productNameExists(context, product.name) &&
+        widget.product == null) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Center(
+              child: Text(
+            'ERROR',
+            style: TextStyle(color: Colors.red.shade300),
+          )),
+          content: const Text('El producto ya existe'),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Ok'))
+          ],
+        ),
+      );
+      return;
+    }
     setState(() {
       _saving = true;
     });
+
+    String imageName = '${product.name}.png'..replaceAll(' ', '_');
+    if (imageFile.path.isNotEmpty) {
+      productImageUpload(imageName);
+      productImageURLSet(imageName);
+    }
+
     ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
-    Timer(Duration(milliseconds: 1500), () {
+    Timer(const Duration(milliseconds: 1500), () {
       ScaffoldMessenger.of(context)
           .showSnackBar(_showSnackBar('Registro Guardado'));
       if (widget.product == null) {
@@ -294,7 +329,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   _createPicContainer() {
     return Container(
-      decoration: BoxDecoration(boxShadow: [
+      decoration: const BoxDecoration(boxShadow: [
         BoxShadow(
             offset: Offset(1, 3),
             blurRadius: 4,
@@ -313,20 +348,26 @@ class _AddProductScreenState extends State<AddProductScreen> {
     final XFile? pickedFile = await ImagePicker().pickImage(source: source);
     if (pickedFile != null) {
       try {
-        List<int> imageData = await pickedFile.readAsBytes();
+        XFile compressedImage = await compressImage(imageFile: pickedFile);
+        List<int> imageData = await compressedImage.readAsBytes();
+
         setState(() {
+          imageFile = compressedImage;
           pic = base64Encode(imageData);
         });
       } catch (e) {
-        print("Error reading file: $e");
+        log("Error reading file: $e");
       }
     }
   }
 
   _loadImage() {
     if (pic.isNotEmpty) {
-      product.pic = pic;
-      return MemoryImage(base64Decode(product.pic));
+      try {
+        return MemoryImage(base64Decode(pic));
+      } catch (e) {
+        return NetworkImage(pic);
+      }
     } else {
       return const AssetImage('assets/images/no-image.png');
     }
@@ -337,5 +378,22 @@ class _AddProductScreenState extends State<AddProductScreen> {
       content: Text(s),
       duration: const Duration(milliseconds: 1500),
     );
+  }
+
+  void productImageUpload(imageName) {
+    File file;
+    if (widget.product == null) {
+      file = File.fromUri(Uri.parse(imageFile.path));
+      Supabase.instance.client.storage.from('pictures').upload(imageName, file);
+    } else {
+      file = File.fromUri(Uri.parse(imageFile.path));
+      Supabase.instance.client.storage.from('pictures').update(imageName, file);
+    }
+  }
+
+  void productImageURLSet(imageName) {
+    product.pic = Supabase.instance.client.storage
+        .from('pictures')
+        .getPublicUrl(imageName);
   }
 }

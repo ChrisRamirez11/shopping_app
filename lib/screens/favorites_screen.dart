@@ -4,14 +4,14 @@ import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 
-class HomeSreen extends StatefulWidget {
-  const HomeSreen({super.key});
+class FavoriteScreen extends StatefulWidget {
+  const FavoriteScreen({super.key});
 
   @override
-  State<HomeSreen> createState() => _HomeSreenState();
+  State<FavoriteScreen> createState() => _FavoriteScreenState();
 }
 
-class _HomeSreenState extends State<HomeSreen> {
+class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   void dispose() {
     super.dispose();
@@ -19,7 +19,7 @@ class _HomeSreenState extends State<HomeSreen> {
 
   @override
   Widget build(BuildContext context) {
-    String appBarTitle = 'Inicio';
+    String appBarTitle = 'Favoritos';
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(

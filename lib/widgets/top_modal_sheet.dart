@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class CustomizedTopShet extends StatefulWidget {
-  
   final String productName;
   final Function onEdit;
   final Function onDelete;
@@ -20,15 +17,7 @@ class CustomizedTopShet extends StatefulWidget {
 class _CustomizedTopShetState extends State<CustomizedTopShet> {
   @override
   Widget build(BuildContext context) {
-  bool multiSelect= true;
-
-
-
-
- 
-
-
-
+    bool multiSelect = false;
 
     return SafeArea(
       child: Container(
@@ -40,13 +29,12 @@ class _CustomizedTopShetState extends State<CustomizedTopShet> {
           ],
         ),
         child: Row(
-        
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
-          children:[
-           if(!multiSelect)_Editar(widget: widget),
-              _Eliminar(widget: widget)
+          children: [
+            if (!multiSelect) _Editar(widget: widget),
+            _Eliminar(widget: widget)
           ],
         ),
       ),
@@ -64,14 +52,18 @@ class _Eliminar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(onPressed: () => widget.onDelete, child: const Row(
-    children: [
-     
-     Text('Eliminar') ,
-     SizedBox(width: 4,),
-     Icon(Icons.delete),
-    ],
-               ),);
+    return TextButton(
+      onPressed: () => widget.onDelete(),
+      child: const Row(
+        children: [
+          Text('Eliminar'),
+          SizedBox(
+            width: 4,
+          ),
+          Icon(Icons.delete),
+        ],
+      ),
+    );
   }
 }
 
@@ -85,13 +77,17 @@ class _Editar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(onPressed: () => widget.onEdit(), child: const Row(
-     children: [
-      
-         Text('Editar') ,
-      SizedBox(width: 4,),
-      Icon(Icons.edit),
-     ],
-    ),);
+    return TextButton(
+      onPressed: () => widget.onEdit(),
+      child: const Row(
+        children: [
+          Text('Editar'),
+          SizedBox(
+            width: 4,
+          ),
+          Icon(Icons.edit),
+        ],
+      ),
+    );
   }
 }
