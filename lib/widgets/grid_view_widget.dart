@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
@@ -151,7 +149,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
 
   _loadImage(product) {
     if (product['pic'].toString().isNotEmpty) {
-      return MemoryImage(base64Decode(product['pic']));
+      return NetworkImage(product['pic']);
     } else {
       return const AssetImage('assets/images/no-image.png');
     }

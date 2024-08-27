@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -29,6 +31,24 @@ class ProductsProviderSupabase {
         },
       );
       return const Stream.empty();
+    }
+  }
+
+  Future<bool> productNameExists(BuildContext context, String value) async {
+    try {
+      var result = await (_client.from('products').select().eq('name', value));
+      return result.isNotEmpty;
+    } on AuthException catch (error) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(error.message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ));
+      });
+      return false;
+    } catch (error) {
+      log('Ha ocurrido un error, vuelva a intentarlo. $error');
+      return false;
     }
   }
 
