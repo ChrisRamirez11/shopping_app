@@ -39,6 +39,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String? _selectedOption;
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   void initState() {
     if (widget.product != null) {
       product = widget.product!;
@@ -284,29 +289,32 @@ class _AddProductScreenState extends State<AddProductScreen> {
     if (!formKey.currentState!.validate()) return;
     formKey.currentState!.save();
 
-    if (await productProvider.productNameExists(context, product.name) &&
-        widget.product == null) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Center(
-              child: Text(
-            'ERROR',
-            style: TextStyle(color: Colors.red.shade300),
-          )),
-          content: const Text('El producto ya existe'),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Ok'))
-          ],
-        ),
-      );
-      return;
-    }
     setState(() {
       _saving = true;
     });
+
+    if (await productProvider.productNameExists(context, product.name) &&
+        widget.product == null) {
+      (timeStamp) => showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Center(
+                  child: Text(
+                'ERROR',
+                style: TextStyle(color: Colors.red.shade300),
+              )),
+              content: const Text('El producto ya existe'),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Ok'))
+              ],
+            ),
+          );
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
 
     String imageName = '${product.name}.png'..replaceAll(' ', '_');
     if (imageFile.path.isNotEmpty) {
@@ -314,7 +322,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
       productImageURLSet(imageName);
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
     Timer(const Duration(milliseconds: 1500), () {
       ScaffoldMessenger.of(context)
           .showSnackBar(_showSnackBar('Registro Guardado'));
@@ -383,11 +390,34 @@ class _AddProductScreenState extends State<AddProductScreen> {
   void productImageUpload(imageName) {
     File file;
     if (widget.product == null) {
-      file = File.fromUri(Uri.parse(imageFile.path));
-      Supabase.instance.client.storage.from('pictures').upload(imageName, file);
+      try {
+        file = File.fromUri(Uri.parse(imageFile.path));
+        Supabase.instance.client.storage
+            .from('pictures')
+            .upload(imageName, file);
+      } catch (e) {
+        log('$e');
+      }
     } else {
-      file = File.fromUri(Uri.parse(imageFile.path));
-      Supabase.instance.client.storage.from('pictures').update(imageName, file);
+      if (widget.product!.pic.isEmpty) {
+        try {
+          file = File.fromUri(Uri.parse(imageFile.path));
+          Supabase.instance.client.storage
+              .from('pictures')
+              .upload(imageName, file);
+          return;
+        } catch (e) {
+          log('$e');
+        }
+      }
+      try {
+        file = File.fromUri(Uri.parse(imageFile.path));
+        Supabase.instance.client.storage
+            .from('pictures')
+            .update(imageName, file);
+      } catch (e) {
+        log('$e');
+      }
     }
   }
 

@@ -5,6 +5,7 @@ import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
 import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:top_modal_sheet/top_modal_sheet.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class GridViewWidget extends StatefulWidget {
   final String appBarTitle;
@@ -44,7 +45,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
           CustomizedTopShet(
               productName: product.name,
               onDelete: () {
-                _productsProvider.deleteProduct(context, product.id);
+                _productsProvider.deleteProduct(context, product);
                 Navigator.of(context).pop();
               },
               onEdit: () {
@@ -109,7 +110,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                 height: 90,
                 width: 160,
                 margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: Image(image: _loadImage(product))),
+                child: _loadImage(product)),
             Row(
               children: [
                 const SizedBox(
@@ -149,9 +150,16 @@ class _GridViewWidgetState extends State<GridViewWidget> {
 
   _loadImage(product) {
     if (product['pic'].toString().isNotEmpty) {
-      return NetworkImage(product['pic']);
+      return CachedNetworkImage(
+        imageUrl: product['pic'],
+        placeholder: (context, url) =>
+            const Center(child: CircularProgressIndicator()),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+      );
     } else {
-      return const AssetImage('assets/images/no-image.png');
+      return const Image(
+        image: AssetImage('assets/images/no-image.png'),
+      );
     }
   }
 
