@@ -45,7 +45,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
           CustomizedTopShet(
               productName: product.name,
               onDelete: () {
-                _productsProvider.deleteProduct(context, product.id);
+                _productsProvider.deleteProduct(context, product);
                 Navigator.of(context).pop();
               },
               onEdit: () {

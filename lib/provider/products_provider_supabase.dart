@@ -110,9 +110,13 @@ class ProductsProviderSupabase {
 
 //delete Product
 //////////////////////////////////////////////////////
-  Future<void> deleteProduct(BuildContext context, int id) async {
+  Future<void> deleteProduct(BuildContext context, Product product) async {
     try {
-      await _client.from('products').delete().eq('id', id);
+      await _client.from('products').delete().eq('id', product.id).then(
+            (value) => _client.storage
+                .from('pictures')
+                .remove(['${product.name}.png']),
+          );
     } on AuthException catch (error) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

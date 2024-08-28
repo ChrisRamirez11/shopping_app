@@ -10,7 +10,6 @@ import 'package:app_tienda_comida/utils/image_compressor.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/src/provider.dart' as provider;
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -38,6 +37,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   //DropDownButton
   String? _selectedOption;
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -310,13 +314,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
       return;
     }
 
+    ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
+
     String imageName = '${product.name}.png'..replaceAll(' ', '_');
     if (imageFile.path.isNotEmpty) {
       productImageUpload(imageName);
       productImageURLSet(imageName);
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
     Timer(const Duration(milliseconds: 1500), () {
       ScaffoldMessenger.of(context)
           .showSnackBar(_showSnackBar('Registro Guardado'));
@@ -385,15 +390,25 @@ class _AddProductScreenState extends State<AddProductScreen> {
   void productImageUpload(imageName) {
     File file;
     if (widget.product == null) {
-      file = File.fromUri(Uri.parse(imageFile.path));
-      Supabase.instance.client.storage.from('pictures').upload(imageName, file);
-    } else {
-      if (widget.product!.pic.isEmpty) {
+      try {
         file = File.fromUri(Uri.parse(imageFile.path));
         Supabase.instance.client.storage
             .from('pictures')
             .upload(imageName, file);
-        return;
+      } catch (e) {
+        log('$e');
+      }
+    } else {
+      if (widget.product!.pic.isEmpty) {
+        try {
+          file = File.fromUri(Uri.parse(imageFile.path));
+          Supabase.instance.client.storage
+              .from('pictures')
+              .upload(imageName, file);
+          return;
+        } catch (e) {
+          log('$e');
+        }
       }
       try {
         file = File.fromUri(Uri.parse(imageFile.path));
