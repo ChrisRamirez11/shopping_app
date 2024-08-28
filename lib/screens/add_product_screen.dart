@@ -10,6 +10,7 @@ import 'package:app_tienda_comida/utils/image_compressor.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/src/provider.dart' as provider;
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -284,29 +285,30 @@ class _AddProductScreenState extends State<AddProductScreen> {
     if (!formKey.currentState!.validate()) return;
     formKey.currentState!.save();
 
-    if (await productProvider.productNameExists(context, product.name) &&
-        widget.product == null) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Center(
-              child: Text(
-            'ERROR',
-            style: TextStyle(color: Colors.red.shade300),
-          )),
-          content: const Text('El producto ya existe'),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Ok'))
-          ],
-        ),
-      );
-      return;
-    }
     setState(() {
       _saving = true;
     });
+
+    if (await productProvider.productNameExists(context, product.name) &&
+        widget.product == null) {
+      (timeStamp) => showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Center(
+                  child: Text(
+                'ERROR',
+                style: TextStyle(color: Colors.red.shade300),
+              )),
+              content: const Text('El producto ya existe'),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Ok'))
+              ],
+            ),
+          );
+      return;
+    }
 
     String imageName = '${product.name}.png'..replaceAll(' ', '_');
     if (imageFile.path.isNotEmpty) {
@@ -386,8 +388,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
       file = File.fromUri(Uri.parse(imageFile.path));
       Supabase.instance.client.storage.from('pictures').upload(imageName, file);
     } else {
-      file = File.fromUri(Uri.parse(imageFile.path));
-      Supabase.instance.client.storage.from('pictures').update(imageName, file);
+      if (widget.product!.pic.isEmpty) {
+        file = File.fromUri(Uri.parse(imageFile.path));
+        Supabase.instance.client.storage
+            .from('pictures')
+            .upload(imageName, file);
+        return;
+      }
+      try {
+        file = File.fromUri(Uri.parse(imageFile.path));
+        Supabase.instance.client.storage
+            .from('pictures')
+            .update(imageName, file);
+      } catch (e) {
+        log('$e');
+      }
     }
   }
 
