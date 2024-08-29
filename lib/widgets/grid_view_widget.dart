@@ -39,7 +39,10 @@ class _GridViewWidgetState extends State<GridViewWidget> {
           type: productMap['type'],
           price: double.parse(productMap['price'].toString()),
           availability: productMap['availability'],
-          pic: productMap['pic']);
+          pic: productMap['pic'],
+          quantity: productMap['quantity'],
+          description: productMap['description']);
+
       return showTopModalSheet(
           context,
           CustomizedTopShet(

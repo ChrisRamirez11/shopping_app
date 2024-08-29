@@ -62,7 +62,9 @@ class ProductsProviderSupabase {
           'type': product.type,
           'price': product.price,
           'availability': product.availability,
-          'pic': product.pic
+          'pic': product.pic,
+          'quantity': product.quantity,
+          'description': product.description
         }
       ]);
     } on AuthException catch (error) {
@@ -90,7 +92,9 @@ class ProductsProviderSupabase {
         'type': product.type,
         'price': product.price,
         'availability': product.availability,
-        'pic': product.pic
+        'pic': product.pic,
+        'quantity': product.quantity,
+        'description': product.description
       }).eq('id', product.id);
     } on AuthException catch (error) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {

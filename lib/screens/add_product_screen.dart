@@ -51,7 +51,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
       _selectedOption = product.type;
     } else {
       product = Product(
-          id: 0, name: '', type: '', price: 0, availability: true, pic: '');
+          id: 0,
+          name: '',
+          type: '',
+          price: 0,
+          availability: false,
+          pic: '',
+          quantity: 0,
+          description: '');
     }
     super.initState();
   }
@@ -107,7 +114,15 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   const SizedBox(
                     height: 15,
                   ),
+                  _quantityField(),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   _availabilityField(),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  _descriptionField(),
                   const SizedBox(
                     height: 15,
                   ),
@@ -248,7 +263,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       initialValue: product.price.toString(),
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(
-        labelText: 'Precio del producto',
+        labelText: 'Precio',
         border: OutlineInputBorder(),
       ),
       onSaved: (newValue) => product.price = double.parse(newValue!),
@@ -262,14 +277,54 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 
+  TextFormField _quantityField() {
+    bool enabled = !product.availability;
+    return TextFormField(
+      enabled: enabled,
+      initialValue: product.quantity.toString(),
+      keyboardType: const TextInputType.numberWithOptions(decimal: false),
+      decoration: InputDecoration(
+        enabled: enabled,
+        labelText: 'Cantidad en stock',
+        border: const OutlineInputBorder(),
+      ),
+      onSaved: (newValue) => product.quantity = int.parse(newValue!),
+      validator: (value) {
+        if (utils.isNumeric(value!)) {
+          return null;
+        } else {
+          return 'Debe contener solo numeros, y sin espacios vacios';
+        }
+      },
+    );
+  }
+
   _availabilityField() {
     return SwitchListTile(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        title: const Text('Disponibilidad'),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        title: const Text('Siempre en stock'),
         value: product.availability,
         onChanged: (value) => setState(() {
               product.availability = value;
             }));
+  }
+
+  _descriptionField() {
+    return TextFormField(
+      maxLines: 3,
+      initialValue: product.description,
+      textCapitalization: TextCapitalization.sentences,
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.all(10),
+        isCollapsed: product.description.isEmpty ? true : false,
+        labelText: 'Descripción(opcional)',
+        border: const OutlineInputBorder(),
+      ),
+      onSaved: (newValue) => product.description = newValue!,
+    );
   }
 
   _createButton() {
