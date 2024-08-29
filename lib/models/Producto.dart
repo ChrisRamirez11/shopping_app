@@ -44,7 +44,7 @@ class Product {
         name: json["name"],
         price: double.parse(json["price"].toString()),
         availability: json["availability"],
-        quantity: json["quantity"],
+        quantity: int.parse(json["quantity"].toString()),
         type: json["type"],
         description: json["description"],
         pic: json["pic"],

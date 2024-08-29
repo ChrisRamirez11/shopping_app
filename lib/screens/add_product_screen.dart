@@ -428,6 +428,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       try {
         return MemoryImage(base64Decode(pic));
       } catch (e) {
+        log('$e');
         return NetworkImage(pic);
       }
     } else {
