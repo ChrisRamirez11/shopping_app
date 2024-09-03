@@ -22,24 +22,21 @@ class _GridViewWidgetState extends State<GridViewWidget> {
   Widget build(BuildContext context) {
     var fetchData = _fetchDataSelector(widget.appBarTitle);
 
-    Future displayButtomSheet(BuildContext context) async {
+    Future displayButtomSheet(BuildContext context, productMap) async {
+      Product product = Product.fromJson(productMap);
+
       return showModalBottomSheet(
           context: context,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.elliptical(400, 40),
                   topRight: Radius.elliptical(400, 40))),
-          builder: (context) => const CustomizedBottomSheet());
+          builder: (context) => CustomizedBottomSheet(product: product));
     }
 
     Future displayTopSheet(BuildContext context, productMap) async {
-      Product product = Product(
-          id: productMap['id'],
-          name: productMap['name'],
-          type: productMap['type'],
-          price: double.parse(productMap['price'].toString()),
-          availability: productMap['availability'],
-          pic: productMap['pic']);
+      Product product = Product.fromJson(productMap);
+
       return showTopModalSheet(
           context,
           CustomizedTopShet(
@@ -78,7 +75,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                 child: GestureDetector(
                   onLongPress: () => displayTopSheet(context, data[index]),
                   onTap: () {
-                    displayButtomSheet(context);
+                    displayButtomSheet(context, data[index]);
                   },
                   child:
                       Container(child: _createGridTile(context, index, data)),
