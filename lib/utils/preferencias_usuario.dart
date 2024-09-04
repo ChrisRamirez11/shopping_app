@@ -43,11 +43,11 @@ class PreferenciasUsuario {
     _prefs.setString('numero', value);
   }
 
-  List<String> get prefsProductsTypesList {
+  List<String> get productsTypesList {
     return _prefs.getStringList('productsTypeList') ?? [];
   }
 
-  set prefsProductsTypesList(List<String> value) {
+  set productsTypesList(List<String> value) {
     _prefs.setStringList('productsTypeList', value);
   }
 }
