@@ -4,7 +4,7 @@ import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../screens/favorites_screen.dart';
+// import '../screens/favorites_screen.dart';
 import '../screens/settings.dart';
 
 class MenuDrawer extends StatefulWidget {
@@ -94,20 +94,20 @@ class _MenuDrawerState extends State<MenuDrawer> {
             indent: 5,
             height: 0,
           ),
-          ListTile(
-              leading: const Icon(Icons.favorite),
-              title: const Text('Favoritos'),
-              onTap: () {
-                if (widget.appBarTitle.contains('Inicio')) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const FavoriteScreen(),
-                  ));
-                } else {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const FavoriteScreen(),
-                  ));
-                }
-              }),
+          // ListTile(
+          //     leading: const Icon(Icons.favorite),
+          //     title: const Text('Favoritos'),
+          //     onTap: () {
+          //       if (widget.appBarTitle.contains('Inicio')) {
+          //         Navigator.of(context).push(MaterialPageRoute(
+          //           builder: (context) => const FavoriteScreen(),
+          //         ));
+          //       } else {
+          //         Navigator.of(context).pushReplacement(MaterialPageRoute(
+          //           builder: (context) => const FavoriteScreen(),
+          //         ));
+          //       }
+          //     }),
           ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Configuraciones'),

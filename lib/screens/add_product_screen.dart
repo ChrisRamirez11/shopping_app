@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/utils/image_compressor.dart';
@@ -45,6 +46,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   void initState() {
+    if (!mounted) {
+      return;
+    }
+
     if (widget.product != null) {
       product = widget.product!;
       pic = product.pic;
@@ -290,10 +295,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
       ),
       onSaved: (newValue) => product.quantity = int.parse(newValue!),
       validator: (value) {
-        if (utils.isNumeric(value!)) {
+        if (utils.isNumeric(value!.trim())) {
           return null;
         } else {
-          return 'Debe contener solo numeros, y sin espacios vacios';
+          return 'Debe contener solo numeros';
         }
       },
     );
@@ -341,52 +346,54 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   Future<void> _submit() async {
-    if (!formKey.currentState!.validate()) return;
-    formKey.currentState!.save();
+    if (mounted) {
+      if (!formKey.currentState!.validate()) return;
+      formKey.currentState!.save();
 
-    setState(() {
-      _saving = true;
-    });
+      setState(() {
+        _saving = true;
+      });
 
-    if (await productProvider.productNameExists(context, product.name) &&
-        widget.product == null) {
-      (timeStamp) => showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Center(
-                  child: Text(
-                'ERROR',
-                style: TextStyle(color: Colors.red.shade300),
-              )),
-              content: const Text('El producto ya existe'),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Ok'))
-              ],
-            ),
-          );
-      return;
-    }
-
-    ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
-
-    String imageName = '${product.name}.png'..replaceAll(' ', '_');
-    if (imageFile.path.isNotEmpty) {
-      productImageUpload(imageName);
-      productImageURLSet(imageName);
-    }
-
-    Timer(const Duration(milliseconds: 1500), () {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(_showSnackBar('Registro Guardado'));
-      if (widget.product == null) {
-        productProvider.insertProduct(context, product);
-      } else {
-        productProvider.updateProduct(context, product);
+      if (await productProvider.productNameExists(context, product.name) &&
+          widget.product == null) {
+        (timeStamp) => showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Center(
+                    child: Text(
+                  'ERROR',
+                  style: TextStyle(color: Colors.red.shade300),
+                )),
+                content: const Text('El producto ya existe'),
+                actions: [
+                  TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Ok'))
+                ],
+              ),
+            );
+        return;
       }
-      Navigator.of(context).pop();
-    });
+
+      ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
+
+      String imageName = '${product.name}.png'..replaceAll(' ', '_');
+      if (imageFile.path.isNotEmpty) {
+        productImageUpload(imageName);
+        productImageURLSet(imageName);
+      }
+
+      Timer(const Duration(milliseconds: 1500), () {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(_showSnackBar('Registro Guardado'));
+        if (widget.product == null) {
+          productProvider.insertProduct(context, product);
+        } else {
+          productProvider.updateProduct(context, product);
+        }
+        Navigator.of(context).pop();
+      });
+    }
   }
 
   _createPicContainer() {
@@ -448,9 +455,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     if (widget.product == null) {
       try {
         file = File.fromUri(Uri.parse(imageFile.path));
-        Supabase.instance.client.storage
-            .from('pictures')
-            .upload(imageName, file);
+        supabase.storage.from('pictures').upload(imageName, file);
       } catch (e) {
         log('$e');
       }
@@ -458,9 +463,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       if (widget.product!.pic.isEmpty) {
         try {
           file = File.fromUri(Uri.parse(imageFile.path));
-          Supabase.instance.client.storage
-              .from('pictures')
-              .upload(imageName, file);
+          supabase.storage.from('pictures').upload(imageName, file);
           return;
         } catch (e) {
           log('$e');
@@ -468,9 +471,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       }
       try {
         file = File.fromUri(Uri.parse(imageFile.path));
-        Supabase.instance.client.storage
-            .from('pictures')
-            .update(imageName, file);
+        supabase.storage.from('pictures').update(imageName, file);
       } catch (e) {
         log('$e');
       }
@@ -478,8 +479,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   void productImageURLSet(imageName) {
-    product.pic = Supabase.instance.client.storage
-        .from('pictures')
-        .getPublicUrl(imageName);
+    product.pic = supabase.storage.from('pictures').getPublicUrl(imageName);
   }
 }

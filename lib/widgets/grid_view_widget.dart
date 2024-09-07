@@ -54,6 +54,11 @@ class _GridViewWidgetState extends State<GridViewWidget> {
               }));
     }
 
+    @override
+    void dispose() {
+      super.dispose();
+    }
+
     return StreamBuilder<List<Map<String, dynamic>>>(
       stream: fetchData
           ? _productsProvider.productsStream

@@ -1,14 +1,13 @@
 import 'dart:developer';
 
+import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductsProviderSupabase {
-  final _client = Supabase.instance.client;
-
-  late final productsStream = _client
+  late final productsStream = supabase
       .from('products')
       .stream(primaryKey: ['id'])
       .order('id', ascending: false)
@@ -19,7 +18,7 @@ class ProductsProviderSupabase {
   Stream<List<Map<String, dynamic>>> getProduct(
       BuildContext context, String from) {
     try {
-      return _client
+      return supabase
           .from('products')
           .stream(primaryKey: ['id']).eq('type', from);
     } catch (e) {
@@ -36,7 +35,7 @@ class ProductsProviderSupabase {
 
   Future<bool> productNameExists(BuildContext context, String value) async {
     try {
-      var result = await (_client.from('products').select().eq('name', value));
+      var result = await (supabase.from('products').select().eq('name', value));
       return result.isNotEmpty;
     } on AuthException catch (error) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -56,7 +55,7 @@ class ProductsProviderSupabase {
 ////////////////////////////////////////////////////////
   Future<void> insertProduct(BuildContext context, Product product) async {
     try {
-      await _client.from('products').insert([
+      await supabase.from('products').insert([
         {
           'name': product.name,
           'type': product.type,
@@ -87,7 +86,7 @@ class ProductsProviderSupabase {
 ////////////////////////////////////////////////////////
   Future<void> updateProduct(BuildContext context, Product product) async {
     try {
-      await _client.from('products').update({
+      await supabase.from('products').update({
         'name': product.name,
         'type': product.type,
         'price': product.price,
@@ -116,8 +115,8 @@ class ProductsProviderSupabase {
 //////////////////////////////////////////////////////
   Future<void> deleteProduct(BuildContext context, Product product) async {
     try {
-      await _client.from('products').delete().eq('id', product.id).then(
-            (value) => _client.storage
+      await supabase.from('products').delete().eq('id', product.id).then(
+            (value) => supabase.storage
                 .from('pictures')
                 .remove(['${product.name}.png']),
           );
