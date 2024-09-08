@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final prefs = PreferenciasUsuario();
-    // _listBackToZero(prefs);
 
     return ProviderP(
       child: provider.MultiProvider(
@@ -46,11 +45,6 @@ class MyApp extends StatelessWidget {
         child: const MaterialAppFood(),
       ),
     );
-  }
-
-  void _listBackToZero(prefs) {
-    List<String> list = [];
-    prefs.prefsProductsTypesList = list;
   }
 }
 
