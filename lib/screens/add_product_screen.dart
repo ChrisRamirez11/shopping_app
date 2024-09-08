@@ -13,8 +13,6 @@ import 'package:app_tienda_comida/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/src/provider.dart' as provider;
-import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../models/producto.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -374,8 +372,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
             );
         return;
       }
-
-      ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
+      }
 
       String imageName = '${product.name}.png'..replaceAll(' ', '_');
       if (imageFile.path.isNotEmpty) {

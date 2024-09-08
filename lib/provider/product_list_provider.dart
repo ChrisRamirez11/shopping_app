@@ -1,7 +1,6 @@
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductsListNotifier extends ChangeNotifier {
   PreferenciasUsuario prefs = PreferenciasUsuario();

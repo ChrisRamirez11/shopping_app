@@ -19,7 +19,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   Color color = Colors.amber;
   final prefs = PreferenciasUsuario();
-  Widget _login_form(BuildContext context) {
+  Widget _loginForm(BuildContext context) {
     final bloc = ProviderP.of(context);
     final size = MediaQuery.of(context).size;
 
@@ -29,7 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       margin: const EdgeInsets.symmetric(vertical: 30.0),
       padding: const EdgeInsets.symmetric(vertical: 30.0),
       decoration: BoxDecoration(
-          color: Color.fromARGB(213, 254, 254, 254),
+          color: const Color.fromARGB(213, 254, 254, 254),
           borderRadius: BorderRadius.circular(5.0),
           boxShadow: const [
             BoxShadow(
@@ -39,36 +39,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 spreadRadius: 3.0)
           ]),
       child: RawScrollbar(
-        radius: Radius.circular(4),
+        radius: const Radius.circular(4),
         thumbVisibility: true,
         thumbColor: theme.primaryColor,
         child: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              children: [
-                Text(
-                  'Don Pepito',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: 25.0,
-                      color: theme.primaryColor,
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 15.0,
-                ),
-                _crearName(bloc),
-                const SizedBox(
-                  height: 15.0,
-                ),
-                _crearNumero(bloc),
-                const SizedBox(
-                  height: 15.0,
-                ),
-                _crearBoton(bloc, context)
-              ],
-            ),
+          child: Column(
+            children: [
+              Text(
+                'Don Pepito',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 25.0,
+                    color: theme.primaryColor,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 15.0,
+              ),
+              _crearName(bloc),
+              const SizedBox(
+                height: 15.0,
+              ),
+              _crearNumero(bloc),
+              const SizedBox(
+                height: 15.0,
+              ),
+              _crearBoton(bloc, context)
+            ],
           ),
         ),
       ),
@@ -142,8 +140,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ? () {
                   prefs.user = bloc.name;
                   prefs.phoneNumber = bloc.phone;
-                  Navigator.pushReplacement(context,
-                      crearRuta(HomeSreen(), Duration(microseconds: 700)));
+                  Navigator.pushReplacement(
+                      context,
+                      crearRuta(const HomeSreen(),
+                          const Duration(microseconds: 700)));
                 }
               : null,
           child: Container(
@@ -167,7 +167,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             const _FondoRegister(),
             Center(
-              child: _login_form(context),
+              child: _loginForm(context),
             )
           ],
         ),
@@ -191,7 +191,7 @@ class _Formulario extends StatelessWidget {
         width: size.width * 0.8,
         height: size.height * 0.6,
         color: const Color.fromARGB(107, 255, 255, 255),
-        child: Column(),
+        child: const Column(),
       ),
     );
   }
