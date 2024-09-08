@@ -10,18 +10,20 @@ Color white = Colors.white;
 ThemeData theme = ThemeData(
   primaryColor: white,
   textTheme: TextTheme(
-    bodyLarge: TextStyle(
+    bodyLarge: const TextStyle(
       color: tertiary,
     ),
-    bodyMedium: TextStyle(color: tertiary, fontWeight: FontWeight.bold),
-    bodySmall: TextStyle(color: tertiary, fontWeight: FontWeight.bold),
-    headlineLarge: TextStyle(color: tertiary),
-    headlineMedium: TextStyle(color: tertiary, fontWeight: FontWeight.bold),
-    headlineSmall: TextStyle(color: tertiary),
+    bodyMedium: const TextStyle(color: tertiary, fontWeight: FontWeight.bold),
+    bodySmall: const TextStyle(color: tertiary, fontWeight: FontWeight.bold),
+    headlineLarge: const TextStyle(color: tertiary),
+    headlineMedium:
+        const TextStyle(color: tertiary, fontWeight: FontWeight.bold),
+    headlineSmall: const TextStyle(color: tertiary),
     titleLarge: TextStyle(
         color: tertiary.withOpacity(0.87), fontWeight: FontWeight.bold),
-    titleMedium: TextStyle(color: tertiary, fontWeight: FontWeight.normal),
-    titleSmall: TextStyle(color: tertiary, fontWeight: FontWeight.normal),
+    titleMedium:
+        const TextStyle(color: tertiary, fontWeight: FontWeight.normal),
+    titleSmall: const TextStyle(color: tertiary, fontWeight: FontWeight.normal),
   ),
 
   //ScrollbarTheme
@@ -44,7 +46,7 @@ ThemeData theme = ThemeData(
 
   //InputDecorationTheme
   //
-  inputDecorationTheme: InputDecorationTheme(
+  inputDecorationTheme: const InputDecorationTheme(
     focusColor: tertiary,
     labelStyle: TextStyle(color: tertiary),
     focusedBorder: OutlineInputBorder(
@@ -66,16 +68,16 @@ ThemeData theme = ThemeData(
 //
 ThemeData themeDark = ThemeData.dark().copyWith(
     textTheme: TextTheme(
-      bodyLarge: TextStyle(),
-      bodyMedium: TextStyle(fontWeight: FontWeight.bold),
-      bodySmall: TextStyle(fontWeight: FontWeight.bold),
+      bodyLarge: const TextStyle(),
+      bodyMedium: const TextStyle(fontWeight: FontWeight.bold),
+      bodySmall: const TextStyle(fontWeight: FontWeight.bold),
       headlineLarge: TextStyle(color: white),
-      headlineMedium: TextStyle(fontWeight: FontWeight.bold),
+      headlineMedium: const TextStyle(fontWeight: FontWeight.bold),
       headlineSmall: TextStyle(color: white),
       titleLarge: TextStyle(
           color: tertiary.withOpacity(0.87), fontWeight: FontWeight.bold),
-      titleMedium: TextStyle(fontWeight: FontWeight.normal),
-      titleSmall: TextStyle(fontWeight: FontWeight.normal),
+      titleMedium: const TextStyle(fontWeight: FontWeight.normal),
+      titleSmall: const TextStyle(fontWeight: FontWeight.normal),
     ),
 
     //ScrollbarTheme

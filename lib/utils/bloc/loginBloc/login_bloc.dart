@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:app_tienda_comida/utils/bloc/loginBloc/validators.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -64,7 +63,7 @@ class LoginBloc with Validators {
   // Combinación de Streams con RXDart'
   Stream<bool> get loginFormValidStream =>
       Rx.combineLatest2(nameStream, phoneStream, (n, p) => true);
-      
+
   Stream<bool> get registerFormValidStream => Rx.combineLatest3(
       nameStream, confirmarPasswordStream, passwordStream, (n, ln, p) => true);
   Stream<bool> get createClientFormValidStream => Rx.combineLatest6(
