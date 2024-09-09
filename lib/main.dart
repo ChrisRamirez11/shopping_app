@@ -1,4 +1,5 @@
 import 'package:app_tienda_comida/provider/onHoverProvider.dart';
+import 'package:app_tienda_comida/screens/account_relateds/log_in_screen.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
@@ -13,10 +14,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
-    url: 'https://lsohakpxtnsjxexmvdmj.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxzb2hha3B4dG5zanhleG12ZG1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjAxOTU5NDMsImV4cCI6MjAzNTc3MTk0M30.xNEhSXEPxqmEp72-N_poF5bIw7pCf36d8PZGih9avH8',
-  );
+      url: 'https://lsohakpxtnsjxexmvdmj.supabase.co',
+      anonKey:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxzb2hha3B4dG5zanhleG12ZG1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjAxOTU5NDMsImV4cCI6MjAzNTc3MTk0M30.xNEhSXEPxqmEp72-N_poF5bIw7pCf36d8PZGih9avH8',
+      authOptions:
+          const FlutterAuthClientOptions(authFlowType: AuthFlowType.pkce));
   final prefs = PreferenciasUsuario();
   await prefs.initPrefs();
   runApp(const MyApp());
@@ -61,7 +63,7 @@ class MaterialAppFood extends StatelessWidget {
         theme: provider.Provider.of<ThemeProvider>(context).themeData
             ? themeDark
             : theme,
-        home: const HomeSreen(),
+        home: const LoginScreen(),
         onGenerateRoute: (settings) {
           final Map<String, dynamic> args =
               settings.arguments as Map<String, dynamic>;
