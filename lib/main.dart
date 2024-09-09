@@ -1,5 +1,4 @@
 import 'package:app_tienda_comida/provider/onHoverProvider.dart';
-import 'package:app_tienda_comida/screens/account_relateds/log_in_screen.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
@@ -63,7 +62,7 @@ class MaterialAppFood extends StatelessWidget {
         theme: provider.Provider.of<ThemeProvider>(context).themeData
             ? themeDark
             : theme,
-        home: const LoginScreen(),
+        home: const HomeSreen(),
         onGenerateRoute: (settings) {
           final Map<String, dynamic> args =
               settings.arguments as Map<String, dynamic>;
