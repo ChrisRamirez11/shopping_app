@@ -1,4 +1,5 @@
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
+import 'package:app_tienda_comida/screens/account_relateds/redirect_screen.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
@@ -108,6 +109,20 @@ class _MenuDrawerState extends State<MenuDrawer> {
           //         ));
           //       }
           //     }),
+          ListTile(
+              leading: const Icon(Icons.account_circle_rounded),
+              title: const Text('Cuenta'),
+              onTap: () {
+                if (widget.appBarTitle.contains('Inicio')) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const RedirectScreen(),
+                  ));
+                } else {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const RedirectScreen(),
+                  ));
+                }
+              }),
           ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Configuraciones'),
