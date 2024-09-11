@@ -169,13 +169,11 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
       list = await response.then(
         (value) => value.toList(),
       );
-      list.forEach(
-        (element) {
-          if (element['availability'] == false) {
-            listToReturn.add(element);
-          }
-        },
-      );
+      for (var element in list) {
+        if (element['availability'] == false) {
+          listToReturn.add(element);
+        }
+      }
       return listToReturn;
     } on AuthException catch (error) {
       log(error.message);
