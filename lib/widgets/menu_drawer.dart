@@ -1,6 +1,7 @@
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/account_relateds/redirect_screen.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
+import 'package:app_tienda_comida/screens/no_stock/without_stock_products.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -89,6 +90,28 @@ class _MenuDrawerState extends State<MenuDrawer> {
           }).toList(),
           const SizedBox(
             height: 20,
+          ),
+          const Divider(
+            endIndent: 5,
+            indent: 5,
+            height: 0,
+          ),
+          ListTile(
+              leading: const Icon(Icons.remove_shopping_cart_outlined),
+              title: const Text('Productos sin Stock'),
+              onTap: () {
+                if (widget.appBarTitle.contains('Inicio')) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const WithoutStockProducts(),
+                  ));
+                } else {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const WithoutStockProducts(),
+                  ));
+                }
+              }),
+          const SizedBox(
+            height: 10,
           ),
           const Divider(
             endIndent: 5,

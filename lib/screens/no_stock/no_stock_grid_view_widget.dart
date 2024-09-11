@@ -1,27 +1,29 @@
+import 'dart:developer';
+
+import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
 import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:top_modal_sheet/top_modal_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class GridViewWidget extends StatefulWidget {
+class NoStockGridViewWidget extends StatefulWidget {
   final String appBarTitle;
-  const GridViewWidget({super.key, required this.appBarTitle});
+  const NoStockGridViewWidget({super.key, required this.appBarTitle});
 
   @override
-  State<GridViewWidget> createState() => _GridViewWidgetState();
+  State<NoStockGridViewWidget> createState() => _NoStockGridViewWidgetState();
 }
 
-class _GridViewWidgetState extends State<GridViewWidget> {
+class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
   final _productsProvider = ProductsProviderSupabase();
 
   @override
   Widget build(BuildContext context) {
-    var fetchData = _fetchDataSelector(widget.appBarTitle);
-
     Future displayButtomSheet(BuildContext context, productMap) async {
       Product product = Product.fromJson(productMap);
 
@@ -54,10 +56,8 @@ class _GridViewWidgetState extends State<GridViewWidget> {
               }));
     }
 
-    return StreamBuilder<List<Map<String, dynamic>>>(
-      stream: fetchData
-          ? _productsProvider.productsStream
-          : _productsProvider.getProduct(context, widget.appBarTitle),
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: fetchData(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
@@ -160,11 +160,29 @@ class _GridViewWidgetState extends State<GridViewWidget> {
     }
   }
 
-  _fetchDataSelector(String appBarTitle) {
-    if (appBarTitle.contains('Inicio')) {
-      return true;
-    } else {
-      return false;
+  Future<List<Map<String, dynamic>>> fetchData() async {
+    List<Map<String, dynamic>> list = [];
+    List<Map<String, dynamic>> listToReturn = [];
+    try {
+      Future<List<Map<String, dynamic>>> response =
+          supabase.from('products').select('*').eq('quantity', 0);
+      list = await response.then(
+        (value) => value.toList(),
+      );
+      list.forEach(
+        (element) {
+          if (element['availability'] == false) {
+            listToReturn.add(element);
+          }
+        },
+      );
+      return listToReturn;
+    } on AuthException catch (error) {
+      log(error.message);
+      return listToReturn;
+    } catch (error) {
+      log('Ha ocurrido un error, vuelva a intentarlo. $error');
+      return listToReturn;
     }
   }
 }
