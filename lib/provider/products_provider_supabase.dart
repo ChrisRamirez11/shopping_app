@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +19,14 @@ class ProductsProviderSupabase {
       return supabase
           .from('products')
           .stream(primaryKey: ['id']).eq('type', from);
+    } on AuthException catch (error) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(error.message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ));
+      });
+      return const Stream.empty();
     } catch (e) {
       SchedulerBinding.instance.addPostFrameCallback(
         (timeStamp) {
@@ -46,7 +52,12 @@ class ProductsProviderSupabase {
       });
       return false;
     } catch (error) {
-      log('Ha ocurrido un error, vuelva a intentarlo. $error');
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Ha ocurrido un error, vuelva a intentarlo. $error'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ));
+      });
       return false;
     }
   }

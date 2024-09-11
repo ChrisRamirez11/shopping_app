@@ -111,7 +111,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
           //     }),
           ListTile(
               leading: const Icon(Icons.account_circle_rounded),
-              title: const Text('Cuenta'),
+              title: const Text('Perfil'),
               onTap: () {
                 if (widget.appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(

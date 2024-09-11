@@ -192,7 +192,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
               enabled: _flag,
               controller: _cellphoneController,
               decoration: InputDecoration(
-                  labelText: 'Teléfono Celular', enabled: _flag),
+                  labelText: 'Teléfono de Contacto', enabled: _flag),
             ),
             const SizedBox(height: 18),
             ElevatedButton(
