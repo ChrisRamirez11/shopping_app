@@ -1,4 +1,5 @@
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
+import 'package:app_tienda_comida/screens/shoppingcart/shopping_cart.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
@@ -21,6 +22,7 @@ class _HomeSreenState extends State<HomeSreen> {
   @override
   Widget build(BuildContext context) {
     String appBarTitle = 'Inicio';
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     return SafeArea(
       child: DoubleTapToExit(
         snackBar: const SnackBar(
@@ -28,6 +30,7 @@ class _HomeSreenState extends State<HomeSreen> {
           duration: Duration(milliseconds: 1000),
         ),
         child: Scaffold(
+          key: scaffoldKey,
           floatingActionButton: FloatingActionButton(
             foregroundColor: secondary,
             backgroundColor: primary,
@@ -51,13 +54,16 @@ class _HomeSreenState extends State<HomeSreen> {
                 icon: const Icon(Icons.search_outlined),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  scaffoldKey.currentState!.openEndDrawer();
+                },
                 icon: const Icon(
                   IconData(0xe59c, fontFamily: 'MaterialIcons'),
                 ),
               )
             ],
           ),
+          endDrawer: ShoppingCart(),
           drawer: MenuDrawer(appBarTitle: appBarTitle),
           body: GridViewWidget(
             appBarTitle: appBarTitle,

@@ -1,7 +1,7 @@
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/account_relateds/redirect_screen.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
-import 'package:app_tienda_comida/screens/no_stock/without_stock_products.dart';
+import 'package:app_tienda_comida/screens/no_stock/no_stock_products.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -81,11 +81,6 @@ class _MenuDrawerState extends State<MenuDrawer> {
                   }
                 },
               ),
-              // const Divider(
-              //   endIndent: 5,
-              //   indent: 5,
-              //   height: 0,
-              // )
             ]);
           }).toList(),
           const SizedBox(
@@ -102,11 +97,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
               onTap: () {
                 if (widget.appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const WithoutStockProducts(),
+                    builder: (context) => const NoStockProducts(),
                   ));
                 } else {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const WithoutStockProducts(),
+                    builder: (context) => const NoStockProducts(),
                   ));
                 }
               }),
@@ -118,20 +113,22 @@ class _MenuDrawerState extends State<MenuDrawer> {
             indent: 5,
             height: 0,
           ),
-          // ListTile(
-          //     leading: const Icon(Icons.favorite),
-          //     title: const Text('Favoritos'),
-          //     onTap: () {
-          //       if (widget.appBarTitle.contains('Inicio')) {
-          //         Navigator.of(context).push(MaterialPageRoute(
-          //           builder: (context) => const FavoriteScreen(),
-          //         ));
-          //       } else {
-          //         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          //           builder: (context) => const FavoriteScreen(),
-          //         ));
-          //       }
-          //     }),
+          /*
+           ListTile(
+               leading: const Icon(Icons.favorite),
+               title: const Text('Favoritos'),
+               onTap: () {
+                 if (widget.appBarTitle.contains('Inicio')) {
+                   Navigator.of(context).push(MaterialPageRoute(
+                     builder: (context) => const FavoriteScreen(),
+                   ));
+                 } else {
+                   Navigator.of(context).pushReplacement(MaterialPageRoute(
+                     builder: (context) => const FavoriteScreen(),
+                   ));
+                 }
+               }),
+          */
           ListTile(
               leading: const Icon(Icons.account_circle_rounded),
               title: const Text('Perfil'),

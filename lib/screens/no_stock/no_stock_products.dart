@@ -3,8 +3,8 @@ import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 
-class WithoutStockProducts extends StatelessWidget {
-  const WithoutStockProducts({super.key});
+class NoStockProducts extends StatelessWidget {
+  const NoStockProducts({super.key});
 
   @override
   Widget build(BuildContext context) {
