@@ -1,5 +1,7 @@
+import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/screens/shoppingcart/shopping_cart.dart';
+import 'package:app_tienda_comida/utils/account_validation.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
@@ -55,6 +57,9 @@ class _HomeSreenState extends State<HomeSreen> {
               ),
               IconButton(
                 onPressed: () {
+                  if (!isAccountFinished(context)) {
+                    return;
+                  }
                   scaffoldKey.currentState!.openEndDrawer();
                 },
                 icon: const Icon(
@@ -63,7 +68,7 @@ class _HomeSreenState extends State<HomeSreen> {
               )
             ],
           ),
-          endDrawer: ShoppingCart(),
+          endDrawer: const ShoppingCart(),
           drawer: MenuDrawer(appBarTitle: appBarTitle),
           body: GridViewWidget(
             appBarTitle: appBarTitle,
