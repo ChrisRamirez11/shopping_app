@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/cart_item_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -34,6 +32,14 @@ class CartSupabaseProvider {
     }
   }
 
+  Future<void> deleteCartItem(String cartId, int newQuantity) async {
+    final response = await supabase.from('carts').delete().eq('id', cartId);
+
+    if (response.error != null) {
+      print('Error updating cart item: ${response.error!.message}');
+    }
+  }
+
   //getCart
   //
   Future<List<CartItem>> getCart(String userId) async {
@@ -43,13 +49,12 @@ class CartSupabaseProvider {
           .select()
           .eq('user_id', userId)
           .order('id');
-
       return response.map((item) => CartItem.fromJson(item)).toList();
     } on AuthException catch (error) {
-      log('Error fetching cart: ${error.message}');
+      print('Error fetching cart: ${error.message}');
       return [];
     } catch (e) {
-      log('Error fetching cart: $e');
+      print('Error fetching cart: $e');
       return [];
     }
   }

@@ -1,4 +1,3 @@
-import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/screens/shoppingcart/shopping_cart.dart';
 import 'package:app_tienda_comida/utils/account_validation.dart';

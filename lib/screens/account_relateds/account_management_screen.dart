@@ -1,5 +1,6 @@
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/screens/account_relateds/log_in_screen.dart';
+import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -16,6 +17,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   final _fullNameController = TextEditingController();
   final _directionController = TextEditingController();
   final _cellphoneController = TextEditingController();
+  final prefs = PreferenciasUsuario();
 
   bool _flag = false;
 
@@ -34,6 +36,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       _fullNameController.text = (data['fullName'] ?? '') as String;
       _directionController.text = (data['direction'] ?? '') as String;
       _cellphoneController.text = (data['cellphone'] ?? '') as String;
+      prefs.user = _fullNameController.text;
     } on PostgrestException catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context)
@@ -84,6 +87,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       'direction': website,
       'cellphone': cellphone,
     };
+    prefs.user = fullName;
     try {
       await supabase.from('profiles').upsert(updates);
       if (mounted) {
@@ -115,6 +119,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   Future<void> _signOut() async {
     try {
       await supabase.auth.signOut();
+      prefs.user = '';
     } on AuthException catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context)

@@ -1,21 +1,18 @@
 import 'package:app_tienda_comida/main.dart';
+import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 bool isAccountFinished(BuildContext context) {
+  final prefs = PreferenciasUsuario();
   try {
     final session = supabase.auth.currentSession;
     if (session == null) {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Debe registrarse')));
+      return false;
     } else {
-      Map<String, dynamic> user = {};
-      final userId = supabase.auth.currentSession!.user.id;
-      final data = supabase.from('profiles').select().eq('id', userId).single();
-      data.then(
-        (value) => user = value,
-      );
-      if (user['fullName'] == null || user['fullName'] == '') {
+      if (prefs.user.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Debe terminar de rellenar los datos de su perfil')));
         return false;

@@ -1,3 +1,6 @@
+import 'package:app_tienda_comida/main.dart';
+import 'package:app_tienda_comida/models/cart_item_model.dart';
+import 'package:app_tienda_comida/provider/cart_supabase_provider.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingCart extends StatefulWidget {
@@ -17,18 +20,27 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   @override
   Widget build(BuildContext context) {
-    List list = [];
+    final userId = supabase.auth.currentSession!.user.id;
+    CartSupabaseProvider cartSupabaseProvider = CartSupabaseProvider();
 
     return Drawer(
       width: MediaQuery.of(context).size.width * 0.65,
-      child: ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (context, index) => getListTiles(list, index),
-      ),
+      child: FutureBuilder(
+          future: cartSupabaseProvider.getCart(userId),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            final data = snapshot.data!;
+            return ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) => getListTiles(data, index),
+            );
+          }),
     );
   }
 
-  ListTile getListTiles(List productsList, int index) {
+  ListTile getListTiles(List<CartItem> cartsItems, int index) {
     return ListTile();
   }
 }
