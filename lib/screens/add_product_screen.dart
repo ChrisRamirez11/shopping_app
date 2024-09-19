@@ -204,22 +204,23 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             },
                             child: const Text('Cancel')),
                         TextButton(
-                            onPressed: () {
-                              type.isEmpty
-                                  ? null
-                                  : {
-                                      if (!notifier.productsListNotifier
-                                          .contains(type))
-                                        {
-                                          notifier.addItem(type),
-                                          setState(() {}),
-                                          Navigator.of(context).pop()
-                                        }
-                                      else
-                                        {Navigator.of(context).pop()}
-                                    };
-                            },
-                            child: const Text('Ok'))
+                          child: const Text('Ok'),
+                          onPressed: () {
+                            type.isEmpty
+                                ? null
+                                : {
+                                    if (!notifier.productsListNotifier
+                                        .contains(type))
+                                      {
+                                        notifier.addItem(type),
+                                        setState(() {}),
+                                        Navigator.of(context).pop()
+                                      }
+                                    else
+                                      {Navigator.of(context).pop()}
+                                  };
+                          },
+                        )
                       ],
                     )
                   ],

@@ -23,7 +23,7 @@ class ProductsListNotifier extends ChangeNotifier {
   }
 
   Future<void> addItem(String item) async {
-    _productsListNotifier.add(item);
+    productsListNotifier.add(item);
     await _saveList();
     _loadList();
     notifyListeners();
