@@ -1,4 +1,5 @@
 import 'package:app_tienda_comida/provider/theme_provider.dart';
+import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,14 @@ class _SettingsState extends State<Settings> {
     bool flag = notifier.themeData;
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          foregroundColor: secondary,
+          backgroundColor: primary,
+          title: Text(
+            'Configuraciones',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
         body: Column(
           children: [
             SizedBox(

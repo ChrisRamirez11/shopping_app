@@ -25,17 +25,13 @@ class CartSupabaseProvider {
         .from('carts')
         .update({'quantity': newQuantity}).eq('id', cartId);
 
-    if (response.error != null) {
-      print('Error updating cart item: ${response.error!.message}');
-    }
+    print('$response');
   }
 
   Future<void> deleteCartItem(String cartId, int newQuantity) async {
     final response = await supabase.from('carts').delete().eq('id', cartId);
 
-    if (response.error != null) {
-      print('Error updating cart item: ${response.error!.message}');
-    }
+    print('$response');
   }
 
   //getCart
