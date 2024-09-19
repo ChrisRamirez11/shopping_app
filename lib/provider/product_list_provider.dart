@@ -16,21 +16,12 @@ class ProductsListNotifier extends ChangeNotifier {
   }
 
   Future<void> _loadList() async {
-    prefs.productsTypesList = await FetchingProductsTypes().productsTypesList();
-    final List<String> list = prefs.productsTypesList;
-    _productsListNotifier = list;
+    _productsListNotifier = await FetchingProductsTypes().productsTypesList();
     notifyListeners();
   }
 
-  Future<void> addItem(String item) async {
+  void addItem(String item) {
     productsListNotifier.add(item);
-    await _saveList();
-    _loadList();
-    notifyListeners();
-  }
-
-  Future<void> _saveList() async {
-    prefs.productsTypesList = productsListNotifier;
     notifyListeners();
   }
 }
