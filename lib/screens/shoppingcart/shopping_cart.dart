@@ -145,9 +145,17 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       const Expanded(child: SizedBox()),
                       IconButton(
                         iconSize: 24,
-                        icon: const Icon(Icons.delete),
+                        icon: Icon(Icons.delete),
                         onPressed: () {
                           // Implement delete functionality here
+                          setState(() {
+                            cartItems!.removeWhere(
+                              (element) => element.id.contains(cartItem.id),
+                            );
+                          });
+                          cartSupabaseProvider.deleteCartItem(
+                            cartItem.id,
+                          );
                         },
                       ),
                     ],

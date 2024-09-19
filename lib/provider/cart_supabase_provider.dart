@@ -28,7 +28,7 @@ class CartSupabaseProvider {
     print('$response');
   }
 
-  Future<void> deleteCartItem(String cartId, int newQuantity) async {
+  Future<void> deleteCartItem(String cartId) async {
     final response = await supabase.from('carts').delete().eq('id', cartId);
 
     print('$response');
