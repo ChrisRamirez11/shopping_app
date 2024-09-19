@@ -105,7 +105,7 @@ ThemeData themeDark = ThemeData.dark().copyWith(
         cursorColor: white,
         selectionColor: white.withOpacity(0.30),
         selectionHandleColor: white.withOpacity(0.8)),
-
+    cardColor: primary.withOpacity(0.1),
     //Color Scheme
     //
     colorScheme: ColorScheme.fromSeed(

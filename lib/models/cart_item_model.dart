@@ -3,7 +3,7 @@ import 'dart:convert';
 class CartItem {
   String id;
   String userId;
-  String productId;
+  int productId;
   int quantity;
 
   CartItem({

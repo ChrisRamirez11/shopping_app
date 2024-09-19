@@ -3,16 +3,14 @@ import 'package:app_tienda_comida/models/cart_item_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CartSupabaseProvider {
+  //TODO try catchs
   //addToCart
   //
   Future<void> addToCart(String userId, String productId, int quantity) async {
     final response = await supabase.from('carts').upsert(
         {'user_id': userId, 'product_id': productId, 'quantity': quantity},
         onConflict: 'product_id');
-
-    if (response.error != null) {
-      print('Error adding to cart: ${response.error!.message}');
-    }
+    print(response);
   }
 
   //updateCart
