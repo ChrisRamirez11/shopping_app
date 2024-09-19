@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/screens/shoppingcart/shopping_cart.dart';
 import 'package:app_tienda_comida/utils/account_validation.dart';
@@ -6,6 +9,7 @@ import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
 import 'package:double_tap_to_exit/double_tap_to_exit.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeSreen extends StatefulWidget {
   const HomeSreen({super.key});
@@ -22,6 +26,8 @@ class _HomeSreenState extends State<HomeSreen> {
 
   @override
   Widget build(BuildContext context) {
+    final productListNotifier = Provider.of<ProductsListNotifier>(context);
+    log(productListNotifier.productsListNotifier.toString());
     String appBarTitle = 'Inicio';
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return SafeArea(
