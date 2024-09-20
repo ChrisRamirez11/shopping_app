@@ -12,6 +12,12 @@ class CustomizedBottomSheet extends StatefulWidget {
 }
 
 class _CustomizedBottomSheetState extends State<CustomizedBottomSheet> {
+  /*
+  TODO hay que poner lo de que si no tiene descripcion que diga sin descripcion,
+  -que si no esta en stock que diga sin stock, el boton que sea para añadir al carrito,
+  -quitar los botones esos del final y probablemente poner ahi el boton de añadir al carrito
+  -si no esta en stock no se puede añadir(esto tambien hacerlo en grid_view_widget en add)
+  */
   @override
   Widget build(BuildContext context) {
     Product product = widget.product;
@@ -19,14 +25,14 @@ class _CustomizedBottomSheetState extends State<CustomizedBottomSheet> {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.7,
       child: Padding(
-        padding: EdgeInsets.only(top: 20),
+        padding: const EdgeInsets.only(top: 20),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.66,
                 width: MediaQuery.of(context).size.width,
                 child: SheetBottomWidget(
@@ -65,14 +71,13 @@ class SheetBottomWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-            padding: EdgeInsets.all(25),
+            padding: const EdgeInsets.all(25),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: CachedNetworkImage(
-                  imageUrl: product.pic,
-                  placeholder: (context, url) =>
-                      const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                child: SizedBox(
+                  height: 200,
+                  width: 300,
+                  child: _loadImage(product),
                 ))),
         Center(
           child: Text(
@@ -81,12 +86,12 @@ class SheetBottomWidget extends StatelessWidget {
           ),
         ),
         Padding(
-            padding: EdgeInsets.all(12),
-            child: Container(
+            padding: const EdgeInsets.all(12),
+            child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.19,
                 child: Text(
                   'Descripción: $descripcion',
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ))),
         Center(
           child: Text(product.price.toString()),
@@ -96,17 +101,36 @@ class SheetBottomWidget extends StatelessWidget {
           children: [
             ElevatedButton.icon(
               onPressed: onAgregar,
-              icon: Icon(Icons.add),
-              label: Text('Añadir'),
+              icon: const Icon(Icons.add),
+              label: const Text('Añadir'),
             ),
             ElevatedButton.icon(
               onPressed: onEliminar,
-              icon: Icon(Icons.remove),
-              label: Text('Eliminar'),
+              icon: const Icon(Icons.remove),
+              label: const Text('Eliminar'),
             ),
           ],
         )
       ],
     );
+  }
+
+  _loadImage(Product product) {
+    String pic = product.pic;
+
+    if (pic.isNotEmpty) {
+      return CachedNetworkImage(
+        fit: BoxFit.fill,
+        imageUrl: pic,
+        placeholder: (context, url) =>
+            const Center(child: CircularProgressIndicator()),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+      );
+    } else {
+      return const Image(
+        fit: BoxFit.fill,
+        image: AssetImage('assets/images/no-image.png'),
+      );
+    }
   }
 }

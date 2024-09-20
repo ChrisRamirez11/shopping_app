@@ -72,6 +72,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
               children: [
                 getTopBar(size),
                 getListView(size),
+                //TODO Total y precios etc
               ],
             ),
     );
@@ -79,7 +80,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   Widget getListView(Size size) {
     return SizedBox(
-      height: size.height * 0.80,
+      height: size.height * 0.76,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
