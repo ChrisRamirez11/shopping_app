@@ -30,20 +30,28 @@ class _ShoppingCartState extends State<ShoppingCart> {
     CartSupabaseProvider cartSupabaseProvider = CartSupabaseProvider();
 
     // Fetch cart items
-    cartItems = await cartSupabaseProvider.getCart(userId);
+    if (mounted) {
+      cartItems = await cartSupabaseProvider.getCart(userId);
+    }
 
     // Fetch products for all cart items
-    await fetchProductsForCartItems();
+    if (mounted) {
+      await fetchProductsForCartItems();
+    }
 
-    setState(() {
-      isLoading = false; // Set loading to false after fetching
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = false; // Set loading to false after fetching
+      });
+    }
   }
 
   Future<void> fetchProductsForCartItems() async {
     for (var item in cartItems!) {
-      final product = await fetchProduct(item.productId);
-      productMap[item.productId] = product; // Store in map
+      if (mounted) {
+        final product = await fetchProduct(item.productId);
+        productMap[item.productId] = product; // Store in map
+      }
     }
   }
 
@@ -83,7 +91,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
   }
 
   Widget getTopBar(Size size) {
-    //TODO Edit this
+    //TODO Edit this, maybe a button to start buying.
     return Container(
       color: primary,
       height: size.height * 0.065,
@@ -145,7 +153,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       const Expanded(child: SizedBox()),
                       IconButton(
                         iconSize: 24,
-                        icon: Icon(Icons.delete),
+                        icon: const Icon(Icons.delete),
                         onPressed: () {
                           // Implement delete functionality here
                           setState(() {
