@@ -4,6 +4,7 @@ import 'package:app_tienda_comida/provider/cart_supabase_provider.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/utils/account_validation.dart';
+import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
 import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';
 import 'package:flutter/material.dart';
@@ -92,11 +93,11 @@ class _GridViewWidgetState extends State<GridViewWidget> {
   }
 
   _createGridTile(BuildContext context, int index, data) {
-    final product = data[index];
+    final Product product = Product.fromJson(data[index]);
     return GridTile(
         header: GridTileBar(
           title: Center(
-            child: Text(product['type'],
+            child: Text(product.type,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.titleMedium),
           ),
@@ -125,7 +126,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                         width: 110,
                         child: Text(
                           overflow: TextOverflow.ellipsis,
-                          product['name'].toString(),
+                          product.name,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
@@ -133,7 +134,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                         width: 110,
                         child: Text(
                           overflow: TextOverflow.ellipsis,
-                          product['price'].toString(),
+                          product.price.toString(),
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                       )
@@ -143,14 +144,26 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                 Expanded(child: Container()),
                 IconButton(
                     onPressed: () {
-                      //TODO fix this, is provisional
                       if (!isAccountFinished(context)) {
                         return;
                       }
+                      if (!hasStock(product)) {
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Producto agotado')));
+                          return;
+                        }
+                      }
                       CartSupabaseProvider().addToCart(
                           supabase.auth.currentSession!.user.id,
-                          product['id'].toString(),
+                          product.id.toString(),
                           1);
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Producto añadido con éxito')));
+                      }
                     },
                     icon: const Icon(Icons.add)),
               ],
@@ -159,10 +172,10 @@ class _GridViewWidgetState extends State<GridViewWidget> {
         ));
   }
 
-  _loadImage(product) {
-    if (product['pic'].toString().isNotEmpty) {
+  _loadImage(Product product) {
+    if (product.pic.isNotEmpty) {
       return CachedNetworkImage(
-        imageUrl: product['pic'],
+        imageUrl: product.pic,
         placeholder: (context, url) =>
             const Center(child: CircularProgressIndicator()),
         errorWidget: (context, url, error) => const Icon(Icons.error),
