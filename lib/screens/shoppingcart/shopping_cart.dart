@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/Producto.dart';
 import 'package:app_tienda_comida/models/cart_item_model.dart';
 import 'package:app_tienda_comida/provider/cart_supabase_provider.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
+import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -73,6 +76,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 getTopBar(size),
                 getListView(size),
                 //TODO Total y precios etc
+                getPricing(size)
               ],
             ),
     );
@@ -80,7 +84,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   Widget getListView(Size size) {
     return SizedBox(
-      height: size.height * 0.76,
+      height: size.height * 0.80,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
@@ -109,10 +113,14 @@ class _ShoppingCartState extends State<ShoppingCart> {
   Widget getListTile(CartItem cartItem) {
     Product product = productMap[cartItem.productId]!; // Get product from map
     int quantity = cartItem.quantity;
+    final quantityController = TextEditingController.fromValue(TextEditingValue(
+        text: quantity.toString(),
+        selection: TextSelection(
+            baseOffset: 0, extentOffset: quantity.toString().length)));
 
     return Card(
+        elevation: 5,
         color: Theme.of(context).cardColor,
-        elevation: 10,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(children: [
@@ -145,10 +153,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
             ),
             const SizedBox(width: 16),
             Expanded(
-              flex: 3,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
+                flex: 2,
+                child:
+                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
                   Row(
                     children: [
                       const Expanded(child: SizedBox()),
@@ -156,7 +163,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         iconSize: 24,
                         icon: const Icon(Icons.delete),
                         onPressed: () {
-                          // Implement delete functionality here
                           setState(() {
                             cartItems!.removeWhere(
                               (element) => element.id.contains(cartItem.id),
@@ -172,47 +178,85 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   Row(
                     children: [
                       const Expanded(child: SizedBox()),
-                      IconButton(
-                        iconSize: 24,
-                        icon: const Icon(Icons.remove),
-                        onPressed: () {
-                          setState(() {
-                            if (quantity > 1) {
-                              quantity--; // Prevent negative quantity
-                              cartItem.quantity =
-                                  quantity; // Update CartItem quantity
+                      SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: TextFormField(
+                          controller: quantityController,
+                          maxLength: 3,
+                          textAlign: TextAlign.center,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: const TextInputType.numberWithOptions(
+                              signed: false, decimal: false),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            contentPadding: EdgeInsets.all(5),
+                          ),
+                          onChanged: (value) => quantityController.text = value,
+                          onFieldSubmitted: (value) {
+                            if (!isNumeric(value)) {
+                              return;
+                            }
+
+                            int parsedValue = int.parse(value);
+
+                            int limitedValue =
+                                min(parsedValue, _getLimit(product));
+                            if (limitedValue < 1) {
+                              limitedValue = 1;
+                            }
+
+                            setState(() {
+                              quantityController.text = limitedValue.toString();
+                              quantity = limitedValue;
+                              cartItem.quantity = quantity;
                               cartSupabaseProvider.updateCartItem(
                                   cartItem.id, quantity);
-                            }
-                          });
-                        },
-                      ),
-                      Text('$quantity'),
-                      IconButton(
-                        iconSize: 24,
-                        icon: const Icon(Icons.add),
-                        onPressed: () {
-                          setState(() {
-                            quantity++; // Increase quantity
-                            cartItem.quantity =
-                                quantity; // Update CartItem quantity
-                            cartSupabaseProvider.updateCartItem(
-                                cartItem.id, quantity);
-                          });
-                        },
-                      ),
+                            });
+                          },
+                        ),
+                      )
                     ],
-                  )
-                ],
-              ),
-            ),
+                  ),
+                ]))
           ]),
         ));
+  }
+
+  getPricing(Size size) {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+          color: primary.withOpacity(0.5),
+        ),
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Total:',
+              style: Theme.of(context).textTheme.headlineMedium,
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
 
 //functions
 //
+int _getLimit(Product product) {
+  int limit;
+  if (product.availability) {
+    limit = 100;
+  } else {
+    limit = product.quantity;
+  }
+  return limit;
+}
 
 Future<Product> fetchProduct(int productId) async {
   final response =

@@ -156,14 +156,10 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                         }
                       }
                       CartSupabaseProvider().addToCart(
+                          context,
                           supabase.auth.currentSession!.user.id,
                           product.id.toString(),
                           1);
-                      if (mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Producto añadido con éxito')));
-                      }
                     },
                     icon: const Icon(Icons.add)),
               ],

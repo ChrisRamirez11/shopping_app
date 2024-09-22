@@ -53,7 +53,6 @@ ThemeData theme = ThemeData(
       borderSide: BorderSide(color: tertiary),
     ),
   ),
-
   //TextSelectionTheme
   //
   textSelectionTheme: TextSelectionThemeData(
@@ -68,11 +67,12 @@ ThemeData theme = ThemeData(
 //
 ThemeData themeDark = ThemeData.dark().copyWith(
     textTheme: TextTheme(
-      bodyLarge: const TextStyle(),
+      bodyLarge: const TextStyle(fontWeight: FontWeight.bold),
       bodyMedium: const TextStyle(fontWeight: FontWeight.bold),
       bodySmall: const TextStyle(fontWeight: FontWeight.bold),
       headlineLarge: TextStyle(color: white),
-      headlineMedium: const TextStyle(fontWeight: FontWeight.bold),
+      headlineMedium: TextStyle(
+          fontWeight: FontWeight.bold, color: tertiary.withOpacity(0.87)),
       headlineSmall: TextStyle(color: white),
       titleLarge: TextStyle(
           color: tertiary.withOpacity(0.87), fontWeight: FontWeight.bold),

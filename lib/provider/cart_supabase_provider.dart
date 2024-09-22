@@ -2,17 +2,24 @@ import 'dart:developer';
 
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/cart_item_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CartSupabaseProvider {
   //addToCart
   //
-  Future<void> addToCart(String userId, String productId, int quantity) async {
+  Future<void> addToCart(BuildContext context, String userId, String productId,
+      int quantity) async {
     try {
-      final response = await supabase.from('carts').insert(
+      await supabase.from('carts').insert(
           {'user_id': userId, 'product_id': productId, 'quantity': quantity});
-
-      log('${response}addToCart');
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Producto agregado con éxito'),
+          duration: Duration(milliseconds: 1000),
+        ));
+      });
     } on AuthException catch (e) {
       log('$e');
     } catch (e) {
