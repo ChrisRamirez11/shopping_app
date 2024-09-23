@@ -21,6 +21,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
   List<CartItem>? cartItems;
   Map<int, Product> productMap = {}; // Store products by their IDs
   bool isLoading = true; // Loading state
+  double totalPrice = 0;
 
   @override
   void initState() {
@@ -50,12 +51,21 @@ class _ShoppingCartState extends State<ShoppingCart> {
   }
 
   Future<void> fetchProductsForCartItems() async {
+    double totalPrice = 0;
     for (var item in cartItems!) {
       if (mounted) {
         final product = await fetchProduct(item.productId);
         productMap[item.productId] = product; // Store in map
+
+        // Update totalPrice
+        totalPrice += product.price * item.quantity;
       }
     }
+
+    setState(() {
+      isLoading = false;
+      this.totalPrice = totalPrice;
+    });
   }
 
   @override
@@ -76,7 +86,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 getTopBar(size),
                 getListView(size),
                 //TODO Total y precios etc
-                getPricing(size)
+                getTotals(size)
               ],
             ),
     );
@@ -213,6 +223,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                               cartItem.quantity = quantity;
                               cartSupabaseProvider.updateCartItem(
                                   cartItem.id, quantity);
+                              calculateNewTotal();
                             });
                           },
                         ),
@@ -224,25 +235,63 @@ class _ShoppingCartState extends State<ShoppingCart> {
         ));
   }
 
-  getPricing(Size size) {
+  getTotals(Size size) {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
-          color: primary.withOpacity(0.5),
+          color: primary.withOpacity(0.7),
         ),
         width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Total:',
-              style: Theme.of(context).textTheme.headlineMedium,
-            )
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              flex: 3,
+              child: RichText(
+                text: TextSpan(
+                  text: 'Total: ',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  children: [
+                    TextSpan(
+                      text: '\$',
+                      children: [TextSpan(text: '$totalPrice')],
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+                flex: 1,
+                child: IconButton.filled(
+                    style: const ButtonStyle(
+                        iconSize: WidgetStatePropertyAll(40),
+                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(0))))),
+                    onPressed: () {},
+                    icon: const Icon(
+                        weight: 10, Icons.arrow_circle_right_outlined)))
           ],
         ),
       ),
     );
+  }
+
+  void calculateNewTotal() {
+    double newTotalPrice = 0;
+    for (var item in cartItems!) {
+      final product = productMap[item.productId]!;
+      newTotalPrice += product.price * item.quantity;
+    }
+    setState(() {
+      totalPrice = newTotalPrice;
+    });
   }
 }
 
@@ -267,6 +316,7 @@ Future<Product> fetchProduct(int productId) async {
 _loadImage(Product product) {
   if (product.pic.toString().isNotEmpty) {
     return CachedNetworkImage(
+      cacheManager: null,
       imageUrl: product.pic,
       placeholder: (context, url) =>
           const Center(child: CircularProgressIndicator()),

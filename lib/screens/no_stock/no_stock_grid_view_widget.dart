@@ -148,6 +148,7 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
   _loadImage(product) {
     if (product['pic'].toString().isNotEmpty) {
       return CachedNetworkImage(
+        cacheManager: null,
         imageUrl: product['pic'],
         placeholder: (context, url) =>
             const Center(child: CircularProgressIndicator()),

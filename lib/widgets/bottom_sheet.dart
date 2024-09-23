@@ -120,7 +120,8 @@ class SheetBottomWidget extends StatelessWidget {
 
     if (pic.isNotEmpty) {
       return CachedNetworkImage(
-        fit: BoxFit.fill,
+        cacheManager: null,
+        fit: BoxFit.contain,
         imageUrl: pic,
         placeholder: (context, url) =>
             const Center(child: CircularProgressIndicator()),
@@ -128,7 +129,7 @@ class SheetBottomWidget extends StatelessWidget {
       );
     } else {
       return const Image(
-        fit: BoxFit.fill,
+        fit: BoxFit.contain,
         image: AssetImage('assets/images/no-image.png'),
       );
     }

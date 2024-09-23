@@ -4,7 +4,7 @@ import 'dart:io';
 
 Future<XFile> compressImage({
   required XFile imageFile,
-  int quality = 95,
+  int quality = 30,
   CompressFormat format = CompressFormat.jpeg,
 }) async {
   final String targetPath =

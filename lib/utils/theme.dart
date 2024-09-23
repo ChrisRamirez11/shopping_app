@@ -11,6 +11,7 @@ ThemeData theme = ThemeData(
   primaryColor: white,
   textTheme: TextTheme(
     bodyLarge: const TextStyle(
+      fontWeight: FontWeight.bold,
       color: tertiary,
     ),
     bodyMedium: const TextStyle(color: tertiary, fontWeight: FontWeight.bold),
@@ -71,8 +72,7 @@ ThemeData themeDark = ThemeData.dark().copyWith(
       bodyMedium: const TextStyle(fontWeight: FontWeight.bold),
       bodySmall: const TextStyle(fontWeight: FontWeight.bold),
       headlineLarge: TextStyle(color: white),
-      headlineMedium: TextStyle(
-          fontWeight: FontWeight.bold, color: tertiary.withOpacity(0.87)),
+      headlineMedium: TextStyle(fontWeight: FontWeight.bold, color: white),
       headlineSmall: TextStyle(color: white),
       titleLarge: TextStyle(
           color: tertiary.withOpacity(0.87), fontWeight: FontWeight.bold),

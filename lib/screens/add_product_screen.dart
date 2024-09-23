@@ -408,7 +408,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       child: Image(
         image: _loadImage(),
         height: 300,
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
       ),
     );
   }

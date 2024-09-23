@@ -134,7 +134,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                         width: 110,
                         child: Text(
                           overflow: TextOverflow.ellipsis,
-                          product.price.toString(),
+                          '\$${product.price.toString()}',
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                       )
@@ -171,6 +171,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
   _loadImage(Product product) {
     if (product.pic.isNotEmpty) {
       return CachedNetworkImage(
+        cacheManager: null,
         imageUrl: product.pic,
         placeholder: (context, url) =>
             const Center(child: CircularProgressIndicator()),
