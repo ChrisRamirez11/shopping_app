@@ -17,7 +17,7 @@ class CartSupabaseProvider {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Producto agregado con éxito'),
-          duration: Duration(milliseconds: 1000),
+          duration: Duration(milliseconds: 500),
         ));
       });
     } on AuthException catch (e) {

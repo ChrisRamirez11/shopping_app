@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
+import 'package:app_tienda_comida/screens/search_screen.dart';
 import 'package:app_tienda_comida/screens/shoppingcart/shopping_cart.dart';
 import 'package:app_tienda_comida/utils/account_validation.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
@@ -57,7 +58,11 @@ class _HomeSreenState extends State<HomeSreen> {
             backgroundColor: primary,
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () async {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SearchScreen(),
+                  ));
+                },
                 icon: const Icon(Icons.search_outlined),
               ),
               IconButton(

@@ -14,7 +14,7 @@ ThemeData theme = ThemeData(
       fontWeight: FontWeight.bold,
       color: tertiary,
     ),
-    bodyMedium: const TextStyle(color: tertiary, fontWeight: FontWeight.bold),
+    bodyMedium: TextStyle(color: white, fontWeight: FontWeight.bold),
     bodySmall: const TextStyle(color: tertiary, fontWeight: FontWeight.bold),
     headlineLarge: const TextStyle(color: tertiary),
     headlineMedium:

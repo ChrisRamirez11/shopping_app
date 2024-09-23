@@ -151,6 +151,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                         if (mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
+                                  duration: Duration(milliseconds: 500),
                                   content: Text('Producto agotado')));
                           return;
                         }
