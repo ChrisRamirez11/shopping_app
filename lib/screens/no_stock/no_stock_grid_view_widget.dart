@@ -138,7 +138,6 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
                   ),
                 ),
                 Expanded(child: Container()),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
               ],
             )
           ]),

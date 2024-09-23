@@ -82,12 +82,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
       child: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(
-              children: [
-                getTopBar(size),
-                getListView(size),
-                //TODO Total y precios etc
-                getTotals(size)
-              ],
+              children: [getTopBar(size), getListView(size), getTotals(size)],
             ),
     );
   }
@@ -106,7 +101,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
   }
 
   Widget getTopBar(Size size) {
-    //TODO Edit this, maybe a button to start buying.
     return Container(
       color: primary,
       height: size.height * 0.065,
