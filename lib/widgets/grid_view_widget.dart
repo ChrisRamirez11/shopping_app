@@ -1,10 +1,7 @@
-import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/producto.dart';
-import 'package:app_tienda_comida/provider/cart_supabase_provider.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
-import 'package:app_tienda_comida/utils/account_validation.dart';
-import 'package:app_tienda_comida/utils/utils.dart';
+import 'package:app_tienda_comida/utils/account_addition.dart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
 import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';
 import 'package:flutter/material.dart';
@@ -143,23 +140,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                 Expanded(child: Container()),
                 IconButton(
                     onPressed: () {
-                      if (!isAccountFinished(context)) {
-                        return;
-                      }
-                      if (!hasStock(product)) {
-                        if (mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  duration: Duration(milliseconds: 500),
-                                  content: Text('Producto agotado')));
-                          return;
-                        }
-                      }
-                      CartSupabaseProvider().addToCart(
-                          context,
-                          supabase.auth.currentSession!.user.id,
-                          product.id.toString(),
-                          1);
+                      accountAddition(context, product);
                     },
                     icon: const Icon(Icons.add)),
               ],

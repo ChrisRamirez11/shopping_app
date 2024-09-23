@@ -361,7 +361,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 title: Center(
                     child: Text(
                   'ERROR',
-                  style: TextStyle(color: Colors.red.shade300),
+                  style: TextStyle(color: errorColor),
                 )),
                 content: const Text('El producto ya existe'),
                 actions: [

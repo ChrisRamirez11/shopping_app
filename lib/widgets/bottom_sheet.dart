@@ -1,3 +1,4 @@
+import 'package:app_tienda_comida/utils/account_addition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -37,8 +38,9 @@ class _CustomizedBottomSheetState extends State<CustomizedBottomSheet> {
                 width: MediaQuery.of(context).size.width,
                 child: SheetBottomWidget(
                     product: product,
-                    onAgregar: () {},
-                    onEliminar: () {},
+                    onAgregar: () {
+                      accountAddition(context, product);
+                    },
                     descripcion: product.description),
               ),
             ],
@@ -54,14 +56,12 @@ class SheetBottomWidget extends StatelessWidget {
   final Product product;
   final String descripcion; // Descripción del producto
   final Function() onAgregar; // Callback para añadir un elemento
-  final Function() onEliminar; // Callback para eliminar un elemento
   // Callback para eliminar un producto
 
   const SheetBottomWidget(
       {Key? key,
       required this.product,
       required this.onAgregar,
-      required this.onEliminar,
       required this.descripcion})
       : super(key: key);
 
@@ -103,11 +103,6 @@ class SheetBottomWidget extends StatelessWidget {
               onPressed: onAgregar,
               icon: const Icon(Icons.add),
               label: const Text('Añadir'),
-            ),
-            ElevatedButton.icon(
-              onPressed: onEliminar,
-              icon: const Icon(Icons.remove),
-              label: const Text('Eliminar'),
             ),
           ],
         )

@@ -4,6 +4,7 @@ Color primary = const Color.fromARGB(255, 243, 33, 33);
 Color secondary = const Color.fromARGB(255, 244, 241, 54);
 const Color tertiary = Colors.black;
 Color white = Colors.white;
+Color errorColor = Colors.red.shade300;
 
 //ThemeData
 //
