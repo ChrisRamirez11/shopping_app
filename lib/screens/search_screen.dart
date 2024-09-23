@@ -1,5 +1,7 @@
 import 'package:app_tienda_comida/main.dart';
+import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
+import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -50,8 +52,8 @@ class _SearchScreenState extends State<SearchScreen> {
             child: ListView.builder(
               itemCount: _results?.length ?? 0,
               itemBuilder: (context, index) {
-                final product = _results![index];
-                return ListTile(title: Text(product['name']));
+                final product = Product.fromJson(_results![index]);
+                return getListTile(product);
               },
             ),
           ),
@@ -66,4 +68,21 @@ class _SearchScreenState extends State<SearchScreen> {
 
     return response;
   }
+
+  Widget getListTile(Product product) {
+    return ListTile(
+      title: Text(product.name),
+      onTap: () => displayButtomSheet(context, product),
+    );
+  }
+}
+
+Future displayButtomSheet(BuildContext context, Product product) async {
+  return showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.elliptical(400, 40),
+              topRight: Radius.elliptical(400, 40))),
+      builder: (context) => CustomizedBottomSheet(product: product));
 }

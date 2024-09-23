@@ -26,9 +26,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
   Widget build(BuildContext context) {
     var fetchData = _fetchDataSelector(widget.appBarTitle);
 
-    Future displayButtomSheet(BuildContext context, productMap) async {
-      Product product = Product.fromJson(productMap);
-
+    Future displayButtomSheet(BuildContext context, Product product) async {
       return showModalBottomSheet(
           context: context,
           shape: const RoundedRectangleBorder(
@@ -79,7 +77,8 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                 child: GestureDetector(
                   onLongPress: () => displayTopSheet(context, data[index]),
                   onTap: () {
-                    displayButtomSheet(context, data[index]);
+                    Product product = Product.fromJson(data[index]);
+                    displayButtomSheet(context, product);
                   },
                   child:
                       Container(child: _createGridTile(context, index, data)),
