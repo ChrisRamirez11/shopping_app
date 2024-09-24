@@ -1,4 +1,5 @@
-import 'package:app_tienda_comida/utils/account_addition.dart';
+import 'package:app_tienda_comida/utils/cart_addition.dart';
+import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -13,15 +14,10 @@ class CustomizedBottomSheet extends StatefulWidget {
 }
 
 class _CustomizedBottomSheetState extends State<CustomizedBottomSheet> {
-  /*
-  TODO hay que poner lo de que si no tiene descripcion que diga sin descripcion,
-  -que si no esta en stock que diga sin stock, el boton que sea para añadir al carrito,
-  -quitar los botones esos del final y probablemente poner ahi el boton de añadir al carrito
-  -si no esta en stock no se puede añadir(esto tambien hacerlo en grid_view_widget en add)
-  */
   @override
   Widget build(BuildContext context) {
     Product product = widget.product;
+    String description = _getDescription(product.description);
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.7,
@@ -39,15 +35,22 @@ class _CustomizedBottomSheetState extends State<CustomizedBottomSheet> {
                 child: SheetBottomWidget(
                     product: product,
                     onAgregar: () {
-                      accountAddition(context, product);
+                      cartAddition(context, product);
                     },
-                    descripcion: product.description),
+                    descripcion: description),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  String _getDescription(String des) {
+    if (des.isEmpty) {
+      return '-Sin Descripción-';
+    }
+    return des;
   }
 }
 
@@ -88,21 +91,61 @@ class SheetBottomWidget extends StatelessWidget {
         Padding(
             padding: const EdgeInsets.all(12),
             child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.19,
-                child: Text(
-                  'Descripción: $descripcion',
-                  style: const TextStyle(fontSize: 16),
-                ))),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.19,
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.1)),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Card(
+                      color: primary.withOpacity(0.1),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: SingleChildScrollView(
+                          child: Text(
+                            'Descripción: \n$descripcion',
+                            style: const TextStyle(fontSize: 16),
+                            textAlign: TextAlign.justify,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )),
         Center(
-          child: Text(product.price.toString()),
-        ), // Muestra la descripción del producto
+          child: Text('\$${product.price.toString()}'),
+        ),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             ElevatedButton.icon(
+              style: ButtonStyle(
+                  backgroundColor:
+                      WidgetStatePropertyAll(secondary.withOpacity(0.9)),
+                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)))),
               onPressed: onAgregar,
               icon: const Icon(Icons.add),
-              label: const Text('Añadir'),
+              label: const Text(
+                'Añadir',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
             ),
           ],
         )

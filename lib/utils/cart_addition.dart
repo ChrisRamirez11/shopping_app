@@ -6,7 +6,7 @@ import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
 
-accountAddition(BuildContext context, Product product) {
+cartAddition(BuildContext context, Product product) {
   if (!isAccountFinished(context)) {
     return;
   }

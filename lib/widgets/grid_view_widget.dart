@@ -1,7 +1,7 @@
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
-import 'package:app_tienda_comida/utils/account_addition.dart';
+import 'package:app_tienda_comida/utils/cart_addition.dart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
 import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';
 import 'package:flutter/material.dart';
@@ -140,7 +140,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                 Expanded(child: Container()),
                 IconButton(
                     onPressed: () {
-                      accountAddition(context, product);
+                      cartAddition(context, product);
                     },
                     icon: const Icon(Icons.add)),
               ],
