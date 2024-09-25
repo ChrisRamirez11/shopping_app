@@ -1,10 +1,8 @@
 import 'package:app_tienda_comida/main.dart';
-import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 bool isAccountFinished(BuildContext context) {
-  final prefs = PreferenciasUsuario();
   try {
     final session = supabase.auth.currentSession;
     if (session == null) {
