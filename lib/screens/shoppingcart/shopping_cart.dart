@@ -168,13 +168,16 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         icon: const Icon(Icons.delete),
                         onPressed: () {
                           setState(() {
+                            double productPrice =
+                                product.price * cartItem.quantity;
+
                             cartItems!.removeWhere(
-                              (element) => element.id.contains(cartItem.id),
-                            );
+                                (element) => element.id.contains(cartItem.id));
+
+                            totalPrice -= productPrice;
+
+                            cartSupabaseProvider.deleteCartItem(cartItem.id);
                           });
-                          cartSupabaseProvider.deleteCartItem(
-                            cartItem.id,
-                          );
                         },
                       ),
                     ],

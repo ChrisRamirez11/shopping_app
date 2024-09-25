@@ -36,7 +36,6 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       _fullNameController.text = (data['fullName'] ?? '') as String;
       _directionController.text = (data['direction'] ?? '') as String;
       _cellphoneController.text = (data['cellphone'] ?? '') as String;
-      prefs.user = _fullNameController.text;
     } on PostgrestException catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context)
@@ -87,7 +86,6 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       'direction': website,
       'cellphone': cellphone,
     };
-    prefs.user = fullName;
     try {
       await supabase.from('profiles').upsert(updates);
       if (mounted) {
@@ -119,7 +117,6 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   Future<void> _signOut() async {
     try {
       await supabase.auth.signOut();
-      prefs.user = '';
     } on AuthException catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context)

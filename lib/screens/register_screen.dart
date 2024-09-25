@@ -138,7 +138,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               elevation: 0.0),
           onPressed: snapshot.hasData
               ? () {
-                  prefs.user = bloc.name;
                   prefs.phoneNumber = bloc.phone;
                   Navigator.pushReplacement(
                       context,

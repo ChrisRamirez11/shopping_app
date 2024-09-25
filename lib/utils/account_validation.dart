@@ -13,7 +13,8 @@ bool isAccountFinished(BuildContext context) {
       return false;
     } else {
       //TODO que saque el id, y que haga una busqueda por el id, que coja el name y si esta vacio entonces hacer lo del if
-      if (prefs.user.isEmpty) {
+      final userId = supabase.auth.currentSession!.user.id;
+      if (userId.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Debe terminar de rellenar los datos de su perfil')));
         return false;
