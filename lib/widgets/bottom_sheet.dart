@@ -55,11 +55,11 @@ class _CustomizedBottomSheetState extends State<CustomizedBottomSheet> {
 }
 
 class SheetBottomWidget extends StatelessWidget {
-// La cantidad actual del carrito
   final Product product;
   final String descripcion; // Descripción del producto
   final Function() onAgregar; // Callback para añadir un elemento
-  // Callback para eliminar un producto
+
+  //TODO poner cuando esta o no esta en stock y la cantidad que hay
 
   const SheetBottomWidget(
       {Key? key,

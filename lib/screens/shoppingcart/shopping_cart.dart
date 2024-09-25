@@ -58,7 +58,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
         productMap[item.productId] = product; // Store in map
 
         // Update totalPrice
-        totalPrice += product.price * item.quantity;
+        totalPrice += product.price * _getQuantity(item, product);
+        cartSupabaseProvider.updateCartItem(
+            item.id, _getQuantity(item, product));
       }
     }
 
@@ -116,7 +118,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   Widget getListTile(CartItem cartItem) {
     Product product = productMap[cartItem.productId]!; // Get product from map
-    int quantity = cartItem.quantity;
+    int quantity = _getQuantity(cartItem, product);
     final quantityController = TextEditingController.fromValue(TextEditingValue(
         text: quantity.toString(),
         selection: TextSelection(
@@ -168,8 +170,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         icon: const Icon(Icons.delete),
                         onPressed: () {
                           setState(() {
-                            double productPrice =
-                                product.price * cartItem.quantity;
+                            double productPrice = product.price * quantity;
 
                             cartItems!.removeWhere(
                                 (element) => element.id.contains(cartItem.id));
@@ -289,6 +290,16 @@ class _ShoppingCartState extends State<ShoppingCart> {
     setState(() {
       totalPrice = newTotalPrice;
     });
+  }
+
+  int _getQuantity(CartItem cartItem, Product product) {
+    int pQuantity = product.quantity;
+
+    if (product.availability) {
+      pQuantity = 100;
+    }
+
+    return cartItem.quantity > pQuantity ? pQuantity : cartItem.quantity;
   }
 }
 
