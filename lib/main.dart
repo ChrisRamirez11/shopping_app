@@ -23,6 +23,7 @@ Future<void> main() async {
   await initNotifications();
   listenToTableChanges();
   //hasta aqui
+  
   final prefs = PreferenciasUsuario();
   await prefs.initPrefs();
   runApp(const MyApp());
