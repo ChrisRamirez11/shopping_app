@@ -44,7 +44,6 @@ class _CustomizedTopShetState extends State<CustomizedTopShet> {
 
 class _Eliminar extends StatelessWidget {
   const _Eliminar({
-    super.key,
     required this.widget,
   });
 
