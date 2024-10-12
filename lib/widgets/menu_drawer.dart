@@ -2,6 +2,8 @@ import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/account_relateds/redirect_screen.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/screens/no_stock/no_stock_products.dart';
+import 'package:app_tienda_comida/screens/orders_page.dart';
+import 'package:app_tienda_comida/utils/account_validation.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -91,10 +93,12 @@ class _MenuDrawerState extends State<MenuDrawer> {
             indent: 5,
             height: 0,
           ),
+          //TODO: DELETE THIS FOR USERS
           ListTile(
               leading: const Icon(Icons.remove_shopping_cart_outlined),
               title: const Text('Productos sin Stock'),
               onTap: () {
+                if(!isAccountFinished(context)) return;
                 if (widget.appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const NoStockProducts(),
@@ -102,6 +106,25 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 } else {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => const NoStockProducts(),
+                  ));
+                }
+              }),
+          const SizedBox(
+            height: 10,
+          ),
+          //hasta aqui
+          
+          ListTile(
+              leading: const Icon(Icons.shopping_cart_checkout_rounded),
+              title: const Text('Pedidos'),
+              onTap: () {
+                if (widget.appBarTitle.contains('Inicio')) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const OrdersPage(),
+                  ));
+                } else {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const OrdersPage(),
                   ));
                 }
               }),

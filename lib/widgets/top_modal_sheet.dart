@@ -69,7 +69,6 @@ class _Eliminar extends StatelessWidget {
 
 class _Editar extends StatelessWidget {
   const _Editar({
-    super.key,
     required this.widget,
   });
 
