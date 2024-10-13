@@ -14,14 +14,25 @@ class _OrdersPageState extends State<OrdersPage> {
   Widget build(BuildContext context) {
     String appBarTitle = 'Pedidos';
     return Scaffold(appBar: AppBar(
-            title: Center(
-              child: Text(
-                appBarTitle,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
+            title: Text(
+              appBarTitle,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             foregroundColor: secondary,
             backgroundColor: primary,),
-      body: Center(child: ElevatedButton(onPressed: () => getOrder(context), child: Icon(Icons.abc)),),);
+      body: FutureBuilder(future: getOrder(context), builder: (context, snapshot) {
+        if(!snapshot.hasData){
+          return CircularProgressIndicator();
+        }else{
+          final data = snapshot.data;
+          return ListView.builder(
+            itemCount: data!.length,
+            itemBuilder: (context, index) => getListTile(data[index]),);
+        }
+      },));
+  }
+  
+  getListTile(Map<String, dynamic> data) {
+    return ListTile(title: Text(data['id'].toString()),);
   }
 }

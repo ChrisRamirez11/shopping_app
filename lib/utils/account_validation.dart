@@ -10,6 +10,7 @@ bool isAccountFinished(BuildContext context) {
           .showSnackBar(const SnackBar(content: Text('Debe registrarse')));
       return false;
     } else {
+      //TODO arreglar es ver por el name en profiles
       final userId = supabase.auth.currentSession!.user.id;
       if (userId.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

@@ -28,6 +28,10 @@ ThemeData theme = ThemeData(
     titleSmall: const TextStyle(color: tertiary, fontWeight: FontWeight.normal),
   ),
 
+  //SnackBarTheme
+  //
+  snackBarTheme: SnackBarThemeData(behavior: SnackBarBehavior.floating),
+  
   //ScrollbarTheme
   //
   scrollbarTheme: const ScrollbarThemeData(
@@ -80,7 +84,10 @@ ThemeData themeDark = ThemeData.dark().copyWith(
       titleMedium: const TextStyle(fontWeight: FontWeight.normal),
       titleSmall: const TextStyle(fontWeight: FontWeight.normal),
     ),
-
+    //SnackBarTheme
+    //
+    snackBarTheme: SnackBarThemeData(behavior: SnackBarBehavior.floating),
+  
     //ScrollbarTheme
     //
     scrollbarTheme: const ScrollbarThemeData(

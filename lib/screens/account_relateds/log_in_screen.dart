@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:app_tienda_comida/main.dart';
@@ -48,12 +49,16 @@ class _LoginScreenState extends State<LoginScreen> {
     if (idToken == null) {
       throw 'No ID Token found.';
     }
-
+try{
     await supabase.auth.signInWithIdToken(
       provider: OAuthProvider.google,
       idToken: idToken,
       accessToken: accessToken,
     );
+//TODO
+}catch(e){
+  log('error');
+}
   }
 
   @override

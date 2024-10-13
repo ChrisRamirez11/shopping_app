@@ -23,7 +23,8 @@ Future<void> main() async {
   await initNotifications();
   listenToTableChanges();
   //hasta aqui
-  
+
+  // log(supabase.auth.currentUser!.role.toString());
   final prefs = PreferenciasUsuario();
   await prefs.initPrefs();
   runApp(const MyApp());

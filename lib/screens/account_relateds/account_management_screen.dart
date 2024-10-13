@@ -30,7 +30,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     });
 
     try {
-      final userId = supabase.auth.currentSession!.user.id;
+      final userId = supabase.auth.currentUser!.id;
       final data =
           await supabase.from('profiles').select().eq('id', userId).single();
       _fullNameController.text = (data['fullName'] ?? '') as String;
@@ -85,6 +85,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       'fullName': fullName,
       'direction': website,
       'cellphone': cellphone,
+      'email': user.email
     };
     try {
       await supabase.from('profiles').upsert(updates);
