@@ -1,23 +1,13 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
-class PDFPage extends StatelessWidget {
-  static const double inch = 72.0;
-  static const double cm = inch / 2.54;
-  @override
-  Widget build(BuildContext context) {
-    return  Scaffold(
-        appBar: AppBar(
-          title: Text('PDF Example'),
-        ),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () async {
+  const double inch = 72.0;
+  const double cm = inch / 2.54;
+  
+  void getPDf(BuildContext context, int orderID) async {
               final pdf = pw.Document();
 
               final icon = pw.MemoryImage(
@@ -49,14 +39,9 @@ class PDFPage extends StatelessWidget {
               );
 
               final output = await getDownloadsDirectory();
-              final file = File("${output?.path}/example.pdf");
+              final file = File("${output?.path}/$orderID.pdf");
               await file.writeAsBytes(await pdf.save());
-              log(file.path);
-            },
-            child: Text('Generar PDF'),
-          ),
-        ),
-      );
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Documento guardado en: \n${file.path}'), ));
   }
-}
+
 

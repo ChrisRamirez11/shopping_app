@@ -58,9 +58,13 @@ class _GridViewWidgetState extends State<GridViewWidget> {
           ? _productsProvider.productsStream
           : _productsProvider.getProduct(context, widget.appBarTitle),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) {
+        if(snapshot.hasError){
+          return const Center(child: Text('Ha ocurrido un Error'),);
+        }
+        else if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         }
+        else{
         final data = snapshot.data!;
         return GridView.builder(
           itemCount: data.length,
@@ -84,8 +88,9 @@ class _GridViewWidgetState extends State<GridViewWidget> {
             );
           },
         );
-      },
-    );
+      }
+  });
+    }
   }
 
   _createGridTile(BuildContext context, int index, data) {
@@ -172,4 +177,4 @@ class _GridViewWidgetState extends State<GridViewWidget> {
       return false;
     }
   }
-}
+

@@ -2,14 +2,14 @@ import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/account_relateds/redirect_screen.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/screens/no_stock/no_stock_products.dart';
-import 'package:app_tienda_comida/screens/orders_page.dart';
+import 'package:app_tienda_comida/screens/orders_screen.dart';
 import 'package:app_tienda_comida/utils/account_validation.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // import '../screens/favorites_screen.dart';
-import '../screens/settings.dart';
+import '../screens/settings_screen.dart';
 
 class MenuDrawer extends StatefulWidget {
   final String appBarTitle;
@@ -121,11 +121,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 if(!isAccountFinished(context)) return;
                 if (widget.appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const OrdersPage(),
+                    builder: (context) => const OrdersScreen(),
                   ));
                 } else {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const OrdersPage(),
+                    builder: (context) => const OrdersScreen(),
                   ));
                 }
               }),

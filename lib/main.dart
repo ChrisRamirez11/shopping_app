@@ -22,9 +22,8 @@ Future<void> main() async {
   //TODO Eliminar para users
   await initNotifications();
   listenToTableChanges();
-  //hasta aqui
+  //*hasta aqui
 
-  // log(supabase.auth.currentUser!.role.toString());
   final prefs = PreferenciasUsuario();
   await prefs.initPrefs();
   runApp(const MyApp());
