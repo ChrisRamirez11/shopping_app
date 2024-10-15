@@ -1,9 +1,11 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/Producto.dart';
 import 'package:app_tienda_comida/models/cart_item_model.dart';
+import 'package:app_tienda_comida/models/shopping_list/order.dart';
 import 'package:app_tienda_comida/provider/cart_supabase_provider.dart';
+import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -22,7 +24,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
   Map<int, Product> productMap = {}; // Store products by their IDs
   bool isLoading = true; // Loading state
   double totalPrice = 0;
-
+  final userId = supabase.auth.currentUser!.id;
   @override
   void initState() {
     super.initState();
@@ -30,7 +32,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
   }
 
   Future<void> fetchCartItems() async {
-    final userId = supabase.auth.currentSession!.user.id;
     CartSupabaseProvider cartSupabaseProvider = CartSupabaseProvider();
 
     // Fetch cart items
@@ -210,7 +211,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                             int parsedValue = int.parse(value);
 
                             int limitedValue =
-                                min(parsedValue, _getLimit(product));
+                                math.min(parsedValue, _getLimit(product));
                             if (limitedValue < 1) {
                               limitedValue = 1;
                             }
@@ -272,7 +273,27 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(0))))),
-                    onPressed: () {},
+                    onPressed: () {
+                      //TODO CHECK THAT IS DONDE
+                      //usar ShoppingList para guardar la lista de OrderedProducts en la BD
+                      //entonces lo que me devuelve usarlo para crear Order
+
+                      //*INSERT ORDER
+                      final orderedProductsMap =
+                          ShoppingListModel(cartItems: cartItems!)
+                              .getOrder()
+                              .map(
+                                (e) => e.toJson(),
+                              )
+                              .toList()
+                              .asMap();
+                      final order = Order(
+                          id: 0,
+                          userId: userId,
+                          orderedProductsMap: orderedProductsMap,
+                          total: totalPrice);
+                      OrdersProviderSupabase().insertOrder(context, order);
+                    },
                     icon: const Icon(
                         weight: 10, Icons.arrow_circle_right_outlined)))
           ],

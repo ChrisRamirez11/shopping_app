@@ -24,32 +24,35 @@ class _OrdersScreenState extends State<OrdersScreen> {
           backgroundColor: primary,
         ),
         body: FutureBuilder(
-          future: getOrder(context),
+          future: OrdersProviderSupabase().getOrder(context),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator());
             } else {
-              final data = snapshot.data;
+              final OrderMap = snapshot.data;
               return ListView.builder(
-                itemCount: data!.length,
-                itemBuilder: (context, index) => getListTile(data[index]),
+                itemCount: OrderMap!.length,
+                itemBuilder: (context, index) => getListTile(OrderMap[index]),
               );
             }
           },
         ));
   }
 
-  getListTile(Map<String, dynamic> data) {
+  getListTile(Map<String, dynamic> OrderMap) {
     return Card(
         child: SizedBox(
       height: 70,
       child: ListTile(
         title: Text('ID del Pedido:'),
-        subtitle: Text('#${data['id'].toString()}'),
+        subtitle: Text('#${OrderMap['id'].toString()}'),
         trailing: IconButton(
-            onPressed: () => getPDf(context, data['id']),
+            onPressed: () => getPDf(context, OrderMap),
             icon: Icon(Icons.download)),
         isThreeLine: true,
+        onTap: () {
+          //TODO SHOW DIALOG
+        },
       ),
     ));
   }

@@ -8,4 +8,7 @@ class OrderedProduct {
     required this.quantity,
     required this.price,
   });
+  
+  Map<String, dynamic> toJson() =>
+      {"name": name, "quantity": quantity, "price": price};
 }
