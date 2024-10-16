@@ -33,7 +33,7 @@ class Order {
 }
 
 class ShoppingListModel {
-  Future<List<OrderedProduct>> getOrder(List<CartItem> cartItems) async {
+  Future<List<OrderedProduct>> getShoppingListOrder(List<CartItem> cartItems) async {
     List<OrderedProduct> orderedProducts = [];
 
     for (var cartItem in cartItems) {

@@ -277,7 +277,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     onPressed: () async {
                       //*INSERT ORDER
                       final orderedProductsMap =
-                          await ShoppingListModel().getOrder(cartItems!);
+                          await ShoppingListModel().getShoppingListOrder(cartItems!);
                       final resp = orderedProductsMap
                           .map(
                             (e) => e.toJson(),
