@@ -5,20 +5,14 @@ import 'package:flutter/scheduler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductsProviderSupabase {
-  late final productsStream = supabase
-      .from('products')
-      .stream(primaryKey: ['id'])
-      .order('id', ascending: false)
-      .limit(10);
-
-//get Product
-////////////////////////////////////////////////////////
-  Stream<List<Map<String, dynamic>>> getProduct(
-      BuildContext context, String from) {
+  Future<List<Map<String, dynamic>>> productsStream(
+      BuildContext context) async {
     try {
-      return supabase
+      return await supabase
           .from('products')
-          .stream(primaryKey: ['id']).eq('type', from);
+          .select()
+          .order('id', ascending: false)
+          .limit(10);
     } on AuthException catch (error) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -26,7 +20,7 @@ class ProductsProviderSupabase {
           backgroundColor: Theme.of(context).colorScheme.error,
         ));
       });
-      return const Stream.empty();
+      return Future.value([{}]);
     } catch (e) {
       SchedulerBinding.instance.addPostFrameCallback(
         (timeStamp) {
@@ -35,7 +29,33 @@ class ProductsProviderSupabase {
                   Text('Ha ocurrido un error: Vuelva a cargar la pagina. $e')));
         },
       );
-      return const Stream.empty();
+      return Future.value([{}]);
+    }
+  }
+
+//get Product
+////////////////////////////////////////////////////////
+  Future<List<Map<String, dynamic>>> getProduct(
+      BuildContext context, String from) async {
+    try {
+      return await supabase.from('products').select().eq('type', from);
+    } on AuthException catch (error) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(error.message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ));
+      });
+      return Future.value([{}]);
+    } catch (e) {
+      SchedulerBinding.instance.addPostFrameCallback(
+        (timeStamp) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content:
+                  Text('Ha ocurrido un error: Vuelva a cargar la pagina. $e')));
+        },
+      );
+      return Future.value([{}]);
     }
   }
 

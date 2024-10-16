@@ -1,15 +1,47 @@
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/shopping_list/order.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class OrdersProviderSupabase {
   Future<List<Map<String, dynamic>>> getOrder(BuildContext context) async {
-    return await supabase.from('orders').select().order('id');
+    try {
+      return await supabase.from('orders').select().order('id');
+    } on AuthException catch (error) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(error.message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ));
+      });
+      return [];
+    } catch (error) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content:
+                Text('Ha ocurrido un error, vuelva a intentarlo. $error')));
+      });
+      return [];
+    }
   }
 
-  Future<void> insertOrder(BuildContext context, Order order) {
-    return supabase.from('orders').insert([
-      {order}
-    ]);
+  Future<void> insertOrder(BuildContext context, Order order) async {
+    try {
+      return await supabase.from('orders').insert([order.toJson()]);
+    } on AuthException catch (error) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(error.message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ));
+      });
+    } catch (error) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content:
+                Text('Ha ocurrido un error, vuelva a intentarlo. $error')));
+      });
+    }
   }
 }

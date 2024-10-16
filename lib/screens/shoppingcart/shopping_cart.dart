@@ -64,11 +64,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
             item.id, _getQuantity(item, product));
       }
     }
-
-    setState(() {
-      isLoading = false;
-      this.totalPrice = totalPrice;
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+        this.totalPrice = totalPrice;
+      });
+    }
   }
 
   @override
@@ -273,26 +274,24 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(0))))),
-                    onPressed: () {
-                      //TODO CHECK THAT IS DONDE
-                      //usar ShoppingList para guardar la lista de OrderedProducts en la BD
-                      //entonces lo que me devuelve usarlo para crear Order
-
+                    onPressed: () async {
                       //*INSERT ORDER
                       final orderedProductsMap =
-                          ShoppingListModel(cartItems: cartItems!)
-                              .getOrder()
-                              .map(
-                                (e) => e.toJson(),
-                              )
-                              .toList()
-                              .asMap();
+                          await ShoppingListModel().getOrder(cartItems!);
+                      final resp = orderedProductsMap
+                          .map(
+                            (e) => e.toJson(),
+                          )
+                          .toList();
                       final order = Order(
                           id: 0,
+                          createdAt: DateTime.now(),
                           userId: userId,
-                          orderedProductsMap: orderedProductsMap,
+                          orderedProductsMap: resp,
                           total: totalPrice);
+                          if(mounted){
                       OrdersProviderSupabase().insertOrder(context, order);
+                          }
                     },
                     icon: const Icon(
                         weight: 10, Icons.arrow_circle_right_outlined)))
