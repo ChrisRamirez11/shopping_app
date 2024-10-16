@@ -40,12 +40,21 @@ class _OrdersScreenState extends State<OrdersScreen> {
   }
 
   getListTile(Map<String, dynamic> OrderMap) {
+    DateTime date = DateTime.parse(OrderMap['created_at']);
     return Card(
         child: SizedBox(
       height: 70,
       child: ListTile(
-        title: Text('ID del Pedido:'),
-        subtitle: Text('#${OrderMap['id'].toString()}'),
+        leading: SizedBox(width: 100,
+          child: Column(mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('ID: #${OrderMap['id'].toString()}', style: Theme.of(context).textTheme.bodyMedium,),
+            ],
+          ),
+        ),
+        title: Text('Fecha:'),
+        subtitle:Text('${date.day}/${date.month}/${date.year}') ,
         trailing: IconButton(
             onPressed: () => getPDf(context, OrderMap),
             icon: Icon(Icons.download)),

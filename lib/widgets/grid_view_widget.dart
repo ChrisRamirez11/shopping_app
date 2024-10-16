@@ -55,7 +55,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
 
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: fetchData
-          ? _productsProvider.productsStream(context)
+          ? _productsProvider.productsStart(context)
           : _productsProvider.getProduct(context, widget.appBarTitle),
       builder: (context, snapshot) {
         if(snapshot.hasError){

@@ -5,7 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductsProviderSupabase {
-  Future<List<Map<String, dynamic>>> productsStream(
+  Future<List<Map<String, dynamic>>> productsStart(
       BuildContext context) async {
     try {
       return await supabase
