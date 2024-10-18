@@ -1,4 +1,3 @@
-import 'package:app_tienda_comida/provider/onHoverProvider.dart';
 import 'package:app_tienda_comida/utils/notifications/local_notification.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:provider/provider.dart' as provider;
@@ -41,9 +40,6 @@ class MyApp extends StatelessWidget {
     return ProviderP(
       child: provider.MultiProvider(
         providers: [
-          provider.ChangeNotifierProvider(
-            create: (_) => OnHoverProvider(),
-          ),
           provider.ChangeNotifierProvider(
             create: (_) => ProductsListNotifier(),
           ),
