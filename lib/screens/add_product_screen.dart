@@ -180,7 +180,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 builder: (context) => SimpleDialog(
                   title: Text(
                     'Ingrese el nuevo tipo de producto: ',
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: Theme.of(context).textTheme.labelSmall,
                   ),
                   children: [
                     Padding(

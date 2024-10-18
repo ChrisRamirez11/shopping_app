@@ -1,5 +1,5 @@
 import 'package:app_tienda_comida/main.dart';
-import 'package:app_tienda_comida/provider/profiles_provider.dart';
+import 'package:app_tienda_comida/provider/get_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter/services.dart' show rootBundle;
@@ -48,7 +48,9 @@ void getPDf(BuildContext context, Map<String, dynamic> orderMap) async {
                   ),
                   pw.Align(
                     alignment: pw.Alignment.topLeft,
-                    child: pw.Text('WHIM COLLECTIONS', style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
+                    child: pw.Text('WHIM COLLECTIONS',
+                        style: pw.TextStyle(
+                            fontSize: 20, fontWeight: pw.FontWeight.bold)),
                   ),
                 ],
               ),
@@ -58,7 +60,9 @@ void getPDf(BuildContext context, Map<String, dynamic> orderMap) async {
               pw.Divider(),
 
               pw.SizedBox(height: 20),
-              pw.Text('Lista de la compra:', style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
+              pw.Text('Lista de la compra:',
+                  style: pw.TextStyle(
+                      fontSize: 20, fontWeight: pw.FontWeight.bold)),
               pw.SizedBox(height: 10),
 
               // Products Table
@@ -72,9 +76,7 @@ void getPDf(BuildContext context, Map<String, dynamic> orderMap) async {
                 ],
               ),
 
-
-              pw.SizedBox(height: 20),
-              pw.Text('Total: \$${total}', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 20)),
+              getFinalData(total, i, itemsPerPage, totalProducts)
             ],
           );
         },
@@ -89,6 +91,18 @@ void getPDf(BuildContext context, Map<String, dynamic> orderMap) async {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text('Documento guardado en: \n${file.path}'),
   ));
+}
+
+getFinalData(String total, int i, itemsPerPage, totalProducts) {
+  if (i + itemsPerPage >= totalProducts) {
+    return pw.Column(
+      children: [
+        pw.SizedBox(height: 20),
+        pw.Text('Total: \$${total}',
+            style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 20)),
+      ],
+    );
+  }
 }
 
 pw.TableRow _buildTableHeader() {

@@ -19,7 +19,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         appBar: AppBar(
           title: Text(
             appBarTitle,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
           foregroundColor: secondary,
           backgroundColor: primary,

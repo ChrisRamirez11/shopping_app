@@ -111,7 +111,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
       child: Center(
         child: Text(
           'Carrito',
-          style: Theme.of(context).textTheme.titleLarge,
+          style: Theme.of(context).textTheme.bodyLarge,
           overflow: TextOverflow.ellipsis,
         ),
       ),
@@ -260,7 +260,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     TextSpan(
                       text: '\$',
                       children: [TextSpan(text: '$totalPrice')],
-                      style: Theme.of(context).textTheme.headlineMedium,
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                   ],
                 ),

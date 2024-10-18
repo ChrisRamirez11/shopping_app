@@ -22,7 +22,7 @@ class _SettingsState extends State<Settings> {
           backgroundColor: primary,
           title: Text(
             'Configuraciones',
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
         body: Column(

@@ -41,7 +41,7 @@ cartAddition(BuildContext context, Product product) {
         builder: (context) => SimpleDialog(
               title: Text(
                 'Producto añadido con éxito',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.labelMedium,
               ),
               children: [
                 TextButton(

@@ -15,7 +15,7 @@ class NoStockProducts extends StatelessWidget {
           title: Center(
             child: Text(
               appBarTitle,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),
           foregroundColor: secondary,

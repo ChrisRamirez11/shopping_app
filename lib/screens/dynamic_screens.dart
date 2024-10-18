@@ -34,7 +34,7 @@ class _DynamicScreensState extends State<DynamicScreens> {
           title: Center(
             child: Text(
               widget.args['name'],
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),
           foregroundColor: secondary,

@@ -103,7 +103,7 @@ if(mounted){
           title: Center(
             child: Text(product.type,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleMedium),
+                style: Theme.of(context).textTheme.bodyMedium),
           ),
         ),
         child: Padding(
@@ -139,7 +139,7 @@ if(mounted){
                         child: Text(
                           overflow: TextOverflow.ellipsis,
                           '\$${product.price.toString()}',
-                          style: Theme.of(context).textTheme.titleSmall,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       )
                     ],

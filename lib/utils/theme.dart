@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
-Color primary = const Color.fromARGB(255, 243, 33, 33);
-Color secondary = const Color.fromARGB(255, 244, 241, 54);
+const Color primary = const Color.fromARGB(255, 243, 33, 33);
+const Color secondary = const Color.fromARGB(255, 244, 241, 54);
 const Color tertiary = Colors.black;
-Color white = Colors.white;
+const Color white = Colors.white;
 Color errorColor = Colors.red.shade300;
+
+const double largeSize = 24;
+const double mediumSize = 20;
+const double smallSize = 16;
 
 //ThemeData
 //
@@ -12,26 +16,23 @@ ThemeData theme = ThemeData(
   primaryColor: white,
   textTheme: TextTheme(
     bodyLarge: const TextStyle(
-      fontWeight: FontWeight.bold,
-      color: tertiary,
-    ),
-    bodyMedium: TextStyle(color: white, fontWeight: FontWeight.bold),
-    bodySmall: const TextStyle(color: tertiary, fontWeight: FontWeight.bold),
-    headlineLarge: const TextStyle(color: tertiary),
-    headlineMedium:
-        const TextStyle(color: tertiary, fontWeight: FontWeight.bold),
-    headlineSmall: const TextStyle(color: tertiary),
-    titleLarge: TextStyle(
-        color: tertiary.withOpacity(0.87), fontWeight: FontWeight.bold),
-    titleMedium:
-        const TextStyle(color: tertiary, fontWeight: FontWeight.normal),
-    titleSmall: const TextStyle(color: tertiary, fontWeight: FontWeight.normal),
+      fontSize: largeSize, color: tertiary, fontWeight: FontWeight.bold),
+    bodyMedium: const TextStyle(
+        fontSize: mediumSize, color: tertiary, fontWeight: FontWeight.bold),
+    bodySmall: const TextStyle(
+        fontSize: smallSize, color: tertiary, fontWeight: FontWeight.bold),
+    labelLarge: TextStyle(
+        fontWeight: FontWeight.normal, fontSize: largeSize, color: tertiary),
+    labelMedium: TextStyle(
+        fontWeight: FontWeight.normal, fontSize: mediumSize, color: tertiary),
+    labelSmall: TextStyle(
+        fontWeight: FontWeight.normal, fontSize: smallSize, color: tertiary),
   ),
 
   //SnackBarTheme
   //
   snackBarTheme: SnackBarThemeData(behavior: SnackBarBehavior.floating),
-  
+
   //ScrollbarTheme
   //
   scrollbarTheme: const ScrollbarThemeData(
@@ -73,21 +74,23 @@ ThemeData theme = ThemeData(
 //
 ThemeData themeDark = ThemeData.dark().copyWith(
     textTheme: TextTheme(
-      bodyLarge: const TextStyle(fontWeight: FontWeight.bold),
-      bodyMedium: const TextStyle(fontWeight: FontWeight.bold),
-      bodySmall: const TextStyle(fontWeight: FontWeight.bold),
-      headlineLarge: TextStyle(color: white),
-      headlineMedium: TextStyle(fontWeight: FontWeight.bold, color: white),
-      headlineSmall: TextStyle(color: white),
-      titleLarge: TextStyle(
-          color: tertiary.withOpacity(0.87), fontWeight: FontWeight.bold),
-      titleMedium: const TextStyle(fontWeight: FontWeight.normal),
-      titleSmall: const TextStyle(fontWeight: FontWeight.normal),
+      bodyLarge: const TextStyle(
+          fontWeight: FontWeight.bold, fontSize: largeSize, color: white),
+      bodyMedium: const TextStyle(
+          fontWeight: FontWeight.bold, fontSize: mediumSize, color: white),
+      bodySmall: const TextStyle(
+          fontWeight: FontWeight.bold, fontSize: smallSize, color: white),
+      labelLarge: const TextStyle(
+          fontWeight: FontWeight.normal, fontSize: largeSize, color: white),
+      labelMedium: const TextStyle(
+          fontWeight: FontWeight.normal, fontSize: mediumSize, color: white),
+      labelSmall: const TextStyle(
+          fontWeight: FontWeight.normal, fontSize: smallSize, color: white),
     ),
     //SnackBarTheme
     //
     snackBarTheme: SnackBarThemeData(behavior: SnackBarBehavior.floating),
-  
+
     //ScrollbarTheme
     //
     scrollbarTheme: const ScrollbarThemeData(

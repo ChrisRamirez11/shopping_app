@@ -38,7 +38,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
             decoration: BoxDecoration(color: primary),
             child: Center(
                 child: Text(
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: Theme.of(context).textTheme.labelMedium,
               'Menú',
             )),
           ),

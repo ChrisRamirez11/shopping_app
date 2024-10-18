@@ -51,7 +51,7 @@ class _HomeSreenState extends State<HomeSreen> {
             title: Center(
               child: Text(
                 appBarTitle,
-                style: Theme.of(context).textTheme.titleLarge,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),
             foregroundColor: secondary,

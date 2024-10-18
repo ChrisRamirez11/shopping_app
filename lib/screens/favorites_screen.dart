@@ -34,7 +34,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           title: Center(
             child: Text(
               appBarTitle,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),
           foregroundColor: secondary,
