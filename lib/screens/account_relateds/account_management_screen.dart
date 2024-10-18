@@ -1,4 +1,5 @@
 import 'package:app_tienda_comida/main.dart';
+import 'package:app_tienda_comida/provider/profiles_provider.dart';
 import 'package:app_tienda_comida/screens/account_relateds/log_in_screen.dart';
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
@@ -25,14 +26,9 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
 
   /// Called once a user id is received within `onAuthenticated()`
   Future<void> _getProfile() async {
-    setState(() {
-      _loading = true;
-    });
 
     try {
-      final userId = supabase.auth.currentUser!.id;
-      final data =
-          await supabase.from('profiles').select().eq('id', userId).single();
+      final data = await getProfile(context);
       _fullNameController.text = (data['fullName'] ?? '') as String;
       _directionController.text = (data['direction'] ?? '') as String;
       _cellphoneController.text = (data['cellphone'] ?? '') as String;

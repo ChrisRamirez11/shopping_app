@@ -52,7 +52,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                 ));
               }));
     }
-
+if(mounted){
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: fetchData
           ? _productsProvider.productsStart(context)
@@ -90,6 +90,9 @@ class _GridViewWidgetState extends State<GridViewWidget> {
         );
       }
   });
+}else{
+  return Text('ERROR INISPERADO');
+}
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
+import 'package:app_tienda_comida/screens/orders_simple_dialog.dart';
 import 'package:app_tienda_comida/utils/pdf.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
@@ -39,8 +40,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
         ));
   }
 
-  getListTile(Map<String, dynamic> OrderMap) {
-    DateTime date = DateTime.parse(OrderMap['created_at']);
+  getListTile(Map<String, dynamic> orderMap) {
+    DateTime date = DateTime.parse(orderMap['created_at']);
     return Card(
         child: SizedBox(
       height: 70,
@@ -49,18 +50,18 @@ class _OrdersScreenState extends State<OrdersScreen> {
           child: Column(mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('ID: #${OrderMap['id'].toString()}', style: Theme.of(context).textTheme.bodyMedium,),
+              Text('ID: #${orderMap['id'].toString()}', style: Theme.of(context).textTheme.bodyMedium,),
             ],
           ),
         ),
         title: Text('Fecha:'),
         subtitle:Text('${date.day}/${date.month}/${date.year}') ,
         trailing: IconButton(
-            onPressed: () => getPDf(context, OrderMap),
+            onPressed: () => getPDf(context, orderMap),
             icon: Icon(Icons.download)),
         isThreeLine: true,
         onTap: () {
-          //TODO SHOW DIALOG
+          showDialog(context: context, builder: (context) => ordersSimpleDialog(context, orderMap),);
         },
       ),
     ));
