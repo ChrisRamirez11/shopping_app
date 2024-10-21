@@ -99,13 +99,11 @@ if(mounted){
   _createGridTile(BuildContext context, int index, data) {
     final Product product = Product.fromJson(data[index]);
     return GridTile(
-        header: Expanded(flex: 1,
-          child: GridTileBar(
-            title: Center(
-              child: Text(product.type,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyMedium),
-            ),
+        header: GridTileBar(
+          title: Center(
+            child: Text(product.type,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodyMedium),
           ),
         ),
         child: Padding(

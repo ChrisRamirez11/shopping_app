@@ -1,4 +1,5 @@
 import 'package:app_tienda_comida/utils/notifications/local_notification.dart';
+import 'package:app_tienda_comida/utils/refresh_token.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
   listenToTableChanges();
   //*hasta aqui
 
+  refreshToken();
   final prefs = PreferenciasUsuario();
   await prefs.initPrefs();
   runApp(const MyApp());
