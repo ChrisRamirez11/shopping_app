@@ -61,7 +61,17 @@ class _OrdersScreenState extends State<OrdersScreen> {
             icon: Icon(Icons.download)),
         isThreeLine: true,
         onTap: () {
-          showDialog(context: context, builder: (context) => ordersSimpleDialog(context, orderMap),);
+          showDialog(context: context, builder: (context) => FutureBuilder(future: ordersSimpleDialog(context, orderMap), builder: (context, snapshot) {
+            if(snapshot.hasError){
+          return const Center(child: Text('Ha ocurrido un Error'),);
+        }
+        else if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        else{
+          return snapshot.requireData;
+        }
+          },),);
         },
       ),
     ));

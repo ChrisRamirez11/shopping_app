@@ -24,7 +24,6 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
 
   bool _loading = true;
 
-  /// Called once a user id is received within `onAuthenticated()`
   Future<void> _getProfile() async {
 
     try {

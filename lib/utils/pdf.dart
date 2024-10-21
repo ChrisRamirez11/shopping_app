@@ -14,7 +14,7 @@ void getPDf(BuildContext context, Map<String, dynamic> orderMap) async {
   List<dynamic> shoppingList = orderMap['products'];
   String total = orderMap['total'].toString();
 
-  String userName = '';
+  String userName = '', cellphone = '', direction = '';
 
   final pdf = pw.Document();
 
@@ -26,6 +26,8 @@ void getPDf(BuildContext context, Map<String, dynamic> orderMap) async {
   if (supabase.auth.currentSession != null) {
     final resp = await getProfile(context);
     userName = resp['fullName'];
+    cellphone = resp['cellphone'];
+    direction = resp['direction'];
   } else {
     return;
   }
@@ -54,9 +56,17 @@ void getPDf(BuildContext context, Map<String, dynamic> orderMap) async {
                   ),
                 ],
               ),
-              pw.SizedBox(height: 60),
-              pw.Text('Nombre del Cliente: \n${userName}',
-                  style: pw.TextStyle(fontSize: 16)),
+              pw.SizedBox(height: 40),
+              pw.Text('Nombre del Cliente:',
+                  style: pw.TextStyle(
+                      fontSize: 15, fontWeight: pw.FontWeight.bold)),
+              pw.Text('${userName}', style: pw.TextStyle(fontSize: 15)),
+              pw.Text('Direcciòn:', style: pw.TextStyle(fontSize: 15, fontWeight: pw.FontWeight.bold)),
+              pw.Text('${direction}', style: pw.TextStyle(fontSize: 15)),
+              pw.Text('Telèfono de Contacto: ',
+                  style: pw.TextStyle(fontSize: 15,fontWeight: pw.FontWeight.bold)),
+              pw.Text('${cellphone}', style: pw.TextStyle(fontSize: 15)),
+
               pw.Divider(),
 
               pw.SizedBox(height: 20),
@@ -93,15 +103,22 @@ void getPDf(BuildContext context, Map<String, dynamic> orderMap) async {
   ));
 }
 
-getFinalData(String total, int i, itemsPerPage, totalProducts) {
+pw.SpanningWidget getFinalData(
+    String total, int i, itemsPerPage, totalProducts) {
   if (i + itemsPerPage >= totalProducts) {
     return pw.Column(
       children: [
         pw.SizedBox(height: 20),
-        pw.Text('Total: \$${total}',
-            style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 20)),
+        pw.Row(children: [
+          pw.Expanded(child: pw.Container()),
+          pw.Text('Total: \$${total}',
+              style:
+                  pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 20)),
+        ])
       ],
     );
+  } else {
+    return pw.Container();
   }
 }
 

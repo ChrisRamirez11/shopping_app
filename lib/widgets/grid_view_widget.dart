@@ -76,7 +76,7 @@ if(mounted){
               child: Card(
                 elevation: 10,
                 child: GestureDetector(
-                  onLongPress: () => displayTopSheet(context, data[index]),
+                  onLongPress: () => displayTopSheet(context, data[index]), //TODO delete for user App
                   onTap: () {
                     Product product = Product.fromJson(data[index]);
                     displayButtomSheet(context, product);
@@ -91,7 +91,7 @@ if(mounted){
       }
   });
 }else{
-  return Text('ERROR INISPERADO');
+  return Text('ERROR INESPERADO');
 }
     }
   }
@@ -99,35 +99,39 @@ if(mounted){
   _createGridTile(BuildContext context, int index, data) {
     final Product product = Product.fromJson(data[index]);
     return GridTile(
-        header: GridTileBar(
-          title: Center(
-            child: Text(product.type,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodyMedium),
+        header: Expanded(flex: 1,
+          child: GridTileBar(
+            title: Center(
+              child: Text(product.type,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodyMedium),
+            ),
           ),
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 40.0),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            Container(
-                color: Colors.white70,
-                height: 90,
-                width: 160,
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: _loadImage(product)),
+            Expanded(flex: 3,
+              child: Container(
+                  color: Colors.white70,
+                  height: 70,
+                  width: 140,
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: _loadImage(product)),
+            ),
             Row(
               children: [
                 const SizedBox(
                   width: 10,
                 ),
                 SizedBox(
-                  width: 120,
+                  width: 100,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: 110,
+                        width: 100,
                         child: Text(
                           overflow: TextOverflow.ellipsis,
                           product.name,
@@ -135,7 +139,7 @@ if(mounted){
                         ),
                       ),
                       SizedBox(
-                        width: 110,
+                        width: 90,
                         child: Text(
                           overflow: TextOverflow.ellipsis,
                           '\$${product.price.toString()}',
@@ -152,7 +156,7 @@ if(mounted){
                     },
                     icon: const Icon(Icons.add)),
               ],
-            )
+            ), SizedBox(height: 5,)
           ]),
         ));
   }

@@ -115,8 +115,8 @@ class _MenuDrawerState extends State<MenuDrawer> {
           //hasta aqui
           
           ListTile(
-              leading: const Icon(Icons.shopping_cart_checkout_rounded),
-              title: const Text('Mis Pedidos'),
+              leading: const Icon(Icons.list_alt),
+              title: const Text('Pedidos'),
               onTap: () {
                 if(!isAccountFinished(context)) return;
                 if (widget.appBarTitle.contains('Inicio')) {

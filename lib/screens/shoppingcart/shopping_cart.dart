@@ -60,8 +60,10 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
         // Update totalPrice
         totalPrice += product.price * _getQuantity(item, product);
-        cartSupabaseProvider.updateCartItem(
-            item.id, _getQuantity(item, product));
+        if (item.quantity != _getQuantity(item, product)) {
+          cartSupabaseProvider.updateCartItem(
+              item.id, _getQuantity(item, product));
+        }
       }
     }
     if (mounted) {
@@ -276,8 +278,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                 BorderRadius.all(Radius.circular(0))))),
                     onPressed: () async {
                       //*INSERT ORDER
-                      final orderedProductsMap =
-                          await ShoppingListModel().getShoppingListOrder(cartItems!);
+                      final orderedProductsMap = await ShoppingListModel()
+                          .getShoppingListOrder(cartItems!);
                       final resp = orderedProductsMap
                           .map(
                             (e) => e.toJson(),
@@ -289,9 +291,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
                           userId: userId,
                           orderedProductsMap: resp,
                           total: totalPrice);
-                          if(mounted){
-                      OrdersProviderSupabase().insertOrder(context, order);
-                          }
+                      if (mounted) {
+                        OrdersProviderSupabase().insertOrder(context, order);
+                      }
                     },
                     icon: const Icon(
                         weight: 10, Icons.arrow_circle_right_outlined)))
@@ -336,6 +338,7 @@ int _getLimit(Product product) {
 }
 
 Future<Product> fetchProduct(int productId) async {
+  //TODO implement try catch
   final response =
       await supabase.from('products').select().eq('id', productId).single();
   return Product.fromJson(response);

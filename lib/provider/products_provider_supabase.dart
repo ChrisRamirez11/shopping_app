@@ -21,15 +21,8 @@ class ProductsProviderSupabase {
         ));
       });
       return Future.value([{}]);
-    } catch (e) {
-      SchedulerBinding.instance.addPostFrameCallback(
-        (timeStamp) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content:
-                  Text('Ha ocurrido un error: Vuelva a cargar la pagina. $e')));
-        },
-      );
-      return Future.value([{}]);
+    } catch (e) {throw 'Ha ocurrido un error: Vuelva a cargar la pagina. $e';
+    
     }
   }
 
