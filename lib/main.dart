@@ -19,12 +19,14 @@ Future<void> main() async {
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxzb2hha3B4dG5zanhleG12ZG1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjAxOTU5NDMsImV4cCI6MjAzNTc3MTk0M30.xNEhSXEPxqmEp72-N_poF5bIw7pCf36d8PZGih9avH8',
       authOptions:
           const FlutterAuthClientOptions(authFlowType: AuthFlowType.pkce));
+          
   //TODO Eliminar para users
   await initNotifications();
   listenToTableChanges();
   //*hasta aqui
 
-  refreshToken();
+  await refreshToken();
+
   final prefs = PreferenciasUsuario();
   await prefs.initPrefs();
   runApp(const MyApp());

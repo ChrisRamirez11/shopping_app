@@ -88,6 +88,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Perfil actualizado con éxito'),
         ));
+        Navigator.of(context).pop();
       }
     } on PostgrestException catch (error) {
       if (mounted) {
