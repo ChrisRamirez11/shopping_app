@@ -15,29 +15,31 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   Widget build(BuildContext context) {
     String appBarTitle = 'Pedidos';
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            appBarTitle,
-            style: Theme.of(context).textTheme.bodyLarge,
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              appBarTitle,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            foregroundColor: secondary,
+            backgroundColor: primary,
           ),
-          foregroundColor: secondary,
-          backgroundColor: primary,
-        ),
-        body: FutureBuilder(
-          future: OrdersProviderSupabase().getOrder(context),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(child: CircularProgressIndicator());
-            } else {
-              final OrderMap = snapshot.data;
-              return ListView.builder(
-                itemCount: OrderMap!.length,
-                itemBuilder: (context, index) => getListTile(OrderMap[index]),
-              );
-            }
-          },
-        ));
+          body: FutureBuilder(
+            future: OrdersProviderSupabase().getOrder(context),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                final OrderMap = snapshot.data;
+                return ListView.builder(
+                  itemCount: OrderMap!.length,
+                  itemBuilder: (context, index) => getListTile(OrderMap[index]),
+                );
+              }
+            },
+          )),
+    );
   }
 
   getListTile(Map<String, dynamic> orderMap) {

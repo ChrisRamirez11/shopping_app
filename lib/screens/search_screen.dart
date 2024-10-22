@@ -30,34 +30,36 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        foregroundColor: secondary,
-        backgroundColor: primary,
-        title: TextField(
-          style: Theme.of(context).textTheme.bodyMedium,
-          onChanged: _onSearchFieldChanged,
-          decoration: InputDecoration(
-              labelStyle: Theme.of(context).textTheme.bodyMedium,
-              labelText: 'Buscar',
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              border: const OutlineInputBorder(borderSide: BorderSide.none),
-              focusedBorder:
-                  const OutlineInputBorder(borderSide: BorderSide.none)),
-        ),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: _results?.length ?? 0,
-              itemBuilder: (context, index) {
-                final product = Product.fromJson(_results![index]);
-                return getListTile(product);
-              },
-            ),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          foregroundColor: secondary,
+          backgroundColor: primary,
+          title: TextField(
+            style: Theme.of(context).textTheme.bodyMedium,
+            onChanged: _onSearchFieldChanged,
+            decoration: InputDecoration(
+                labelStyle: Theme.of(context).textTheme.bodyMedium,
+                labelText: 'Buscar',
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                border: const OutlineInputBorder(borderSide: BorderSide.none),
+                focusedBorder:
+                    const OutlineInputBorder(borderSide: BorderSide.none)),
           ),
-        ],
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: _results?.length ?? 0,
+                itemBuilder: (context, index) {
+                  final product = Product.fromJson(_results![index]);
+                  return getListTile(product);
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
