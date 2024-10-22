@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:app_tienda_comida/main.dart';
@@ -57,7 +56,7 @@ try{
     );
 //TODO
 }catch(e){
-  log('error');
+  throw 'Error inesperado $e';
 }
   }
 
