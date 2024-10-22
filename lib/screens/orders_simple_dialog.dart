@@ -6,7 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-Future<Widget> ordersSimpleDialog(
+Future<Widget> orderSimpleDialog(
     BuildContext context, Map<String, dynamic> orderMap) async {
   final theme = Theme.of(context).textTheme;
   Size size = MediaQuery.of(context).size;
@@ -20,7 +20,7 @@ Future<Widget> ordersSimpleDialog(
         child: Center(child: Text('Lista de la compra: ')),
       ),
       SizedBox(
-          height: size.height * 0.38,
+          height: size.height * 0.40,
           width: size.width * 0.90,
           child: ListView.builder(
             itemCount: productsListMap.length,
@@ -29,7 +29,9 @@ Future<Widget> ordersSimpleDialog(
                 title: getTexts(productsListMap[index]['name'], theme.labelSmall),
                 trailing: getTexts(productsListMap[index]['price'].toString(), theme.labelSmall)),
           )),
-      Center(child: Text('Total: ${orderMap['total']}'))
+          SizedBox(height: 10,),
+      Center(child: Text('Total: ${orderMap['total']}')),
+          SizedBox(height: 10,),
     ],
   );
 }
@@ -69,26 +71,25 @@ Future<Widget> adminWidget(BuildContext context) async {
   final userMap = await getProfile(context);
   String cellphone = userMap['cellphone'].toString();
   return Column(
-    
+    crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
       getTexts('Nombre del Cliente:', theme.bodyMedium),
       getTexts('${userMap['fullName']}', theme.labelMedium),
 
-      //TODO fix visuals
-
+      getTexts('Telèfono de Contacto:', theme.bodyMedium),
       Container(
         child: SelectableText(
-            style: TextStyle(color: Colors.blue.shade400),
-            'Telèfono de Contacto: \n$cellphone', onTap: () {
+            style: TextStyle(color: Colors.blue.shade400, decoration: TextDecoration.underline),
+            '$cellphone', onTap: () {
           Clipboard.setData(ClipboardData(text: cellphone));
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Teléfono copiado al portapapeles')),
           );
         }),
       ),
-
-      Text('Direcciòn del Cliente: \n${userMap['direction']}'),
+      getTexts('Direcciòn del Cliente:', theme.bodyMedium),
+      getTexts('${userMap['direction']}', theme.labelMedium),
     ],
   );
 }
