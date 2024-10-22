@@ -1,3 +1,4 @@
+import 'package:app_tienda_comida/screens/custom_error_screen.dart';
 import 'package:app_tienda_comida/utils/notifications/local_notification.dart';
 import 'package:app_tienda_comida/utils/refresh_token.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
@@ -19,13 +20,16 @@ Future<void> main() async {
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxzb2hha3B4dG5zanhleG12ZG1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjAxOTU5NDMsImV4cCI6MjAzNTc3MTk0M30.xNEhSXEPxqmEp72-N_poF5bIw7pCf36d8PZGih9avH8',
       authOptions:
           const FlutterAuthClientOptions(authFlowType: AuthFlowType.pkce));
-          
+
   //TODO Eliminar para users
   await initNotifications();
   listenToTableChanges();
   //*hasta aqui
 
   await refreshToken();
+
+  ErrorWidget.builder = (FlutterErrorDetails details) =>
+      CustomErrorScreen(errorMsg: details.exceptionAsString());
 
   final prefs = PreferenciasUsuario();
   await prefs.initPrefs();

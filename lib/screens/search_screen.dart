@@ -2,6 +2,7 @@ import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -65,16 +66,29 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   searchProducts(String input) async {
-    final response =
-        await supabase.from('products').select().ilike('name', '%$input%');
-
-    return response;
+    try {
+      final response =
+          await supabase.from('products').select().ilike('name', '%$input%');
+      return response;
+    } catch (e) {
+      throw 'Error $e';
+    }
   }
 
   Widget getListTile(Product product) {
-    return ListTile(//TODO poner imagen en el leading
-      title: Text(product.name, style: Theme.of(context).textTheme.bodyMedium,),
-      onTap: () => displayButtomSheet(context, product),
+    return SizedBox(
+      width: double.infinity,
+      height: 70,
+      child: Center(
+        child: ListTile(
+          leading: SizedBox(width: 40, height: 40, child: _loadImage(product)),
+          title: Text(
+            product.name,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          onTap: () => displayButtomSheet(context, product),
+        ),
+      ),
     );
   }
 }
@@ -87,4 +101,20 @@ Future displayButtomSheet(BuildContext context, Product product) async {
               topLeft: Radius.elliptical(400, 40),
               topRight: Radius.elliptical(400, 40))),
       builder: (context) => CustomizedBottomSheet(product: product));
+}
+
+_loadImage(product) {
+  if (product.pic.isNotEmpty) {
+    return CachedNetworkImage(
+      cacheManager: null,
+      imageUrl: product.pic,
+      placeholder: (context, url) =>
+          const Center(child: CircularProgressIndicator()),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
+    );
+  } else {
+    return const Image(
+      image: AssetImage('assets/images/no-image.png'),
+    );
+  }
 }
