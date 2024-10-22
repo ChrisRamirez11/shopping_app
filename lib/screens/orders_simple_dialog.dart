@@ -1,5 +1,6 @@
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/provider/get_profile.dart';
+import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -24,9 +25,9 @@ Future<Widget> ordersSimpleDialog(
           child: ListView.builder(
             itemCount: productsListMap.length,
             itemBuilder: (context, index) => ListTile(
-                leading: _getTexts('X${productsListMap[index]['quantity'].toString()}', theme.labelSmall),
-                title: _getTexts(productsListMap[index]['name'], theme.labelSmall),
-                trailing: _getTexts(productsListMap[index]['price'].toString(), theme.labelSmall)),
+                leading: getTexts('X${productsListMap[index]['quantity'].toString()}', theme.labelSmall),
+                title: getTexts(productsListMap[index]['name'], theme.labelSmall),
+                trailing: getTexts(productsListMap[index]['price'].toString(), theme.labelSmall)),
           )),
       Center(child: Text('Total: ${orderMap['total']}'))
     ],
@@ -71,8 +72,8 @@ Future<Widget> adminWidget(BuildContext context) async {
     
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
-      _getTexts('Nombre del Cliente:', theme.bodyMedium),
-      _getTexts('${userMap['fullName']}', theme.labelMedium),
+      getTexts('Nombre del Cliente:', theme.bodyMedium),
+      getTexts('${userMap['fullName']}', theme.labelMedium),
 
       //TODO fix visuals
 
@@ -90,8 +91,4 @@ Future<Widget> adminWidget(BuildContext context) async {
       Text('Direcciòn del Cliente: \n${userMap['direction']}'),
     ],
   );
-}
-
-_getTexts(String text, TextStyle? style){
-  return Text(text, style: style,);
 }

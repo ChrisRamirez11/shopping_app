@@ -6,9 +6,9 @@ const Color tertiary = Colors.black;
 const Color white = Colors.white;
 Color errorColor = Colors.red.shade300;
 
-const double largeSize = 24;
-const double mediumSize = 20;
-const double smallSize = 16;
+const double largeSize = 20;
+const double mediumSize = 16;
+const double smallSize = 12;
 
 //ThemeData
 //

@@ -17,12 +17,7 @@ class OrdersProviderSupabase {
       });
       return [];
     } catch (error) {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content:
-                Text('Ha ocurrido un error, vuelva a intentarlo. $error')));
-      });
-      return [];
+      throw ('Ha ocurrido un error, vuelva a intentarlo. $error');
     }
   }
 

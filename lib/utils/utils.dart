@@ -1,4 +1,5 @@
 import 'package:app_tienda_comida/models/producto.dart';
+import 'package:flutter/material.dart';
 
 bool isNumeric(String s) {
   if (s.isEmpty) return false;
@@ -14,4 +15,8 @@ bool hasStock(Product product) {
   } else {
     return true;
   }
+}
+
+getTexts(String text, TextStyle? style){
+  return Text(text, style: style,);
 }

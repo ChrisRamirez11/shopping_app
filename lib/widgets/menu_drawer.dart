@@ -5,6 +5,7 @@ import 'package:app_tienda_comida/screens/no_stock/no_stock_products.dart';
 import 'package:app_tienda_comida/screens/orders_screen.dart';
 import 'package:app_tienda_comida/utils/account_validation.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
+import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +28,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
   Widget build(BuildContext context) {
     final productListNotifier = Provider.of<ProductsListNotifier>(context);
     final List<String> list = productListNotifier.productsListNotifier;
+    final theme = Theme.of(context).textTheme;
 
     return Drawer(
       child: ListView(
@@ -44,7 +46,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
           ),
           ListTile(
               leading: const Icon(Icons.home),
-              title: const Text('Inicio'),
+              title: getTexts('Inicio', theme.bodyMedium),
               onTap: () {
                 if (!widget.appBarTitle.contains('Inicio')) {
                   Navigator.of(context).pushAndRemoveUntil(
@@ -70,7 +72,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
             return Column(children: [
               ListTile(
                 leading: const Icon(Icons.local_mall_outlined),
-                title: Text(name),
+                title: getTexts(name, theme.bodyMedium),
                 onTap: () {
                   if (widget.appBarTitle.contains('Inicio')) {
                     Navigator.pop(context);
@@ -96,9 +98,9 @@ class _MenuDrawerState extends State<MenuDrawer> {
           //TODO: DELETE THIS FOR USERS
           ListTile(
               leading: const Icon(Icons.remove_shopping_cart_outlined),
-              title: const Text('Productos sin Stock'),
+              title: getTexts('Productos sin Stock', theme.bodyMedium),
               onTap: () {
-                if(!isAccountFinished(context)) return;
+                if (!isAccountFinished(context)) return;
                 if (widget.appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const NoStockProducts(),
@@ -109,16 +111,13 @@ class _MenuDrawerState extends State<MenuDrawer> {
                   ));
                 }
               }),
-          const SizedBox(
-            height: 10,
-          ),
           //hasta aqui
-          
+
           ListTile(
               leading: const Icon(Icons.list_alt),
-              title: const Text('Pedidos'),
+              title: getTexts('Pedidos', theme.bodyMedium),
               onTap: () {
-                if(!isAccountFinished(context)) return;
+                if (!isAccountFinished(context)) return;
                 if (widget.appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const OrdersScreen(),
@@ -155,7 +154,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
           */
           ListTile(
               leading: const Icon(Icons.account_circle_rounded),
-              title: const Text('Perfil'),
+              title: getTexts('Perfil', theme.bodyMedium),
               onTap: () {
                 if (widget.appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(
@@ -169,7 +168,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
               }),
           ListTile(
               leading: const Icon(Icons.settings),
-              title: const Text('Configuraciones'),
+              title: getTexts('Configuraciones', theme.bodyMedium),
               onTap: () {
                 if (widget.appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(

@@ -154,7 +154,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Perfil'),
+          title: Text('Perfil', style: Theme.of(context).textTheme.bodyLarge,),
           actions: [
             IconButton(
               icon: Icon(Icons.edit, color: !_flag ? primary : secondary),
