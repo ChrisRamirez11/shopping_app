@@ -12,11 +12,9 @@ class NoStockProducts extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Center(
-            child: Text(
-              appBarTitle,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
+          title: Text(
+            appBarTitle,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
           foregroundColor: secondary,
           backgroundColor: primary,

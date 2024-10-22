@@ -58,7 +58,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         subtitle:Text('${date.day}/${date.month}/${date.year}') ,
         trailing: IconButton(
             onPressed: () => getPDf(context, orderMap),
-            icon: Icon(Icons.download)),
+            icon: Icon(Icons.open_in_new_outlined)),
         isThreeLine: true,
         onTap: () {
           showDialog(context: context, builder: (context) => FutureBuilder(future: ordersSimpleDialog(context, orderMap), builder: (context, snapshot) {

@@ -48,11 +48,9 @@ class _HomeSreenState extends State<HomeSreen> {
             )),
           ),
           appBar: AppBar(
-            title: Center(
-              child: Text(
-                appBarTitle,
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
+            title: Text(
+              'Recientes',
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             foregroundColor: secondary,
             backgroundColor: primary,

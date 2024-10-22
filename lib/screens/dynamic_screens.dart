@@ -31,11 +31,9 @@ class _DynamicScreensState extends State<DynamicScreens> {
           )),
         ),
         appBar: AppBar(
-          title: Center(
-            child: Text(
-              widget.args['name'],
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
+          title: Text(
+            widget.args['name'],
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
           foregroundColor: secondary,
           backgroundColor: primary,
