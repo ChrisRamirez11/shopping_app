@@ -21,7 +21,7 @@ Future<void> main() async {
       authOptions:
           const FlutterAuthClientOptions(authFlowType: AuthFlowType.pkce));
 
-  //TODO Eliminar para users
+  //TODO Eliminar para Users
   await initNotifications();
   listenToTableChanges();
   //*hasta aqui
