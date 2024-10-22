@@ -72,8 +72,8 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget getListTile(Product product) {
-    return ListTile(
-      title: Text(product.name),
+    return ListTile(//TODO poner imagen en el leading
+      title: Text(product.name, style: Theme.of(context).textTheme.bodyMedium,),
       onTap: () => displayButtomSheet(context, product),
     );
   }

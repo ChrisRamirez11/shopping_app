@@ -194,7 +194,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       SizedBox(
                         width: 50,
                         height: 50,
-                        child: TextFormField(
+                        child: TextFormField(style: Theme.of(context).textTheme.bodyMedium,
                           controller: quantityController,
                           maxLength: 3,
                           textAlign: TextAlign.center,
