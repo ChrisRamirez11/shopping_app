@@ -74,7 +74,7 @@ Future<Widget> adminWidget(BuildContext context) async {
       _getTexts('Nombre del Cliente:', theme.bodyMedium),
       _getTexts('${userMap['fullName']}', theme.labelMedium),
 
-      //TODO check this shit
+      //TODO fix visuals
 
       Container(
         child: SelectableText(

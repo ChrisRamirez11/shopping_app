@@ -10,6 +10,7 @@ import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ShoppingCart extends StatefulWidget {
   const ShoppingCart({super.key});
@@ -338,10 +339,15 @@ int _getLimit(Product product) {
 }
 
 Future<Product> fetchProduct(int productId) async {
-  //TODO implement try catch
-  final response =
-      await supabase.from('products').select().eq('id', productId).single();
-  return Product.fromJson(response);
+  try {
+    final response =
+        await supabase.from('products').select().eq('id', productId).single();
+    return Product.fromJson(response);
+  } on AuthException catch (error) {
+    throw(error.toString());
+  } catch (error) {
+    throw('Error inseperado ocurrido ${error.toString()}');
+  }
 }
 
 _loadImage(Product product) {
