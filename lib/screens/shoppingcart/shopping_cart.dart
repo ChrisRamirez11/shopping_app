@@ -352,7 +352,7 @@ Future<Product> fetchProduct(int productId) async {
 
 _loadImage(Product product) {
   if (product.pic.toString().isNotEmpty) {
-    return CachedNetworkImage(
+    return CachedNetworkImage(fit: BoxFit.cover,
       cacheManager: null,
       imageUrl: product.pic,
       placeholder: (context, url) =>

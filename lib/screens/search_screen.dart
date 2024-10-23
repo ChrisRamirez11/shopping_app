@@ -105,7 +105,7 @@ Future displayButtomSheet(BuildContext context, Product product) async {
 
 _loadImage(product) {
   if (product.pic.isNotEmpty) {
-    return CachedNetworkImage(
+    return CachedNetworkImage(fit: BoxFit.cover,
       cacheManager: null,
       imageUrl: product.pic,
       placeholder: (context, url) =>
