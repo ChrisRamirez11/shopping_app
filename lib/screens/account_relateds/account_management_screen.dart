@@ -2,7 +2,6 @@ import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/provider/get_profile.dart';
 import 'package:app_tienda_comida/screens/account_relateds/log_in_screen.dart';
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
-import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -19,8 +18,6 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   final _directionController = TextEditingController();
   final _cellphoneController = TextEditingController();
   final prefs = PreferenciasUsuario();
-
-  bool _flag = false;
 
   bool _loading = true;
 
@@ -105,7 +102,6 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       if (mounted) {
         setState(() {
           _loading = false;
-          _flag = false;
         });
       }
     }
@@ -155,43 +151,28 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Perfil', style: Theme.of(context).textTheme.bodyLarge,),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.edit, color: !_flag ? primary : secondary),
-              onPressed: () {
-                setState(() {
-                  !_flag ? _flag = true : _flag = false;
-                });
-              },
-            ),
-            const SizedBox(
-              width: 10,
-            )
-          ],
+          
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
           children: [
             TextFormField(
-              enabled: _flag,
               controller: _fullNameController,
               decoration: InputDecoration(
-                  labelText: 'Nombre y Apellido', enabled: _flag),
+                  labelText: 'Nombre y Apellido',),
             ),
             const SizedBox(height: 18),
             TextFormField(
               maxLines: 2,
-              enabled: _flag,
               controller: _directionController,
               decoration:
-                  InputDecoration(labelText: 'Dirección', enabled: _flag),
+                  InputDecoration(labelText: 'Dirección',),
             ),
             const SizedBox(height: 18),
             TextFormField(
-              enabled: _flag,
               controller: _cellphoneController,
               decoration: InputDecoration(
-                  labelText: 'Teléfono de Contacto', enabled: _flag),
+                  labelText: 'Teléfono de Contacto'),
             ),
             const SizedBox(height: 18),
             ElevatedButton(
