@@ -7,9 +7,7 @@ import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 cartAddition(BuildContext context, Product product) {
-  if (!isAccountFinished(context)) {
-    return;
-  }
+  if (!isAccountFinished(context)) return;
   if (!hasStock(product)) {
     showDialog(
         context: context,

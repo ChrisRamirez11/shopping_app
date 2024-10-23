@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/cart_item_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CartSupabaseProvider {
@@ -14,12 +13,6 @@ class CartSupabaseProvider {
     try {
       await supabase.from('carts').insert(
           {'user_id': userId, 'product_id': productId, 'quantity': quantity});
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Producto agregado con éxito'),
-          duration: Duration(milliseconds: 500),
-        ));
-      });
     } on AuthException catch (e) {
       log('$e');
     } catch (e) {
@@ -28,12 +21,7 @@ class CartSupabaseProvider {
   }
 
   //updateCart
-  /*
-  aqui lo que pasa es que cada producto como es un cart a parte, 
-  tendra por lo tanto un id de cart unico, entonces al actualizar dicho producto, 
-  le pasas a este update el id del cart que tiene ese producto, es como sifuera
-  un comprador con varios carritos para un solo producto por carro.
-  */
+  //
   Future<void> updateCartItem(String cartId, int newQuantity) async {
     try {
       final response = await supabase
