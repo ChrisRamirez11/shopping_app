@@ -1,6 +1,7 @@
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/provider/get_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
@@ -61,10 +62,13 @@ void getPDf(BuildContext context, Map<String, dynamic> orderMap) async {
                   style: pw.TextStyle(
                       fontSize: 15, fontWeight: pw.FontWeight.bold)),
               pw.Text('${userName}', style: pw.TextStyle(fontSize: 15)),
-              pw.Text('Direcciòn:', style: pw.TextStyle(fontSize: 15, fontWeight: pw.FontWeight.bold)),
+              pw.Text('Direcciòn:',
+                  style: pw.TextStyle(
+                      fontSize: 15, fontWeight: pw.FontWeight.bold)),
               pw.Text('${direction}', style: pw.TextStyle(fontSize: 15)),
               pw.Text('Telèfono de Contacto: ',
-                  style: pw.TextStyle(fontSize: 15,fontWeight: pw.FontWeight.bold)),
+                  style: pw.TextStyle(
+                      fontSize: 15, fontWeight: pw.FontWeight.bold)),
               pw.Text('${cellphone}', style: pw.TextStyle(fontSize: 15)),
 
               pw.Divider(),
@@ -96,9 +100,14 @@ void getPDf(BuildContext context, Map<String, dynamic> orderMap) async {
 
   final output = await getDownloadsDirectory();
   final file = File("${output?.path}/$orderId.pdf");
+  if (await file.exists()) {
+    await OpenFile.open(file.path);
+    return;
+  }
   await file.writeAsBytes(await pdf.save());
-
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    action: SnackBarAction(textColor: Colors.black,
+        label: 'Abrir', onPressed: () async => await OpenFile.open(file.path)),
     content: Text('Documento guardado en: \n${file.path}'),
   ));
 }
