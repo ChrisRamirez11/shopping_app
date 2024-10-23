@@ -140,7 +140,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   TextFormField _nameField() {
-    return TextFormField(
+    return TextFormField(style: Theme.of(context).textTheme.bodyMedium,
       initialValue: product.name,
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.name,
@@ -185,7 +185,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(10),
-                      child: TextFormField(
+                      child: TextFormField(style: Theme.of(context).textTheme.bodyMedium,
                         onChanged: (value) => type = value,
                         textCapitalization: TextCapitalization.sentences,
                         keyboardType: TextInputType.name,
@@ -263,7 +263,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   TextFormField _priceField() {
-    return TextFormField(
+    return TextFormField(style: Theme.of(context).textTheme.bodyMedium,
       initialValue: product.price.toString(),
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(
@@ -283,7 +283,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   TextFormField _quantityField() {
     bool enabled = !product.availability;
-    return TextFormField(
+    return TextFormField(style: Theme.of(context).textTheme.bodyMedium,
       enabled: enabled,
       initialValue: product.quantity.toString(),
       keyboardType: const TextInputType.numberWithOptions(decimal: false),
@@ -316,7 +316,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   _descriptionField() {
-    return TextFormField(
+    return TextFormField(style: Theme.of(context).textTheme.bodyMedium,
       maxLines: 3,
       initialValue: product.description,
       textCapitalization: TextCapitalization.sentences,

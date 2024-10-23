@@ -14,13 +14,7 @@ class ProductsProviderSupabase {
           .order('id', ascending: false)
           .limit(10);
     } on AuthException catch (error) {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(error.message),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ));
-      });
-      return Future.value([{}]);
+      throw error.message;
     } catch (e) {throw 'Ha ocurrido un error: Vuelva a cargar la pagina. $e';
     
     }
