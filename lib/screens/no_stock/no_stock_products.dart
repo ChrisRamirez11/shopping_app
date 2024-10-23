@@ -18,18 +18,6 @@ class NoStockProducts extends StatelessWidget {
           ),
           foregroundColor: secondary,
           backgroundColor: primary,
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.search_outlined),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                IconData(0xe59c, fontFamily: 'MaterialIcons'),
-              ),
-            )
-          ],
         ),
         drawer: MenuDrawer(appBarTitle: appBarTitle),
         body: NoStockGridViewWidget(

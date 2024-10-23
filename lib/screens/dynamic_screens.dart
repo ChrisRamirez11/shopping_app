@@ -1,4 +1,7 @@
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
+import 'package:app_tienda_comida/screens/search_screen.dart';
+import 'package:app_tienda_comida/screens/shoppingcart/shopping_cart.dart';
+import 'package:app_tienda_comida/utils/account_validation.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
@@ -20,8 +23,10 @@ class _DynamicScreensState extends State<DynamicScreens> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldDynKey = GlobalKey<ScaffoldState>();
     return SafeArea(
       child: Scaffold(
+        key: scaffoldDynKey,
         floatingActionButton: FloatingActionButton(
           foregroundColor: secondary,
           backgroundColor: primary,
@@ -39,17 +44,27 @@ class _DynamicScreensState extends State<DynamicScreens> {
           backgroundColor: primary,
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SearchScreen(),
+                  ));
+                },
               icon: const Icon(Icons.search_outlined),
             ),
             IconButton(
-              onPressed: () {},
+               onPressed: () {
+                  if (!isAccountFinished(context)) {
+                    return;
+                  }
+                  scaffoldDynKey.currentState!.openEndDrawer();
+                },
               icon: const Icon(
                 IconData(0xe59c, fontFamily: 'MaterialIcons'),
               ),
             )
           ],
         ),
+        endDrawer: const ShoppingCart(),
         drawer: MenuDrawer(appBarTitle: widget.args['name']),
         body: GridViewWidget(appBarTitle: widget.args['name']),
       ),
