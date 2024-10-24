@@ -59,8 +59,8 @@ dev_dependencies:
   flutter_launcher_icons: "^0.14.1"
 
 flutter_native_splash:
-  image: assets/images/icon.png
-  color: "#ffffff"
+  image: assets/images/logo.png
+  color: "#1C2C39"
   #background_image:
 
 flutter_launcher_icons:

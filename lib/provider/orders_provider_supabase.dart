@@ -39,4 +39,14 @@ class OrdersProviderSupabase {
       });
     }
   }
+
+  Future<void> deleteOrder(int orderId) async {
+    try {
+      return await supabase.from('orders').delete().eq('id', orderId);
+    } on AuthException catch (error) {
+      throw error.message;
+    } catch (error) {
+      throw 'Ha ocurrido un error, vuelva a intentarlo. $error';
+    }
+  }
 }
