@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/orders_simple_dialog.dart';
 import 'package:app_tienda_comida/utils/pdf.dart';
@@ -28,16 +26,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
             backgroundColor: primary,
           ),
           body: FutureBuilder(
-            future: OrdersProviderSupabase().getOrder(context),
+            future: limitTimeCheck(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(child: CircularProgressIndicator());
               } else {
                 List<Map<String, dynamic>>? orderMap = snapshot.data;
-                orderMap = limitTimeCheck(orderMap!);
                 return ListView.builder(
                   itemCount: orderMap!.length,
-                  itemBuilder: (context, index) => getListTile(orderMap![index]),
+                  itemBuilder: (context, index) =>
+                      getListTile(orderMap[index]),
                 );
               }
             },
@@ -94,19 +92,21 @@ class _OrdersScreenState extends State<OrdersScreen> {
   }
 }
 
-List<Map<String, dynamic>> limitTimeCheck(List<Map<String, dynamic>> orderMap) {
+Future<List<Map<String, dynamic>>> limitTimeCheck() async {
+  List<Map<String, dynamic>> orderMap =
+      await OrdersProviderSupabase().getOrder();
   List<Map<String, dynamic>> newOrdersMap = [];
-  
+
   for (var e in orderMap) {
     DateTime date = DateTime.parse(e['created_at']);
     DateTime limitDate = DateTime.now();
     final int limitDays = 14;
     if (limitDate.difference(date).inDays > limitDays) {
-      OrdersProviderSupabase().deleteOrder(e['id']);
+      await OrdersProviderSupabase().deleteOrder(e['id']);
     } else {
       newOrdersMap.add(e);
     }
   }
-  
+
   return newOrdersMap;
 }

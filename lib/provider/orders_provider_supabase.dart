@@ -5,17 +5,11 @@ import 'package:flutter/scheduler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class OrdersProviderSupabase {
-  Future<List<Map<String, dynamic>>> getOrder(BuildContext context) async {
+  Future<List<Map<String, dynamic>>> getOrder() async {
     try {
       return await supabase.from('orders').select().order('id');
     } on AuthException catch (error) {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(error.message),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ));
-      });
-      return [];
+      throw error.message;
     } catch (error) {
       throw ('Ha ocurrido un error, vuelva a intentarlo. $error');
     }
