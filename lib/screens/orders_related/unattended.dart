@@ -1,15 +1,23 @@
 import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
+import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/orders_related/orders_simple_dialog.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../utils/pdf.dart';
 
-class UnattendedOrder extends StatelessWidget {
+class UnattendedOrder extends StatefulWidget {
   const UnattendedOrder({super.key});
 
   @override
+  State<UnattendedOrder> createState() => _UnattendedOrderState();
+}
+
+class _UnattendedOrderState extends State<UnattendedOrder> {
+  @override
   Widget build(BuildContext context) {
+    ProductsListNotifier productsListNotifier = Provider.of<ProductsListNotifier>(context);
     return Scaffold(
       body: FutureBuilder(
         future: limitTimeCheck(),
@@ -21,7 +29,7 @@ class UnattendedOrder extends StatelessWidget {
             return ListView.builder(
               itemCount: orderMap!.length,
               itemBuilder: (context, index) =>
-                  getListTile(context, orderMap[index]),
+                  getListTile(context, orderMap[index], productsListNotifier),
             );
           }
         },
@@ -30,7 +38,7 @@ class UnattendedOrder extends StatelessWidget {
   }
 }
 
-getListTile(BuildContext context, Map<String, dynamic> orderMap) {
+getListTile(BuildContext context, Map<String, dynamic> orderMap,  productsListNotifier) {
   DateTime date = DateTime.parse(orderMap['created_at']);
   if (orderMap['attended']) return Container();
   return Row(
@@ -118,6 +126,7 @@ getListTile(BuildContext context, Map<String, dynamic> orderMap) {
                           onPressed: () async {
                             await OrdersProviderSupabase()
                                 .updateOrder(context, orderMap['id']);
+                                productsListNotifier.loadList();
                             Navigator.pop(context);
                           },
                           child: getTexts(
