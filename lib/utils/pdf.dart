@@ -106,7 +106,7 @@ void getPDf(BuildContext context, Map<String, dynamic> orderMap) async {
   }
   await file.writeAsBytes(await pdf.save());
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    action: SnackBarAction(textColor: Colors.black,
+    action: SnackBarAction(
         label: 'Abrir', onPressed: () async => await OpenFile.open(file.path)),
     content: Text('Documento guardado en: \n${file.path}'),
   ));

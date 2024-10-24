@@ -82,6 +82,7 @@ getListTile(BuildContext context, Map<String, dynamic> orderMap) {
           ),
         )),
       ),
+      //TODO DELETE FOR USERS APP and also delete the above row
       Expanded(
         flex: 1,
         child: IconButton(
@@ -117,7 +118,7 @@ getListTile(BuildContext context, Map<String, dynamic> orderMap) {
                           onPressed: () async {
                             await OrdersProviderSupabase()
                                 .updateOrder(context, orderMap['id']);
-                                Navigator.pop(context);
+                            Navigator.pop(context);
                           },
                           child: getTexts(
                               'Ok', Theme.of(context).textTheme.labelSmall),
@@ -132,7 +133,7 @@ getListTile(BuildContext context, Map<String, dynamic> orderMap) {
               );
             },
             icon: Icon(
-              size: 40,
+              size: 35,
               color: Colors.green,
               Icons.check_circle_outline,
             )),
