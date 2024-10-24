@@ -80,7 +80,7 @@ Future<Widget> adminWidget(BuildContext context) async {
       getTexts('Telèfono de Contacto:', theme.bodyMedium),
       Container(
         child: SelectableText(
-            style: TextStyle(color: Colors.blue.shade400, decoration: TextDecoration.underline),
+            style: TextStyle(color: Colors.blue.shade400, fontWeight: FontWeight.normal, decoration: TextDecoration.underline),
             '$cellphone', onTap: () {
           Clipboard.setData(ClipboardData(text: cellphone));
           ScaffoldMessenger.of(context).showSnackBar(

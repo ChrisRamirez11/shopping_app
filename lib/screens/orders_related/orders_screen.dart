@@ -1,6 +1,7 @@
 import 'package:app_tienda_comida/screens/orders_related/attended.dart';
 import 'package:app_tienda_comida/screens/orders_related/unattended.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
+import 'package:app_tienda_comida/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 
 class OrdersScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
   Widget build(BuildContext context) {
     String appBarTitle = 'Pedidos';
     return SafeArea(
-      child: Scaffold(
+      child: Scaffold(drawer: MenuDrawer(appBarTitle: appBarTitle),
         bottomNavigationBar: getBottomNavigatioBar(),
         appBar: AppBar(
           title: Text(

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/screens/search_screen.dart';
@@ -28,7 +26,6 @@ class _HomeSreenState extends State<HomeSreen> {
   @override
   Widget build(BuildContext context) {
     final productListNotifier = Provider.of<ProductsListNotifier>(context);
-    log(productListNotifier.productsListNotifier.toString());
     String appBarTitle = 'Inicio';
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return SafeArea(
@@ -78,8 +75,11 @@ class _HomeSreenState extends State<HomeSreen> {
           ),
           endDrawer: const ShoppingCart(),
           drawer: MenuDrawer(appBarTitle: appBarTitle),
-          body: GridViewWidget(
-            appBarTitle: appBarTitle,
+          body: RefreshIndicator(
+            onRefresh: () async => await productListNotifier.loadList(),
+            child: GridViewWidget(
+              appBarTitle: appBarTitle,
+            ),
           ),
         ),
       ),
