@@ -67,7 +67,8 @@ class SheetBottomWidget extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Expanded(flex: 11,
+        Expanded(
+          flex: 11,
           child: Padding(
             padding: const EdgeInsets.all(25),
             child: ClipRRect(
@@ -80,7 +81,8 @@ class SheetBottomWidget extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(flex: 1,
+        Expanded(
+          flex: 1,
           child: Center(
             child: Text(
               product.name,
@@ -89,7 +91,8 @@ class SheetBottomWidget extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(flex: 7,
+        Expanded(
+          flex: 7,
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: SizedBox(
@@ -100,8 +103,11 @@ class SheetBottomWidget extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.transparent,
-                      border:
-                          Border.all(color: Theme.of(context).colorScheme.primary.withOpacity(0.1)),
+                      border: Border.all(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.1)),
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
@@ -129,13 +135,17 @@ class SheetBottomWidget extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(flex: 1,
+        Expanded(
+          flex: 1,
           child: Center(
             child: Text('\$${product.price.toString()}'),
           ),
         ),
-          SizedBox(height: 10,),
-        Expanded(flex: 2,
+        SizedBox(
+          height: 10,
+        ),
+        Expanded(
+          flex: 2,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -143,8 +153,8 @@ class SheetBottomWidget extends StatelessWidget {
                 style: ButtonStyle(
                   backgroundColor:
                       WidgetStatePropertyAll(secondary.withOpacity(0.9)),
-                  shape:
-                      WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
+                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15))),
                 ),
                 onPressed: onAgregar,
                 icon: const Icon(Icons.add),
@@ -153,10 +163,10 @@ class SheetBottomWidget extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
-              SizedBox(height: 10)
             ],
           ),
-        )
+        ),
+        SizedBox(height: 10),
       ],
     );
   }
@@ -168,7 +178,8 @@ class SheetBottomWidget extends StatelessWidget {
       return CachedNetworkImage(
         fit: BoxFit.cover, // Use BoxFit.cover for better image fitting
         imageUrl: pic,
-        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+        placeholder: (context, url) =>
+            const Center(child: CircularProgressIndicator()),
         errorWidget: (context, url, error) => const Icon(Icons.error),
       );
     } else {

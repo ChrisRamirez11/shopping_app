@@ -2,7 +2,7 @@ import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/account_relateds/redirect_screen.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/screens/no_stock/no_stock_products.dart';
-import 'package:app_tienda_comida/screens/orders_screen.dart';
+import 'package:app_tienda_comida/screens/orders_related/orders_screen.dart';
 import 'package:app_tienda_comida/utils/account_validation.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart';

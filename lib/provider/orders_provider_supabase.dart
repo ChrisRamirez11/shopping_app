@@ -34,6 +34,16 @@ class OrdersProviderSupabase {
     }
   }
 
+  Future<void> updateOrder(BuildContext context, int orderId) async {
+    try {
+      return await supabase.from('orders').update({'attended': true}).eq('id', orderId);
+    } on AuthException catch (error) {
+      throw error.message;
+    } catch (error) {
+      throw 'Ha ocurrido un error, vuelva a intentarlo. $error';
+    }
+  }
+
   Future<void> deleteOrder(int orderId) async {
     try {
       return await supabase.from('orders').delete().eq('id', orderId);
