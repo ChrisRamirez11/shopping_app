@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:app_tienda_comida/main.dart';
@@ -43,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final idToken = googleAuth?.idToken;
 
     if (accessToken == null) {
-      throw 'No Access Token found.';
+      log('No Access Token found.') ;
     }
     if (idToken == null) {
       throw 'No ID Token found.';

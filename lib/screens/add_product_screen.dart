@@ -140,7 +140,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   TextFormField _nameField() {
-    return TextFormField(style: Theme.of(context).textTheme.bodyMedium,
+    return TextFormField(
+      style: Theme.of(context).textTheme.bodyMedium,
       initialValue: product.name,
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.name,
@@ -185,7 +186,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(10),
-                      child: TextFormField(style: Theme.of(context).textTheme.bodyMedium,
+                      child: TextFormField(
+                        style: Theme.of(context).textTheme.bodyMedium,
                         onChanged: (value) => type = value,
                         textCapitalization: TextCapitalization.sentences,
                         keyboardType: TextInputType.name,
@@ -263,27 +265,38 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   TextFormField _priceField() {
-    return TextFormField(style: Theme.of(context).textTheme.bodyMedium,
-      initialValue: product.price.toString(),
-      keyboardType: TextInputType.number,
-      decoration: const InputDecoration(
-        labelText: 'Precio',
-        border: OutlineInputBorder(),
-      ),
-      onSaved: (newValue) => product.price = double.parse(newValue!),
-      validator: (value) {
-        if (utils.isNumeric(value!)) {
-          return null;
-        } else {
-          return 'Solo numeros para el precio';
-        }
-      },
-    );
-  }
+  return TextFormField(
+    style: Theme.of(context).textTheme.bodyMedium,
+    initialValue: product.price.toString(),
+    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
+    decoration: const InputDecoration(
+      labelText: 'Precio',
+      border: OutlineInputBorder(),
+    ),
+    onSaved: (newValue) {
+      if (newValue != null) {
+        String cleanedValue = newValue.replaceAll(',', '.').replaceAll('-', '');
+        product.price = double.tryParse(cleanedValue) ?? 0.0;
+      }
+    },
+    validator: (value) {
+      if (value == null || value.isEmpty) {
+        return 'Por favor, ingresa un precio';
+      }
+      String cleanedValue = value.replaceAll(',', '.').replaceAll('-', '');
+      if (utils.isNumeric(cleanedValue)) {
+        return null;
+      } else {
+        return 'Solo números para el precio';
+      }
+    },
+  );
+}
 
   TextFormField _quantityField() {
     bool enabled = !product.availability;
-    return TextFormField(style: Theme.of(context).textTheme.bodyMedium,
+    return TextFormField(
+      style: Theme.of(context).textTheme.bodyMedium,
       enabled: enabled,
       initialValue: product.quantity.toString(),
       keyboardType: const TextInputType.numberWithOptions(decimal: false),
@@ -316,7 +329,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   _descriptionField() {
-    return TextFormField(style: Theme.of(context).textTheme.bodyMedium,
+    return TextFormField(
+      style: Theme.of(context).textTheme.bodyMedium,
       maxLines: 3,
       initialValue: product.description,
       textCapitalization: TextCapitalization.sentences,

@@ -5,8 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductsProviderSupabase {
-  Future<List<Map<String, dynamic>>> productsStart(
-      BuildContext context) async {
+  Future<List<Map<String, dynamic>>> productsStart(BuildContext context) async {
     try {
       return await supabase
           .from('products')
@@ -15,8 +14,8 @@ class ProductsProviderSupabase {
           .limit(10);
     } on AuthException catch (error) {
       throw error.message;
-    } catch (e) {throw 'Ha ocurrido un error: Vuelva a cargar la pagina. $e';
-    
+    } catch (e) {
+      throw 'Ha ocurrido un error: Vuelva a cargar la pagina. $e';
     }
   }
 
@@ -151,6 +150,16 @@ class ProductsProviderSupabase {
             content:
                 Text('Ha ocurrido un error, vuelva a intentarlo. $error')));
       });
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getEveryProduct() async {
+    try {
+      return await supabase.from('products').select();
+    } on AuthException catch (error) {
+      throw error.message;
+    } catch (e) {
+      throw 'Ha ocurrido un error: Vuelva a cargar la pagina. $e';
     }
   }
 }

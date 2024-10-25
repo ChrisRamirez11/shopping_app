@@ -1,6 +1,5 @@
 import 'package:app_tienda_comida/screens/no_stock/no_stock_grid_view_widget.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
-import 'package:app_tienda_comida/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 
 class NoStockProducts extends StatelessWidget {
@@ -19,7 +18,6 @@ class NoStockProducts extends StatelessWidget {
           foregroundColor: secondary,
           backgroundColor: primary,
         ),
-        drawer: MenuDrawer(appBarTitle: appBarTitle),
         body: NoStockGridViewWidget(
           appBarTitle: appBarTitle,
         ),

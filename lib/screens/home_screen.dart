@@ -34,50 +34,50 @@ class _HomeSreenState extends State<HomeSreen> {
           content: Text('Presione nuevamente para salir'),
           duration: Duration(milliseconds: 1000),
         ),
-        child: Scaffold(
-          key: scaffoldKey,
-          floatingActionButton: FloatingActionButton(
-            foregroundColor: secondary,
-            backgroundColor: primary,
-            child: const Icon(Icons.add),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const AddProductScreen(),
-            )),
-          ),
-          appBar: AppBar(
-            title: Text(
-              'Recientes',
-              style: Theme.of(context).textTheme.bodyLarge,
+        child: RefreshIndicator(
+          onRefresh: () async => await productListNotifier.loadList(),
+          child: Scaffold(
+            key: scaffoldKey,
+            floatingActionButton: FloatingActionButton(
+              foregroundColor: secondary,
+              backgroundColor: primary,
+              child: const Icon(Icons.add),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const AddProductScreen(),
+              )),
             ),
-            foregroundColor: secondary,
-            backgroundColor: primary,
-            actions: [
-              IconButton(
-                onPressed: () async {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const SearchScreen(),
-                  ));
-                },
-                icon: const Icon(Icons.search_outlined),
+            appBar: AppBar(
+              title: Text(
+                'Recientes',
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
-              IconButton(
-                onPressed: () {
-                  if (!isAccountFinished(context)) {
-                    return;
-                  }
-                  scaffoldKey.currentState!.openEndDrawer();
-                },
-                icon: const Icon(
-                  IconData(0xe59c, fontFamily: 'MaterialIcons'),
+              foregroundColor: secondary,
+              backgroundColor: primary,
+              actions: [
+                IconButton(
+                  onPressed: () async {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const SearchScreen(),
+                    ));
+                  },
+                  icon: const Icon(Icons.search_outlined),
                 ),
-              )
-            ],
-          ),
-          endDrawer: const ShoppingCart(),
-          drawer: MenuDrawer(appBarTitle: appBarTitle),
-          body: RefreshIndicator(
-            onRefresh: () async => await productListNotifier.loadList(),
-            child: GridViewWidget(
+                IconButton(
+                  onPressed: () {
+                    if (!isAccountFinished(context)) {
+                      return;
+                    }
+                    scaffoldKey.currentState!.openEndDrawer();
+                  },
+                  icon: const Icon(
+                    IconData(0xe59c, fontFamily: 'MaterialIcons'),
+                  ),
+                )
+              ],
+            ),
+            endDrawer: const ShoppingCart(),
+            drawer: MenuDrawer(appBarTitle: appBarTitle),
+            body: GridViewWidget(
               appBarTitle: appBarTitle,
             ),
           ),

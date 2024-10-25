@@ -2,6 +2,7 @@ import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/provider/get_profile.dart';
 import 'package:app_tienda_comida/screens/account_relateds/log_in_screen.dart';
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
+import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -22,7 +23,6 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   bool _loading = true;
 
   Future<void> _getProfile() async {
-
     try {
       final data = await getProfile(context);
       _fullNameController.text = (data['fullName'] ?? '') as String;
@@ -55,12 +55,26 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       _loading = true;
     });
 
-    // Validate non-empty fields
     if (_fullNameController.text.isEmpty ||
         _directionController.text.isEmpty ||
         _cellphoneController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Por favor, complete todos los campos')),
+      );
+      setState(() {
+        _loading = false;
+      });
+      return;
+    }
+
+    if (_cellphoneController.text.contains(RegExp(r'[,.]'))) {
+      _cellphoneController.text =
+          _cellphoneController.text.replaceAll(RegExp(r'[,.]'), '');
+    }
+
+    if (!isNumeric(_cellphoneController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Telèfono solo debe contener nùmeros')),
       );
       setState(() {
         _loading = false;
@@ -150,8 +164,10 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Perfil', style: Theme.of(context).textTheme.bodyLarge,),
-          
+          title: Text(
+            'Perfil',
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
@@ -159,20 +175,22 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
             TextFormField(
               controller: _fullNameController,
               decoration: InputDecoration(
-                  labelText: 'Nombre y Apellido',),
+                labelText: 'Nombre y Apellido',
+              ),
             ),
             const SizedBox(height: 18),
             TextFormField(
               maxLines: 2,
               controller: _directionController,
-              decoration:
-                  InputDecoration(labelText: 'Dirección',),
+              decoration: InputDecoration(
+                labelText: 'Dirección',
+              ),
             ),
             const SizedBox(height: 18),
             TextFormField(
+              keyboardType: TextInputType.number,
               controller: _cellphoneController,
-              decoration: InputDecoration(
-                  labelText: 'Teléfono de Contacto'),
+              decoration: InputDecoration(labelText: 'Teléfono de Contacto'),
             ),
             const SizedBox(height: 18),
             ElevatedButton(

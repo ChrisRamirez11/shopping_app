@@ -53,14 +53,14 @@ class MyApp extends StatelessWidget {
           ),
           provider.ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ],
-        child: const MaterialAppFood(),
+        child: const MaterialAppFood.MaterialShopApp(),
       ),
     );
   }
 }
 
 class MaterialAppFood extends StatelessWidget {
-  const MaterialAppFood({
+  const MaterialAppFood.MaterialShopApp({
     super.key,
   });
 

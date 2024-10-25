@@ -1,7 +1,7 @@
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/account_relateds/redirect_screen.dart';
+import 'package:app_tienda_comida/screens/business_management.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
-import 'package:app_tienda_comida/screens/no_stock/no_stock_products.dart';
 import 'package:app_tienda_comida/screens/orders_related/orders_screen.dart';
 import 'package:app_tienda_comida/utils/account_validation.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
@@ -97,17 +97,17 @@ class _MenuDrawerState extends State<MenuDrawer> {
           ),
           //TODO: DELETE THIS FOR USERS
           ListTile(
-              leading: const Icon(Icons.remove_shopping_cart_outlined),
-              title: getTexts('Productos sin Stock', theme.bodyMedium),
+              leading: const Icon(Icons.manage_history),
+              title: getTexts('Gestiòn del Negocio', theme.bodyMedium),
               onTap: () {
                 if (!isAccountFinished(context)) return;
                 if (widget.appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const NoStockProducts(),
+                    builder: (context) => const BusinessManagement(),
                   ));
                 } else {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const NoStockProducts(),
+                    builder: (context) => const BusinessManagement(),
                   ));
                 }
               }),

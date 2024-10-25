@@ -90,61 +90,59 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
 
   _createGridTile(BuildContext context, int index, data) {
     final product = data[index];
-    return Expanded(flex: 1,
-      child: GridTile(
-          header: GridTileBar(
-            title: Center(
-              child: Text(product['type'],
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyMedium),
-            ),
+    return GridTile(
+        header: GridTileBar(
+          title: Center(
+            child: Text(product['type'],
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodyMedium),
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Expanded(flex: 3,
-                child: Container(
-                    color: Colors.white70,
-                    height: 90,
-                    width: 160,
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: _loadImage(product)),
-              ),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  SizedBox(
-                    width: 120,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 110,
-                          child: Text(
-                            overflow: TextOverflow.ellipsis,
-                            product['name'].toString(),
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 40.0),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Expanded(flex: 3,
+              child: Container(
+                  color: Colors.white70,
+                  height: 90,
+                  width: 160,
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: _loadImage(product)),
+            ),
+            Row(
+              children: [
+                const SizedBox(
+                  width: 10,
+                ),
+                SizedBox(
+                  width: 120,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 110,
+                        child: Text(
+                          overflow: TextOverflow.ellipsis,
+                          product['name'].toString(),
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
-                        SizedBox(
-                          width: 110,
-                          child: Text(
-                            overflow: TextOverflow.ellipsis,
-                            product['price'].toString(),
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        width: 110,
+                        child: Text(
+                          overflow: TextOverflow.ellipsis,
+                          product['price'].toString(),
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      )
+                    ],
                   ),
-                ],
-              ),SizedBox(height: 5,)
-            ]),
-          )),
-    );
+                ),
+              ],
+            ),SizedBox(height: 5,)
+          ]),
+        ));
   }
 
   _loadImage(product) {
