@@ -34,7 +34,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String pic = '';
   late XFile imageFile = XFile.fromData(Uint8List.fromList([]));
 
-  //DropDownButton
   String? _selectedOption;
 
   @override
@@ -141,7 +140,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   TextFormField _nameField() {
     return TextFormField(
-      style: Theme.of(context).textTheme.bodyMedium,
+      style: Theme.of(context).textTheme.labelMedium,
       initialValue: product.name,
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.name,
@@ -187,7 +186,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: TextFormField(
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: Theme.of(context).textTheme.labelMedium,
                         onChanged: (value) => type = value,
                         textCapitalization: TextCapitalization.sentences,
                         keyboardType: TextInputType.name,
@@ -266,7 +265,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   TextFormField _priceField() {
   return TextFormField(
-    style: Theme.of(context).textTheme.bodyMedium,
+    style: Theme.of(context).textTheme.labelMedium,
     initialValue: product.price.toString(),
     keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
     decoration: const InputDecoration(
@@ -296,7 +295,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   TextFormField _quantityField() {
     bool enabled = !product.availability;
     return TextFormField(
-      style: Theme.of(context).textTheme.bodyMedium,
+      style: Theme.of(context).textTheme.labelMedium,
       enabled: enabled,
       initialValue: product.quantity.toString(),
       keyboardType: const TextInputType.numberWithOptions(decimal: false),
@@ -321,7 +320,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        title: const Text('Siempre en stock'),
+        title: utils.getTexts('Siempre en stock', Theme.of(context).textTheme.bodyMedium),
         value: product.availability,
         onChanged: (value) => setState(() {
               product.availability = value;
@@ -330,12 +329,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   _descriptionField() {
     return TextFormField(
-      style: Theme.of(context).textTheme.bodyMedium,
+      style: Theme.of(context).textTheme.labelMedium,
       maxLines: 3,
       initialValue: product.description,
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.text,
-      decoration: InputDecoration(
+      decoration: InputDecoration(labelStyle: Theme.of(context).textTheme.bodyMedium,
         contentPadding: const EdgeInsets.all(10),
         isCollapsed: product.description.isEmpty ? true : false,
         labelText: 'Descripción(opcional)',

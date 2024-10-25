@@ -138,7 +138,8 @@ class _BusinessManagementState extends State<BusinessManagement> {
                         const SnackBar(content: Text('Solo nùmeros')));
                     return;
                   }
-                  massivePriceChange(context, _newPriceController);
+                  massivePriceChange(
+                      context, _newPriceController, selectedValue!);
                   Navigator.of(context).pop();
                 },
                 child: getTexts('Ok', Theme.of(context).textTheme.labelMedium),
@@ -172,13 +173,27 @@ class _BusinessManagementState extends State<BusinessManagement> {
       ];
 }
 
-Future<void> massivePriceChange(
-    BuildContext context, TextEditingController _newPriceController) async {
-      final ProductsProviderSupabase productsProviderSupabase = ProductsProviderSupabase();
-  List<Map<String, dynamic>> products = await productsProviderSupabase.getEveryProduct();
-  for(var productMap in products){
+//TODO ALERTA ANTES DE EMPEZAR HACER EL CAMBIO MASIVO Y FEEDBACK DE TERMINADO
+Future<void> massivePriceChange(BuildContext context,
+    TextEditingController _newPriceController, String selectedValue) async {
+  final ProductsProviderSupabase productsProviderSupabase =
+      ProductsProviderSupabase();
+  List<Map<String, dynamic>> products =
+      await productsProviderSupabase.getEveryProduct();
+  for (var productMap in products) {
     Product product = Product.fromJson(productMap);
-    product.price = double.parse(_newPriceController.text);
+    switch (selectedValue) {
+      case 'Plus':
+        product.price += double.parse(_newPriceController.text);
+      case 'Times':
+        product.price *= double.parse(_newPriceController.text);
+
+      case 'Less':
+        product.price -= double.parse(_newPriceController.text);
+
+      case 'Divide':
+        product.price /= double.parse(_newPriceController.text);
+    }
     productsProviderSupabase.updateProduct(context, product);
   }
 }

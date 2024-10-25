@@ -172,25 +172,29 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
           children: [
-            TextFormField(
+            TextFormField(style: Theme.of(context).textTheme.labelLarge,
               controller: _fullNameController,
               decoration: InputDecoration(
+                labelStyle: Theme.of(context).textTheme.bodyMedium,
                 labelText: 'Nombre y Apellido',
               ),
             ),
             const SizedBox(height: 18),
-            TextFormField(
+            TextFormField(style: Theme.of(context).textTheme.labelLarge,
               maxLines: 2,
               controller: _directionController,
               decoration: InputDecoration(
+                labelStyle: Theme.of(context).textTheme.bodyMedium,
                 labelText: 'Dirección',
               ),
             ),
             const SizedBox(height: 18),
-            TextFormField(
+            TextFormField(style: Theme.of(context).textTheme.labelLarge,
               keyboardType: TextInputType.number,
               controller: _cellphoneController,
-              decoration: InputDecoration(labelText: 'Teléfono de Contacto'),
+              decoration: InputDecoration(
+                  labelStyle: Theme.of(context).textTheme.bodyMedium,
+                  labelText: 'Teléfono de Contacto'),
             ),
             const SizedBox(height: 18),
             ElevatedButton(
