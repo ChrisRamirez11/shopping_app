@@ -194,6 +194,6 @@ Future<void> massivePriceChange(BuildContext context,
       case 'Divide':
         product.price /= double.parse(_newPriceController.text);
     }
-    productsProviderSupabase.updateProduct(context, product);
+    await productsProviderSupabase.updateProduct(context, product);
   }
 }
