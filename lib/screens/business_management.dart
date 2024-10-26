@@ -1,8 +1,10 @@
 import 'package:app_tienda_comida/models/producto.dart';
+import 'package:app_tienda_comida/provider/business_magement_selectedValue.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/no_stock/no_stock_products.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart' as provider;
 
 import '../utils/theme.dart';
 
@@ -14,8 +16,6 @@ class BusinessManagement extends StatefulWidget {
 }
 
 class _BusinessManagementState extends State<BusinessManagement> {
-  String? selectedValue = 'Plus';
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -57,7 +57,6 @@ class _BusinessManagementState extends State<BusinessManagement> {
     );
   }
 
-  // Método para obtener cambio masivo de productos
   getMassiveProductsChange(BuildContext context) {
     return Card(
       child: ListTile(
@@ -71,10 +70,11 @@ class _BusinessManagementState extends State<BusinessManagement> {
     );
   }
 
-  // Método para mostrar el diálogo de cambio masivo de precio
   getMassiveProductsChangeDialog(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     TextEditingController _newPriceController = TextEditingController(text: '');
+    SelectedValue valueProvider = provider.Provider.of<SelectedValue>(context);
+    var selectedValue = valueProvider.selectedValue;
     return SimpleDialog(
       title: getTexts(
           'Cambio Masivo de Precio', Theme.of(context).textTheme.bodyMedium),
@@ -96,9 +96,7 @@ class _BusinessManagementState extends State<BusinessManagement> {
                       value: selectedValue,
                       items: getItems(),
                       onChanged: (value) {
-                        setState(() {
-                          selectedValue = value;
-                        });
+                        valueProvider.changeValue(value!);
                       },
                     ),
                   ),
@@ -126,21 +124,23 @@ class _BusinessManagementState extends State<BusinessManagement> {
           child: Row(
             children: [
               TextButton(
-                onPressed: () => Navigator.of(context).pop(), // Cerrar diálogo
+                onPressed: () => Navigator.of(context).pop(),
                 child: getTexts(
                     'Cancelar', Theme.of(context).textTheme.labelMedium),
               ),
               Expanded(child: Container()),
               TextButton(
-                onPressed: () {
+                onPressed: () async {
                   if (!isNumeric(_newPriceController.text)) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Solo nùmeros')));
+                      const SnackBar(content: Text('Solo números')),
+                    );
                     return;
                   }
-                  massivePriceChange(
-                      context, _newPriceController, selectedValue!);
-                  Navigator.of(context).pop();
+
+                  await massivePriceChange(
+                      context, _newPriceController, selectedValue);
+                  Navigator.pop(context);
                 },
                 child: getTexts('Ok', Theme.of(context).textTheme.labelMedium),
               )
@@ -150,8 +150,6 @@ class _BusinessManagementState extends State<BusinessManagement> {
       ],
     );
   }
-
-  // Método para obtener los elementos del Dropdown
 
   List<DropdownMenuItem<String>> getItems() => <DropdownMenuItem<String>>[
         DropdownMenuItem(
@@ -173,27 +171,56 @@ class _BusinessManagementState extends State<BusinessManagement> {
       ];
 }
 
-//TODO ALERTA ANTES DE EMPEZAR HACER EL CAMBIO MASIVO Y FEEDBACK DE TERMINADO
 Future<void> massivePriceChange(BuildContext context,
     TextEditingController _newPriceController, String selectedValue) async {
   final ProductsProviderSupabase productsProviderSupabase =
       ProductsProviderSupabase();
-  List<Map<String, dynamic>> products =
-      await productsProviderSupabase.getEveryProduct();
-  for (var productMap in products) {
-    Product product = Product.fromJson(productMap);
-    switch (selectedValue) {
-      case 'Plus':
-        product.price += double.parse(_newPriceController.text);
-      case 'Times':
-        product.price *= double.parse(_newPriceController.text);
+  showMassiveChangeDialog(context);
 
-      case 'Less':
-        product.price -= double.parse(_newPriceController.text);
+  try {
+    List<Map<String, dynamic>> products =
+        await productsProviderSupabase.getEveryProduct();
 
-      case 'Divide':
-        product.price /= double.parse(_newPriceController.text);
+    for (var productMap in products) {
+      Product product = Product.fromJson(productMap);
+      switch (selectedValue) {
+        case 'Plus':
+          product.price += double.parse(_newPriceController.text);
+          break;
+        case 'Times':
+          product.price *= double.parse(_newPriceController.text);
+          break;
+        case 'Less':
+          product.price -= double.parse(_newPriceController.text);
+          break;
+        case 'Divide':
+          product.price /= double.parse(_newPriceController.text);
+          break;
+      }
+      await productsProviderSupabase.updateProduct(context, product);
     }
-    await productsProviderSupabase.updateProduct(context, product);
+    Navigator.of(context).pop();
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error al actualizar precios: $e')),
+    );
   }
+}
+
+void showMassiveChangeDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Row(
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(width: 20),
+            Text("Actualizando precios..."),
+          ],
+        ),
+      );
+    },
+  );
 }

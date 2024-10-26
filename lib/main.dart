@@ -1,3 +1,4 @@
+import 'package:app_tienda_comida/provider/business_magement_selectedValue.dart';
 import 'package:app_tienda_comida/screens/custom_error_screen.dart';
 import 'package:app_tienda_comida/utils/notifications/local_notification.dart';
 import 'package:app_tienda_comida/utils/refresh_token.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
             create: (_) => ProductsListNotifier(),
           ),
           provider.ChangeNotifierProvider(create: (_) => ThemeProvider()),
+          provider.ChangeNotifierProvider(create: (_) => SelectedValue()),
         ],
         child: const MaterialAppFood.MaterialShopApp(),
       ),
