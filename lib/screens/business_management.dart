@@ -49,7 +49,7 @@ class _BusinessManagementState extends State<BusinessManagement> {
     return Card(
       child: ListTile(
         title: getTexts(
-            'Productos sin Stock', Theme.of(context).textTheme.bodyMedium),
+            'Productos Agotados', Theme.of(context).textTheme.bodyMedium),
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => NoStockProducts(),
         )),

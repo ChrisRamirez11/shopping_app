@@ -1,5 +1,6 @@
 import 'package:app_tienda_comida/provider/business_magement_selectedValue.dart';
 import 'package:app_tienda_comida/screens/custom_error_screen.dart';
+import 'package:app_tienda_comida/utils/consts.dart';
 import 'package:app_tienda_comida/utils/notifications/local_notification.dart';
 import 'package:app_tienda_comida/utils/refresh_token.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
@@ -16,9 +17,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
-      url: 'https://lsohakpxtnsjxexmvdmj.supabase.co',
-      anonKey:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxzb2hha3B4dG5zanhleG12ZG1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjAxOTU5NDMsImV4cCI6MjAzNTc3MTk0M30.xNEhSXEPxqmEp72-N_poF5bIw7pCf36d8PZGih9avH8',
+      url: Consts.baseUrl,
+      anonKey: Consts.anonKey,
       authOptions:
           const FlutterAuthClientOptions(authFlowType: AuthFlowType.pkce));
 
@@ -26,6 +26,7 @@ Future<void> main() async {
   await initNotifications();
   listenToTableChanges();
   //*hasta aqui
+
 
   await refreshToken();
 

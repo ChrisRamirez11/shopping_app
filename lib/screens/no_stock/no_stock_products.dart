@@ -7,7 +7,7 @@ class NoStockProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String appBarTitle = 'Sin Stock';
+    String appBarTitle = 'Producto Agotados';
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

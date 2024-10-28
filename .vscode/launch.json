@@ -10,6 +10,14 @@
             "type": "dart"
         },
         {
+            "name": "dev",
+            "request": "launch",
+            "type": "dart",
+            "args":[
+                "--dart-define-from-file=env/dev.json"
+            ]
+        },
+        {
             "name": "app_tienda_comida (profile mode)",
             "request": "launch",
             "type": "dart",
