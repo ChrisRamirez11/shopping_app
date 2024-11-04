@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-const Color primary = const Color.fromARGB(255, 243, 33, 33);
-const Color secondary = const Color.fromARGB(255, 244, 241, 54);
+const Color primary = const Color(0xFFF18427);
+const Color secondary = const Color(0xFFF1EAB9);
 const Color tertiary = Colors.black;
-const Color white = Colors.white;
+const Color white = Color(0xFFF9F6ED);
 Color errorColor = Colors.red.shade300;
 
 const double largeSize = 20;
@@ -124,4 +124,5 @@ ThemeData themeDark = ThemeData.dark().copyWith(
       brightness: Brightness.dark,
       primary: primary,
       secondary: secondary,
+      tertiary: Color(0xFF57B35F)
     ));

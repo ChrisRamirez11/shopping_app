@@ -45,7 +45,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
             )),
           ),
           ListTile(
-              leading: const Icon(Icons.home),
+              leading: const Icon(Icons.store),
               title: getTexts('Inicio', theme.bodyMedium),
               onTap: () {
                 if (!widget.appBarTitle.contains('Inicio')) {
@@ -97,7 +97,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
           ),
           //TODO: DELETE THIS FOR USERS
           ListTile(
-              leading: const Icon(Icons.manage_history),
+              leading: const Icon(Icons.business_center),
               title: getTexts('Gestiòn del Negocio', theme.bodyMedium),
               onTap: () {
                 if (!isAccountFinished(context)) return;
@@ -153,7 +153,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                }),
           */
           ListTile(
-              leading: const Icon(Icons.account_circle_rounded),
+              leading: const Icon(Icons.account_circle_outlined),
               title: getTexts('Perfil', theme.bodyMedium),
               onTap: () {
                 if (widget.appBarTitle.contains('Inicio')) {
