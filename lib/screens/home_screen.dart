@@ -10,14 +10,14 @@ import 'package:double_tap_to_exit/double_tap_to_exit.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeSreen extends StatefulWidget {
-  const HomeSreen({super.key});
+class HomeSrceen extends StatefulWidget {
+  const HomeSrceen({super.key});
 
   @override
-  State<HomeSreen> createState() => _HomeSreenState();
+  State<HomeSrceen> createState() => _HomeSrceenState();
 }
 
-class _HomeSreenState extends State<HomeSreen> {
+class _HomeSrceenState extends State<HomeSrceen> {
   @override
   void dispose() {
     super.dispose();
@@ -35,7 +35,15 @@ class _HomeSreenState extends State<HomeSreen> {
           duration: Duration(milliseconds: 1000),
         ),
         child: RefreshIndicator(
-          onRefresh: () async => await productListNotifier.loadList(),
+          onRefresh: () async {
+            try {
+              await productListNotifier.loadList();
+            } catch (error) {
+              // Handle error (e.g., show a Snackbar)
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Error al cargar la lista de productos')));
+            }
+          },
           child: Scaffold(
             key: scaffoldKey,
             floatingActionButton: FloatingActionButton(

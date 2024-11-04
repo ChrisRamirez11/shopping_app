@@ -75,7 +75,7 @@ class MaterialAppFood extends StatelessWidget {
         theme: provider.Provider.of<ThemeProvider>(context).themeData
             ? themeDark
             : theme,
-        home: const HomeSreen(),
+        home: const HomeSrceen(),
         onGenerateRoute: (settings) {
           final Map<String, dynamic> args =
               settings.arguments as Map<String, dynamic>;
