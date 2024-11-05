@@ -40,9 +40,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
           });
         },
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Pendiente'),
+          BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: 'Pendiente'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.checklist_rtl), label: 'Atendido'),
+              icon: Icon(Icons.fact_check), label: 'Atendido'),
         ]);
   }
 

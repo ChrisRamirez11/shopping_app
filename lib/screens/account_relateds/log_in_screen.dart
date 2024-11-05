@@ -105,6 +105,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          foregroundColor: secondary,
+          backgroundColor: primary,
             title: Text(
           'Sign In',
           style: Theme.of(context).textTheme.bodyLarge,

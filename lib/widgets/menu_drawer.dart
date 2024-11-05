@@ -38,11 +38,38 @@ class _MenuDrawerState extends State<MenuDrawer> {
             margin: EdgeInsets.zero,
             padding: EdgeInsets.zero,
             decoration: BoxDecoration(color: primary),
-            child: Center(
-                child: Text(
-              style: Theme.of(context).textTheme.bodyLarge,
-              'Menú',
-            )),
+            child: ClipRect(
+              child: Stack(
+                children: [
+                  SizedBox(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: Image.asset(
+                        'assets/des/eatings.png',
+                        fit: BoxFit.cover,
+                      )),
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Container(
+                      decoration: BoxDecoration(boxShadow: [
+                        BoxShadow(
+                            color: Colors.black45,
+                            spreadRadius: 10,
+                            blurRadius: 10,)
+                      ]),
+                      width: double.infinity,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          style: Theme.of(context).textTheme.bodyLarge,
+                          'Menú',
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
           ListTile(
               leading: const Icon(Icons.store),
@@ -97,7 +124,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
           ),
           //TODO: DELETE THIS FOR USERS
           ListTile(
-              leading: const Icon(Icons.business_center),
+              leading: const Icon(Icons.business_center_outlined),
               title: getTexts('Gestiòn del Negocio', theme.bodyMedium),
               onTap: () {
                 if (!isAccountFinished(context)) return;

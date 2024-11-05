@@ -84,7 +84,7 @@ Future<Widget> adminWidget(BuildContext context) async {
     children: [
       Row(
         children: [
-          Icon(Icons.contacts),
+          Icon(Icons.assignment_ind),
           getTexts('Cliente: ', themeCust.bodySmall),
           Expanded(
               flex: 1,
