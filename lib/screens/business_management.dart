@@ -60,7 +60,8 @@ class _BusinessManagementState extends State<BusinessManagement> {
 
   getMassiveProductsChange(BuildContext context) {
     return Card(
-      child: ListTile(leading: Icon(Icons.price_change),
+      child: ListTile(
+        leading: Icon(Icons.price_change),
         title: getTexts(
             'Cambio Masivo de Precio', Theme.of(context).textTheme.bodyMedium),
         onTap: () => showDialog(
@@ -77,37 +78,54 @@ class _BusinessManagementState extends State<BusinessManagement> {
     SelectedValue valueProvider = provider.Provider.of<SelectedValue>(context);
     var selectedValue = valueProvider.selectedValue;
     return SimpleDialog(
-      title: getTexts(
-          'Cambio Masivo de Precio', Theme.of(context).textTheme.bodyMedium),
+      backgroundColor: second2,
+      title: Center(
+        child: getTexts(
+            'Cambio Masivo de Precio', Theme.of(context).textTheme.labelMedium),
+      ),
       children: [
         Container(
           width: size.width * 0.8,
-          height: size.height * 0.2,
+          height: size.height * 0.15,
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Row(
               children: [
-                SizedBox(
-                  width: 10,
-                ),
                 Expanded(
-                  flex: 1,
-                  child: Center(
-                    child: DropdownButton<String>(
-                      value: selectedValue,
-                      items: getItems(),
-                      onChanged: (value) {
-                        valueProvider.changeValue(value!);
-                      },
-                    ),
+                  flex: 2,
+                  child: DropdownButtonFormField<String>(
+                    padding: EdgeInsets.all(1),
+                    decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: primary)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: primary)),
+                        isDense: true,
+                        contentPadding: EdgeInsets.all(4)),
+                    isExpanded: true,
+                    value: selectedValue,
+                    items: getItems(),
+                    onChanged: (value) {
+                      valueProvider.changeValue(value!);
+                    },
                   ),
                 ),
+                Spacer(
+                  flex: 1,
+                ),
                 Expanded(
-                  flex: 5,
+                  flex: 6,
                   child: TextFormField(
                     style: Theme.of(context).textTheme.labelMedium,
                     controller: _newPriceController,
                     decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 0.5, color: Colors.grey.shade50)),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 0.5, color: Colors.grey.shade50)),
+                        isDense: true,
                         counterStyle: Theme.of(context).textTheme.labelMedium,
                         labelText: 'Valor',
                         labelStyle: Theme.of(context).textTheme.bodyMedium),
@@ -125,26 +143,39 @@ class _BusinessManagementState extends State<BusinessManagement> {
           child: Row(
             children: [
               TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: getTexts(
-                    'Cancelar', Theme.of(context).textTheme.labelMedium),
-              ),
+                  style: TextButton.styleFrom(
+                      fixedSize: Size(10, 5),
+                      backgroundColor: Colors.grey.shade700,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: FittedBox(
+                    child: getTexts(
+                        'Cancelar', Theme.of(context).textTheme.labelMedium),
+                  )),
               Expanded(child: Container()),
               TextButton(
-                onPressed: () async {
-                  if (!isNumeric(_newPriceController.text)) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Solo números')),
-                    );
-                    return;
-                  }
+                  style: TextButton.styleFrom(
+                      fixedSize: Size(10, 5),
+                      backgroundColor: primary,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  onPressed: () async {
+                    if (!isNumeric(_newPriceController.text)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Solo números')),
+                      );
+                      return;
+                    }
 
-                  await massivePriceChange(
-                      context, _newPriceController, selectedValue);
-                  Navigator.pop(context);
-                },
-                child: getTexts('Ok', Theme.of(context).textTheme.labelMedium),
-              )
+                    await massivePriceChange(
+                        context, _newPriceController, selectedValue);
+                    Navigator.pop(context);
+                  },
+                  child: FittedBox(
+                    child:
+                        getTexts('Ok', Theme.of(context).textTheme.labelSmall),
+                  ))
             ],
           ),
         )

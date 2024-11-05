@@ -4,6 +4,13 @@ const Color primary = const Color(0xFFF18427);
 const Color secondary = const Color(0xFFF1EAB9);
 const Color tertiary = Colors.black;
 const Color white = Color(0xFFF9F6ED);
+
+
+const Color second2 = Color.fromARGB(255, 58, 54, 43);
+const Color greenCustom = Color(0xFF57B35F);
+
+
+
 Color errorColor = Colors.red.shade300;
 
 const double largeSize = 20;
@@ -13,7 +20,6 @@ const double smallSize = 12;
 //ThemeData
 //
 ThemeData theme = ThemeData(
-  primaryColor: white,
   textTheme: TextTheme(
     bodyLarge: const TextStyle(
       fontSize: largeSize, color: tertiary, fontWeight: FontWeight.bold),
