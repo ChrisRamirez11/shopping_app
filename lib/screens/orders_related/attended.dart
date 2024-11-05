@@ -1,5 +1,6 @@
 import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/orders_related/orders_simple_dialog.dart';
+import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/pdf.dart';
@@ -19,7 +20,8 @@ class AttendedOrder extends StatelessWidget {
             List<Map<String, dynamic>>? orderMap = snapshot.data;
             return ListView.builder(
               itemCount: orderMap!.length,
-              itemBuilder: (context, index) => getListTile(context, orderMap[index]),
+              itemBuilder: (context, index) =>
+                  getListTile(context, orderMap[index]),
             );
           }
         },
@@ -30,51 +32,81 @@ class AttendedOrder extends StatelessWidget {
 
 getListTile(BuildContext context, Map<String, dynamic> orderMap) {
   DateTime date = DateTime.parse(orderMap['created_at']);
-  if(!orderMap['attended']) return Container();
+  if (!orderMap['attended']) return Container();
+
   return Card(
-      child: SizedBox(
-    height: 70,
-    child: ListTile(
-      leading: SizedBox(
-        width: 100,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+    child: SizedBox(
+      height: 70,
+      child: InkWell(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (context) => FutureBuilder(
+              future: orderSimpleDialog(context, orderMap),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Center(
+                    child: Text('Ha ocurrido un Error'),
+                  );
+                } else if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                } else {
+                  return snapshot.requireData;
+                }
+              },
+            ),
+          );
+        },
+        child: Row(
           children: [
-            Text(
-              'ID: #${orderMap['id'].toString()}',
-              style: Theme.of(context).textTheme.bodyMedium,
+            Expanded(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.receipt_long),
+                  Text(
+                    'ID: #${orderMap['id'].toString()}',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 30, child: VerticalDivider()),
+            Expanded(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.calendar_month),
+                  Text('${date.day}/${date.month}/${date.year}'),
+                ],
+              ),
+            ),
+            SizedBox(height: 30, child: VerticalDivider()),
+            Expanded(
+              flex: 1,
+              child: ElevatedButton(
+                onPressed: () => getPDf(context, orderMap),
+                child: Row(
+                  children: [
+                    Expanded(
+                        flex: 1,
+                        child: Icon(
+                          Icons.open_in_new_outlined,
+                          color: white,
+                        )),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
       ),
-      title: Text('Fecha:'),
-      subtitle: Text('${date.day}/${date.month}/${date.year}'),
-      trailing: IconButton(
-          onPressed: () => getPDf(context, orderMap),
-          icon: Icon(Icons.open_in_new_outlined)),
-      isThreeLine: true,
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) => FutureBuilder(
-            future: orderSimpleDialog(context, orderMap),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return const Center(
-                  child: Text('Ha ocurrido un Error'),
-                );
-              } else if (!snapshot.hasData) {
-                return const Center(child: CircularProgressIndicator());
-              } else {
-                return snapshot.requireData;
-              }
-            },
-          ),
-        );
-      },
     ),
-  ));
+  );
 }
 
 Future<List<Map<String, dynamic>>> limitTimeCheck() async {

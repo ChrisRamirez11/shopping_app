@@ -1,10 +1,9 @@
-import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/provider/get_profile.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../utils/theme.dart';
 
 Future<Widget> orderSimpleDialog(
     BuildContext context, Map<String, dynamic> orderMap) async {
@@ -14,82 +13,129 @@ Future<Widget> orderSimpleDialog(
   return SimpleDialog(
     contentPadding: EdgeInsets.all(10),
     children: [
-      await getDataIfAdmin(context),
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Center(child: Text('Lista de la compra: ')),
+        child: Center(
+          child: getTexts('Pedido #${orderMap['id']}',
+              Theme.of(context).textTheme.bodyMedium),
+        ),
+      ),
+      await adminWidget(context),
+      Padding(
+        padding: const EdgeInsets.only(top: 12.0),
+        child: Row(
+          children: [
+            Icon(
+              Icons.receipt_long,
+              color: primary,
+            ),
+            Text(
+              ' Lista de la compra: ',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
+        ),
       ),
       SizedBox(
           height: size.height * 0.40,
           width: size.width * 0.90,
           child: ListView.builder(
+            padding: EdgeInsets.only(left: 10),
             itemCount: productsListMap.length,
             itemBuilder: (context, index) => ListTile(
-                leading: getTexts('X${productsListMap[index]['quantity'].toString()}', theme.labelSmall),
-                title: getTexts(productsListMap[index]['name'], theme.labelSmall),
-                trailing: getTexts(productsListMap[index]['price'].toString(), theme.labelSmall)),
+                leading: getTexts(
+                    'X${productsListMap[index]['quantity'].toString()}',
+                    theme.labelSmall),
+                title:
+                    getTexts(productsListMap[index]['name'], theme.labelSmall),
+                trailing: getTexts(productsListMap[index]['price'].toString(),
+                    theme.labelSmall)),
           )),
-          SizedBox(height: 10,),
-      Center(child: Text('Total: ${orderMap['total']}')),
-          SizedBox(height: 10,),
+      SizedBox(
+        height: 10,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.price_check,
+            color: greenCustom,
+          ),
+          Text(
+            'Total: ${orderMap['total']}',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
+      ),
+      SizedBox(
+        height: 10,
+      ),
     ],
   );
 }
 
-Future<Widget> getDataIfAdmin(BuildContext context) async {
-  try {
-    final userId = await supabase.auth.currentUser!.id;
-    final resp =
-        await supabase.from('roles').select().eq('user_id', userId).single();
-    if (resp['role'].toString() == 'admin') {
-      return adminWidget(context);
-    } else {
-      return Container();
-    }
-  } on AuthException catch (error) {
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(error.message),
-        backgroundColor: Theme.of(context).colorScheme.error,
-      ));
-    });
-    return Center();
-  } catch (e) {
-    SchedulerBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content:
-                Text('Ha ocurrido un error: Vuelva a cargar la pàgina. $e')));
-      },
-    );
-    return Center();
-  }
-}
-
 Future<Widget> adminWidget(BuildContext context) async {
-  final theme = Theme.of(context).textTheme;
+  final themeCust = Theme.of(context).textTheme;
   final userMap = await getProfile(context);
   String cellphone = userMap['cellphone'].toString();
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
-      getTexts('Nombre del Cliente:', theme.bodyMedium),
-      getTexts('${userMap['fullName']}', theme.labelMedium),
-
-      getTexts('Telèfono de Contacto:', theme.bodyMedium),
-      Container(
-        child: SelectableText(
-            style: TextStyle(color: Colors.blue.shade400, fontWeight: FontWeight.normal, decoration: TextDecoration.underline),
-            '$cellphone', onTap: () {
-          Clipboard.setData(ClipboardData(text: cellphone));
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Teléfono copiado al portapapeles')),
-          );
-        }),
+      Row(
+        children: [
+          Icon(Icons.contacts),
+          getTexts('Cliente: ', themeCust.bodySmall),
+          Expanded(
+              flex: 1,
+              child: Tooltip(
+                  message: '${userMap['fullName']}',
+                  child: FittedBox(
+                    child: getTexts(
+                        '${userMap['fullName']}',
+                        themeCust.labelSmall!
+                            .copyWith(overflow: TextOverflow.ellipsis)),
+                  )))
+        ],
       ),
-      getTexts('Direcciòn del Cliente:', theme.bodyMedium),
-      getTexts('${userMap['direction']}', theme.labelMedium),
+      Row(
+        children: [
+          Icon(Icons.phone),
+          FittedBox(
+            child: getTexts('Telèfono: ', themeCust.bodySmall),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              child: SelectableText(
+                  style: TextStyle(
+                      fontSize: themeCust.labelMedium!.fontSize,
+                      fontWeight: FontWeight.normal,
+                      decoration: TextDecoration.underline),
+                  '$cellphone', onTap: () {
+                Clipboard.setData(ClipboardData(text: cellphone));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Teléfono copiado al portapapeles')),
+                );
+              }),
+            ),
+          )
+        ],
+      ),
+      Row(
+        children: [
+          Icon(Icons.apartment),
+          getTexts('Direcciòn: ', themeCust.bodySmall),
+          Expanded(
+              flex: 1,
+              child: Tooltip(
+                  message: '${userMap['direction']}',
+                  child: getTexts(
+                      '${userMap['direction']}',
+                      themeCust.labelSmall!
+                          .copyWith(overflow: TextOverflow.ellipsis))))
+        ],
+      ),
     ],
   );
 }

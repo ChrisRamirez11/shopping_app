@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/pdf.dart';
+import '../../utils/theme.dart';
 
 class UnattendedOrder extends StatefulWidget {
   const UnattendedOrder({super.key});
@@ -17,7 +18,8 @@ class UnattendedOrder extends StatefulWidget {
 class _UnattendedOrderState extends State<UnattendedOrder> {
   @override
   Widget build(BuildContext context) {
-    ProductsListNotifier productsListNotifier = Provider.of<ProductsListNotifier>(context);
+    ProductsListNotifier productsListNotifier =
+        Provider.of<ProductsListNotifier>(context);
     return Scaffold(
       body: FutureBuilder(
         future: limitTimeCheck(),
@@ -38,58 +40,90 @@ class _UnattendedOrderState extends State<UnattendedOrder> {
   }
 }
 
-getListTile(BuildContext context, Map<String, dynamic> orderMap,  productsListNotifier) {
+getListTile(
+    BuildContext context, Map<String, dynamic> orderMap, productsListNotifier) {
   DateTime date = DateTime.parse(orderMap['created_at']);
   if (orderMap['attended']) return Container();
   return Row(
     children: [
       Expanded(
-        flex: 5,
-        child: Card(
+          flex: 5,
+          child: Card(
             child: SizedBox(
-          height: 70,
-          child: ListTile(
-            leading: SizedBox(
-              width: 100,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'ID: #${orderMap['id'].toString()}',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ],
+              height: 70,
+              child: InkWell(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => FutureBuilder(
+                      future: orderSimpleDialog(context, orderMap),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return const Center(
+                            child: Text('Ha ocurrido un Error'),
+                          );
+                        } else if (!snapshot.hasData) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else {
+                          return snapshot.requireData;
+                        }
+                      },
+                    ),
+                  );
+                },
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(Icons.receipt_long),
+                          Text(
+                            'ID: #${orderMap['id'].toString()}',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 30, child: VerticalDivider()),
+                    Expanded(
+                      flex: 2,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(flex: 1,
+                            child: Icon(Icons.calendar_month)),
+                          Expanded(flex: 1,
+                            child: FittedBox(child: Text('${date.day}/${date.month}/${date.year}'))),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 30, child: VerticalDivider()),
+                    Expanded(
+                      flex: 1,
+                      child: ElevatedButton(
+                        onPressed: () => getPDf(context, orderMap),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: Icon(
+                                  Icons.open_in_new_outlined,
+                                  color: white,
+                                )),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            title: Text('Fecha:'),
-            subtitle: Text('${date.day}/${date.month}/${date.year}'),
-            trailing: IconButton(
-                onPressed: () => getPDf(context, orderMap),
-                icon: Icon(Icons.open_in_new_outlined)),
-            isThreeLine: true,
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => FutureBuilder(
-                  future: orderSimpleDialog(context, orderMap),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return const Center(
-                        child: Text('Ha ocurrido un Error'),
-                      );
-                    } else if (!snapshot.hasData) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else {
-                      return snapshot.requireData;
-                    }
-                  },
-                ),
-              );
-            },
-          ),
-        )),
-      ),
+          )),
       //TODO DELETE FOR USERS APP and also delete the above row
       Expanded(
         flex: 1,
@@ -126,7 +160,7 @@ getListTile(BuildContext context, Map<String, dynamic> orderMap,  productsListNo
                           onPressed: () async {
                             await OrdersProviderSupabase()
                                 .updateOrder(context, orderMap['id']);
-                                productsListNotifier.loadList();
+                            productsListNotifier.loadList();
                             Navigator.pop(context);
                           },
                           child: getTexts(
