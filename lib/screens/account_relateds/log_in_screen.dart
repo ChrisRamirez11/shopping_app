@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../utils/theme.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -44,21 +46,21 @@ class _LoginScreenState extends State<LoginScreen> {
     final idToken = googleAuth?.idToken;
 
     if (accessToken == null) {
-      log('No Access Token found.') ;
+      log('No Access Token found.');
     }
     if (idToken == null) {
       throw 'No ID Token found.';
     }
-try{
-    await supabase.auth.signInWithIdToken(
-      provider: OAuthProvider.google,
-      idToken: idToken,
-      accessToken: accessToken,
-    );
+    try {
+      await supabase.auth.signInWithIdToken(
+        provider: OAuthProvider.google,
+        idToken: idToken,
+        accessToken: accessToken,
+      );
 //TODO
-}catch(e){
-  throw 'Error inesperado $e';
-}
+    } catch (e) {
+      throw 'Error inesperado $e';
+    }
   }
 
   @override
@@ -102,21 +104,38 @@ try{
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text('Sign In', style: Theme.of(context).textTheme.bodyLarge,)),
+        appBar: AppBar(
+            title: Text(
+          'Sign In',
+          style: Theme.of(context).textTheme.bodyLarge,
+        )),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
           children: [
             const Center(child: Text('Regístrese con Google')),
             const SizedBox(height: 18),
-            ElevatedButton(
-              onPressed: () async {
-                if (!kIsWeb && Platform.isAndroid || Platform.isIOS) {
-                  return _googleNativeSignIn();
-                }
-                await supabase.auth.signInWithOAuth(OAuthProvider.google);
-              },
-              child: const Text('Google Sign In'),
-            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                    side: BorderSide(color: primary, width: 1),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                ),
+                onPressed: () async {
+                  if (!kIsWeb && Platform.isAndroid || Platform.isIOS) {
+                    return _googleNativeSignIn();
+                  }
+                  await supabase.auth.signInWithOAuth(OAuthProvider.google);
+                },
+                child: const Text(
+                  'Google Sign In',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+            )
           ],
         ),
       ),
