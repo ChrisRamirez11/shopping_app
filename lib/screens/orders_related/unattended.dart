@@ -98,8 +98,8 @@ getListTile(
                         children: [
                           Expanded(flex: 1,
                             child: Icon(Icons.calendar_month)),
-                          Expanded(flex: 1,
-                            child: FittedBox(child: Text('${date.day}/${date.month}/${date.year}'))),
+                          Expanded(flex: 2,
+                            child: FittedBox(fit: BoxFit.fill,child: Text('${date.day}/${date.month}/${date.year}'))),
                         ],
                       ),
                     ),
