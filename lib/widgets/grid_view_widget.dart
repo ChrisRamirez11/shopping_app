@@ -3,6 +3,7 @@ import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/utils/cart_addition.dart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
+import 'package:app_tienda_comida/widgets/loader.dart';
 import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:top_modal_sheet/top_modal_sheet.dart';
@@ -62,7 +63,7 @@ if(mounted){
           return const Center(child: Text('Ha ocurrido un Error'),);
         }
         else if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator());
+          return loader();
         }
         else{
         final data = snapshot.data!;

@@ -5,6 +5,7 @@ import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
+import 'package:app_tienda_comida/widgets/loader.dart';
 import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -60,7 +61,7 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
       future: fetchData(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator());
+          return loader();
         }
         final data = snapshot.data!;
         return GridView.builder(
