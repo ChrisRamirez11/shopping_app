@@ -6,6 +6,8 @@ import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../utils/theme.dart';
+
 class AccountManagementScreen extends StatefulWidget {
   const AccountManagementScreen({super.key});
 
@@ -164,6 +166,8 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          foregroundColor: secondary,
+          backgroundColor: primary,
           title: Text(
             'Perfil',
             style: Theme.of(context).textTheme.bodyLarge,

@@ -10,14 +10,14 @@ import 'package:double_tap_to_exit/double_tap_to_exit.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeSrceen extends StatefulWidget {
-  const HomeSrceen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomeSrceen> createState() => _HomeSrceenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeSrceenState extends State<HomeSrceen> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     super.dispose();

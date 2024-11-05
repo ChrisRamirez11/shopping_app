@@ -48,6 +48,7 @@ class _BusinessManagementState extends State<BusinessManagement> {
   getNoStockProducts(BuildContext context) {
     return Card(
       child: ListTile(
+        leading: Icon(Icons.production_quantity_limits),
         title: getTexts(
             'Productos Agotados', Theme.of(context).textTheme.bodyMedium),
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
@@ -59,7 +60,7 @@ class _BusinessManagementState extends State<BusinessManagement> {
 
   getMassiveProductsChange(BuildContext context) {
     return Card(
-      child: ListTile(
+      child: ListTile(leading: Icon(Icons.price_change),
         title: getTexts(
             'Cambio Masivo de Precio', Theme.of(context).textTheme.bodyMedium),
         onTap: () => showDialog(

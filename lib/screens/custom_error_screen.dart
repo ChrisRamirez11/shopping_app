@@ -72,7 +72,7 @@ class CustomErrorScreen extends StatelessWidget {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HomeSrceen(),
+                    builder: (context) => HomeScreen(),
                   ),
                   (route) => false,
                 );

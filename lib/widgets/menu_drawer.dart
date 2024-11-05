@@ -51,7 +51,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 if (!widget.appBarTitle.contains('Inicio')) {
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) => const HomeSrceen(),
+                      builder: (context) => const HomeScreen(),
                     ),
                     (route) => false,
                   );
