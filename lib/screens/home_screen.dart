@@ -34,58 +34,57 @@ class _HomeScreenState extends State<HomeScreen> {
           content: Text('Presione nuevamente para salir'),
           duration: Duration(milliseconds: 1000),
         ),
-        child: RefreshIndicator(
-          onRefresh: () async {
-            try {
-              await productListNotifier.loadList();
-            } catch (error) {
-              // Handle error (e.g., show a Snackbar)
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Error al cargar la lista de productos')));
-            }
-          },
-          child: Scaffold(
-            key: scaffoldKey,
-            floatingActionButton: FloatingActionButton(
-              foregroundColor: secondary,
-              backgroundColor: primary,
-              child: const Icon(Icons.add),
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const AddProductScreen(),
-              )),
+        child: Scaffold(
+          key: scaffoldKey,
+          floatingActionButton: FloatingActionButton(
+            foregroundColor: secondary,
+            backgroundColor: primary,
+            child: const Icon(Icons.add),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const AddProductScreen(),
+            )),
+          ),
+          appBar: AppBar(
+            title: Text(
+              'Recientes',
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
-            appBar: AppBar(
-              title: Text(
-                'Recientes',
-                style: Theme.of(context).textTheme.bodyLarge,
+            foregroundColor: secondary,
+            backgroundColor: primary,
+            actions: [
+              IconButton(
+                onPressed: () async {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SearchScreen(),
+                  ));
+                },
+                icon: const Icon(Icons.search_outlined),
               ),
-              foregroundColor: secondary,
-              backgroundColor: primary,
-              actions: [
-                IconButton(
-                  onPressed: () async {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const SearchScreen(),
-                    ));
-                  },
-                  icon: const Icon(Icons.search_outlined),
+              IconButton(
+                onPressed: () {
+                  if (!isAccountFinished(context)) {
+                    return;
+                  }
+                  scaffoldKey.currentState!.openEndDrawer();
+                },
+                icon: const Icon(
+                  IconData(0xe59c, fontFamily: 'MaterialIcons'),
                 ),
-                IconButton(
-                  onPressed: () {
-                    if (!isAccountFinished(context)) {
-                      return;
-                    }
-                    scaffoldKey.currentState!.openEndDrawer();
-                  },
-                  icon: const Icon(
-                    IconData(0xe59c, fontFamily: 'MaterialIcons'),
-                  ),
-                )
-              ],
-            ),
-            endDrawer: const ShoppingCart(),
-            drawer: MenuDrawer(appBarTitle: appBarTitle),
-            body: GridViewWidget(
+              )
+            ],
+          ),
+          endDrawer: const ShoppingCart(),
+          drawer: MenuDrawer(appBarTitle: appBarTitle),
+          body: RefreshIndicator(
+            onRefresh: () async {
+              try {
+                await productListNotifier.loadList();
+              } catch (error) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Error al cargar la lista de productos')));
+              }
+            },
+            child: GridViewWidget(
               appBarTitle: appBarTitle,
             ),
           ),
