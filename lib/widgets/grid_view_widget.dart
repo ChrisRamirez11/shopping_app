@@ -75,7 +75,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                     crossAxisCount: 2),
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal:  8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Card(
                       elevation: 10,
                       child: GestureDetector(
@@ -102,6 +102,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
 _createGridContainer(BuildContext context, int index, data) {
   final Product product = Product.fromJson(data[index]);
   return Container(
+    height: double.maxFinite,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8.0),
       color: second2,
@@ -110,27 +111,31 @@ _createGridContainer(BuildContext context, int index, data) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          flex: 4,
+          flex: 8,
           child: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
+            padding: const EdgeInsets.only(top: 10.0, bottom: 5),
             child: Center(
               child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white70,
-                    borderRadius: BorderRadius.circular(5)),
-                height: 140,
-                width: 140,
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: _loadImage(product),
-              ),
+                  decoration: BoxDecoration(
+                      color: Colors.white70,
+                      borderRadius: BorderRadius.circular(5)),
+                  height: double.maxFinite,
+                  width: 140,
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ClipRRect(borderRadius: BorderRadius.circular(5),
+                    child: _loadImage(product),
+                  )),
             ),
           ),
         ),
         Center(
-          child: Text(
-            product.name,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.bodyMedium,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal:  10.0),
+            child: Text(
+              product.name,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
         ),
         Center(
@@ -141,26 +146,29 @@ _createGridContainer(BuildContext context, int index, data) {
             thickness: 0.5,
           ),
         ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          height: 20,
+          width: double.infinity-100,
+          child: Text(
+            '#${product.type}',
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context)
+                .textTheme
+                .labelSmall!
+                .copyWith(color: greenCustom),
+          ),
+        ),
         Expanded(
-          flex: 2,
+          flex: 4,
           child: Row(
             children: [
               const SizedBox(width: 10),
-              SizedBox(
-                width: 100,
+              Expanded(
+                flex: 4,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      child: Text(
-                        '#${product.type}',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall!
-                            .copyWith(color: greenCustom),
-                      ),
-                    ),
                     SizedBox(
                       height: 5,
                     ),
@@ -175,27 +183,31 @@ _createGridContainer(BuildContext context, int index, data) {
                   ],
                 ),
               ),
-              Expanded(child: Container()),
-              Padding(
-                padding: const EdgeInsets.only(right: 6, bottom: 5),
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 7),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: primary,
-                  ),
-                  child: IconButton(
-                    color: white,
-                    onPressed: () {
-                      cartAddition(context, product);
-                    },
-                    icon: const Icon(Icons.add_shopping_cart_outlined),
+              Expanded(flex: 1, child: Container()),
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 1, bottom: 5),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 11),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: primary,
+                    ),
+                    child: IconButton(
+                      color: white,
+                      onPressed: () {
+                        cartAddition(context, product);
+                      },
+                      icon: const Icon(Icons.add_shopping_cart_outlined, size: 20,),
+                    ),
                   ),
                 ),
               ),
             ],
           ),
         ),
+        SizedBox(height: 3,)
       ],
     ),
   );
