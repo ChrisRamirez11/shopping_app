@@ -45,7 +45,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                       width: double.infinity,
                       height: double.infinity,
                       child: Image.asset(
-                        'assets/des/eatings.png',
+                        'assets/des/menu_drawer.png',
                         fit: BoxFit.cover,
                       )),
                   Align(
@@ -61,7 +61,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Text(
-                          style: Theme.of(context).textTheme.bodyLarge,
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: white),
                           'Menú',
                         ),
                       ),

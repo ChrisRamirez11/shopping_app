@@ -1,6 +1,5 @@
 import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/orders_related/orders_simple_dialog.dart';
-import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/widgets/loader.dart';
 import 'package:flutter/material.dart';
 
@@ -93,7 +92,6 @@ getListTile(BuildContext context, Map<String, dynamic> orderMap) {
                 onPressed: () => getPDf(context, orderMap),
                 icon: Icon(
                   Icons.open_in_new_outlined,
-                  color: white,
                 ),
               ),
             ),

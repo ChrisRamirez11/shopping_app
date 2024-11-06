@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/pdf.dart';
-import '../../utils/theme.dart';
 
 class UnattendedOrder extends StatefulWidget {
   const UnattendedOrder({super.key});
@@ -113,7 +112,6 @@ getListTile(
                         onPressed: () => getPDf(context, orderMap),
                         icon: Icon(
                           Icons.open_in_new_outlined,
-                          color: white,
                         ),
                       ),
                     ),
