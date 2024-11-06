@@ -120,7 +120,7 @@ _createGridContainer(BuildContext context, int index, data) {
                       color: Colors.white70,
                       borderRadius: BorderRadius.circular(5)),
                   height: double.maxFinite,
-                  width: 140,
+                  width: 120,
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: ClipRRect(borderRadius: BorderRadius.circular(5),
                     child: _loadImage(product),
@@ -183,7 +183,7 @@ _createGridContainer(BuildContext context, int index, data) {
                   ],
                 ),
               ),
-              Expanded(flex: 1, child: Container()),
+              Expanded(child: Container()),
               Expanded(
                 flex: 3,
                 child: Padding(
