@@ -96,27 +96,24 @@ getListTile(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Expanded(flex: 1,
-                            child: Icon(Icons.calendar_month)),
-                          Expanded(flex: 2,
-                            child: FittedBox(fit: BoxFit.fill,child: Text('${date.day}/${date.month}/${date.year}'))),
+                          Expanded(flex: 1, child: Icon(Icons.calendar_month)),
+                          Expanded(
+                              flex: 2,
+                              child: FittedBox(
+                                  fit: BoxFit.fill,
+                                  child: Text(
+                                      '${date.day}/${date.month}/${date.year}'))),
                         ],
                       ),
                     ),
                     SizedBox(height: 30, child: VerticalDivider()),
                     Expanded(
                       flex: 1,
-                      child: ElevatedButton(
+                      child: IconButton(
                         onPressed: () => getPDf(context, orderMap),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: Icon(
-                                  Icons.open_in_new_outlined,
-                                  color: white,
-                                )),
-                          ],
+                        icon: Icon(
+                          Icons.open_in_new_outlined,
+                          color: white,
                         ),
                       ),
                     ),
