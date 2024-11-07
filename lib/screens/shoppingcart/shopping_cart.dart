@@ -1,16 +1,17 @@
 import 'dart:math' as math;
 
-import 'package:app_tienda_comida/main.dart';
-import 'package:app_tienda_comida/models/Producto.dart';
 import 'package:app_tienda_comida/models/cart_item_model.dart';
+import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/models/shopping_list/order.dart';
-import 'package:app_tienda_comida/provider/cart_supabase_provider.dart';
+import 'package:app_tienda_comida/provider/carrito_provider.dart';
 import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:provider/provider.dart';
+
+import '../../main.dart';
 
 class ShoppingCart extends StatefulWidget {
   const ShoppingCart({super.key});
@@ -20,59 +21,13 @@ class ShoppingCart extends StatefulWidget {
 }
 
 class _ShoppingCartState extends State<ShoppingCart> {
-  CartSupabaseProvider cartSupabaseProvider = CartSupabaseProvider();
-  List<CartItem>? cartItems;
-  Map<int, Product> productMap = {}; // Store products by their IDs
   bool isLoading = true; // Loading state
-  double totalPrice = 0;
+
   final userId = supabase.auth.currentUser!.id;
+
   @override
   void initState() {
     super.initState();
-    fetchCartItems();
-  }
-
-  Future<void> fetchCartItems() async {
-    CartSupabaseProvider cartSupabaseProvider = CartSupabaseProvider();
-
-    // Fetch cart items
-    if (mounted) {
-      cartItems = await cartSupabaseProvider.getCart(userId);
-    }
-
-    // Fetch products for all cart items
-    if (mounted) {
-      await fetchProductsForCartItems();
-    }
-
-    if (mounted) {
-      setState(() {
-        isLoading = false; // Set loading to false after fetching
-      });
-    }
-  }
-
-  Future<void> fetchProductsForCartItems() async {
-    double totalPrice = 0;
-    for (var item in cartItems!) {
-      if (mounted) {
-        final product = await _fetchProduct(item.productId);
-        productMap[item.productId] = product; // Store in map
-
-        // Update totalPrice
-        totalPrice += product.price * _getQuantity(item, product);
-        if (item.quantity != _getQuantity(item, product)) {
-          cartSupabaseProvider.updateCartItem(
-              item.id, _getQuantity(item, product));
-        }
-      }
-    }
-    if (mounted) {
-      setState(() {
-        isLoading = false;
-        this.totalPrice = totalPrice;
-      });
-    }
   }
 
   @override
@@ -83,26 +38,37 @@ class _ShoppingCartState extends State<ShoppingCart> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+    List<CartItem> cartItemList = cartProvider.cartItems;
+    double total = cartProvider.getTotal();
+
+    Map<int, Product> productMap = cartProvider.productMap;
 
     return Drawer(
       width: size.width * 0.80,
       child: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(
-              children: [getTopBar(size), getListView(size), getTotals(size)],
+              children: [
+                getTopBar(size),
+                getListView(size, cartItemList, productMap, cartProvider),
+                getTotals(size, cartItemList, total)
+              ],
             ),
     );
   }
 
-  Widget getListView(Size size) {
+  Widget getListView(Size size, List<CartItem> cartItemList,
+      Map<int, Product> productMap, CartProvider cartProvider) {
     return SizedBox(
       height: size.height * 0.80,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         padding: const EdgeInsets.only(top: 10),
-        itemCount: cartItems!.length,
-        itemBuilder: (context, index) => getListTile(cartItems![index]),
+        itemCount: cartItemList.length,
+        itemBuilder: (context, index) =>
+            getListTile(cartItemList[index], productMap, cartProvider),
       ),
     );
   }
@@ -121,8 +87,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
     );
   }
 
-  Widget getListTile(CartItem cartItem) {
-    Product product = productMap[cartItem.productId]!; // Get product from map
+  Widget getListTile(CartItem cartItem, Map<int, Product> productMap,
+      CartProvider cartProvider) {
+    Product product = productMap[cartItem.productId]!;
     int quantity = _getQuantity(cartItem, product);
     final quantityController = TextEditingController.fromValue(TextEditingValue(
         text: quantity.toString(),
@@ -174,16 +141,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         iconSize: 24,
                         icon: const Icon(Icons.delete),
                         onPressed: () {
-                          setState(() {
-                            double productPrice = product.price * quantity;
-
-                            cartItems!.removeWhere(
-                                (element) => element.id.contains(cartItem.id));
-
-                            totalPrice -= productPrice;
-
-                            cartSupabaseProvider.deleteCartItem(cartItem.id);
-                          });
+                          cartProvider.deleteCartItem(cartItem);
                         },
                       ),
                     ],
@@ -225,9 +183,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                               quantityController.text = limitedValue.toString();
                               quantity = limitedValue;
                               cartItem.quantity = quantity;
-                              cartSupabaseProvider.updateCartItem(
-                                  cartItem.id, quantity);
-                              calculateNewTotal();
+                              cartProvider.updateCartItem(cartItem);
                             });
                           },
                         ),
@@ -239,7 +195,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
         ));
   }
 
-  getTotals(Size size) {
+  getTotals(Size size, List<CartItem> cartItemList, double total) {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
@@ -263,7 +219,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   children: [
                     TextSpan(
                       text: '\$',
-                      children: [TextSpan(text: '$totalPrice')],
+                      children: [TextSpan(text: '$total')],
                       style: Theme.of(context).textTheme.labelMedium,
                     ),
                   ],
@@ -281,7 +237,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     onPressed: () async {
                       //*INSERT ORDER
                       final orderedProductsMap = await ShoppingListModel()
-                          .getShoppingListOrder(cartItems!);
+                          .getShoppingListOrder(cartItemList);
                       final resp = orderedProductsMap
                           .map(
                             (e) => e.toJson(),
@@ -292,7 +248,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                           createdAt: DateTime.now(),
                           userId: userId,
                           orderedProductsMap: resp,
-                          total: totalPrice);
+                          total: total);
                       if (mounted) {
                         OrdersProviderSupabase().insertOrder(context, order);
                       }
@@ -303,17 +259,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
         ),
       ),
     );
-  }
-
-  void calculateNewTotal() {
-    double newTotalPrice = 0;
-    for (var item in cartItems!) {
-      final product = productMap[item.productId]!;
-      newTotalPrice += product.price * item.quantity;
-    }
-    setState(() {
-      totalPrice = newTotalPrice;
-    });
   }
 
   int _getQuantity(CartItem cartItem, Product product) {
@@ -337,18 +282,6 @@ int _getLimit(Product product) {
     limit = product.quantity;
   }
   return limit;
-}
-
-Future<Product> _fetchProduct(int productId) async {
-  try {
-    final response =
-        await supabase.from('products').select().eq('id', productId).single();
-    return Product.fromJson(response);
-  } on AuthException catch (error) {
-    throw (error.toString());
-  } catch (error) {
-    throw ('Error inseperado ocurrido ${error.toString()}');
-  }
 }
 
 _loadImage(Product product) {
