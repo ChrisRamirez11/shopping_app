@@ -6,36 +6,48 @@ import '../main.dart';
 
 class Carrito extends ChangeNotifier {
   List<CartItem> _cartItems = [];
-  final userId = supabase.auth.currentUser!.id;
+  CartSupabaseProvider cartSupabaseProvider = CartSupabaseProvider();
 
-  get cartItems => _cartItems;
+  final userId = supabase.auth.currentUser!.id;
 
   Carrito() {
     _loadCartItems();
   }
 
   _loadCartItems() async {
-    _cartItems = await CartSupabaseProvider().getCart(userId);
+    _cartItems = await cartSupabaseProvider.getCart(userId);
     notifyListeners();
   }
+
+  get cartItems => _cartItems;
 
   addCartItem(CartItem cartItem) {
+    cartSupabaseProvider.addToCart(
+        userId, cartItem.productId, cartItem.quantity);
+
     _cartItems.add(cartItem);
+
     notifyListeners();
   }
 
-
-//! Velar si actualiza correctamente
+  //! Velar si actualiza correctamente
   updateCartItem(CartItem cartItem) {
     final index = _cartItems.indexWhere((item) => item.id == cartItem.id);
+
+    cartSupabaseProvider.updateCartItem(cartItem.id, cartItem.quantity);
+
     _cartItems
       ..removeAt(index)
       ..insert(index, cartItem);
+
     notifyListeners();
   }
 
   deleteCartItem(CartItem cartItem) {
     _cartItems.removeWhere((item) => item.id == cartItem.id);
+
+    cartSupabaseProvider.deleteCartItem(cartItem.id);
+
     notifyListeners();
   }
 }

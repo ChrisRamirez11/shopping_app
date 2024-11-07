@@ -56,7 +56,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     double totalPrice = 0;
     for (var item in cartItems!) {
       if (mounted) {
-        final product = await fetchProduct(item.productId);
+        final product = await _fetchProduct(item.productId);
         productMap[item.productId] = product; // Store in map
 
         // Update totalPrice
@@ -194,7 +194,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       SizedBox(
                         width: 50,
                         height: 50,
-                        child: TextFormField(style: Theme.of(context).textTheme.bodyMedium,
+                        child: TextFormField(
+                          style: Theme.of(context).textTheme.bodyMedium,
                           controller: quantityController,
                           maxLength: 3,
                           textAlign: TextAlign.center,
@@ -338,21 +339,22 @@ int _getLimit(Product product) {
   return limit;
 }
 
-Future<Product> fetchProduct(int productId) async {
+Future<Product> _fetchProduct(int productId) async {
   try {
     final response =
         await supabase.from('products').select().eq('id', productId).single();
     return Product.fromJson(response);
   } on AuthException catch (error) {
-    throw(error.toString());
+    throw (error.toString());
   } catch (error) {
-    throw('Error inseperado ocurrido ${error.toString()}');
+    throw ('Error inseperado ocurrido ${error.toString()}');
   }
 }
 
 _loadImage(Product product) {
   if (product.pic.toString().isNotEmpty) {
-    return CachedNetworkImage(fit: BoxFit.cover,
+    return CachedNetworkImage(
+      fit: BoxFit.cover,
       cacheManager: null,
       imageUrl: product.pic,
       placeholder: (context, url) =>

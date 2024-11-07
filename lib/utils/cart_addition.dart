@@ -12,13 +12,15 @@ cartAddition(BuildContext context, Product product) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text(
-                'ERROR',
-                style:
-                    TextStyle(color: errorColor, fontWeight: FontWeight.bold),
+              title: Center(
+                child: Text(
+                  'Producto Agotado',
+                  style:
+                      TextStyle(color: errorColor, fontWeight: FontWeight.bold),
+                ),
               ),
               content: Text(
-                'Producto Agotado',
+                'El producto se encuentra actualmente sin stock',
                 style: TextStyle(color: errorColor, fontSize: 20),
               ),
               actions: [
@@ -32,8 +34,8 @@ cartAddition(BuildContext context, Product product) {
 
     return;
   } else {
-    CartSupabaseProvider().addToCart(context,
-        supabase.auth.currentSession!.user.id, product.id.toString(), 1);
+    CartSupabaseProvider().addToCart(
+        supabase.auth.currentSession!.user.id, product.id, 1);
     return showDialog(
         context: context,
         builder: (context) => SimpleDialog(

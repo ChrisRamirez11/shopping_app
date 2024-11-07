@@ -2,19 +2,18 @@ import 'dart:developer';
 
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/cart_item_model.dart';
-import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CartSupabaseProvider {
   //addToCart
   //
-  Future<void> addToCart(BuildContext context, String userId, String productId,
+  Future<void> addToCart(String userId, int productId,
       int quantity) async {
     try {
       await supabase.from('carts').insert(
           {'user_id': userId, 'product_id': productId, 'quantity': quantity});
     } on AuthException catch (e) {
-      log('$e');
+      throw ('$e');
     } catch (e) {
       log('Ha ocurrido un error: $e');
     }
