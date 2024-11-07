@@ -76,7 +76,7 @@ Future<Widget> orderSimpleDialog(
 
 Future<Widget> adminWidget(BuildContext context) async {
   final themeCust = Theme.of(context).textTheme;
-  final userMap = await getProfile(context);
+  final userMap = await getProfile();
   String cellphone = userMap['cellphone'].toString();
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,

@@ -26,7 +26,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
 
   Future<void> _getProfile() async {
     try {
-      final data = await getProfile(context);
+      final data = await getProfile();
       _fullNameController.text = (data['fullName'] ?? '') as String;
       _directionController.text = (data['direction'] ?? '') as String;
       _cellphoneController.text = (data['cellphone'] ?? '') as String;

@@ -25,7 +25,7 @@ void getPDf(BuildContext context, Map<String, dynamic> orderMap) async {
 
   // Getting the user datas
   if (supabase.auth.currentSession != null) {
-    final resp = await getProfile(context);
+    final resp = await getProfile();
     userName = resp['fullName'];
     cellphone = resp['cellphone'];
     direction = resp['direction'];

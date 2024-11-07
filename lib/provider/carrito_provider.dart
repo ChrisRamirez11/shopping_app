@@ -1,26 +1,41 @@
-import 'package:app_tienda_comida/models/producto.dart';
+import 'package:app_tienda_comida/models/cart_item_model.dart';
+import 'package:app_tienda_comida/provider/cart_supabase_provider.dart';
 import 'package:flutter/material.dart';
 
+import '../main.dart';
+
 class Carrito extends ChangeNotifier {
-  List<Product> productos = [];
-  Carrito();
+  List<CartItem> _cartItems = [];
+  final userId = supabase.auth.currentUser!.id;
 
-  addProducto(Product producto) {
-    productos.add(producto);
+  get cartItems => _cartItems;
 
+  Carrito() {
+    _loadCartItems();
+  }
+
+  _loadCartItems() async {
+    _cartItems = await CartSupabaseProvider().getCart(userId);
     notifyListeners();
   }
 
-  deleteProducto(Product producto) {
-    productos.removeWhere((item) => item.id == producto.id);
+  addCartItem(CartItem cartItem) {
+    _cartItems.add(cartItem);
     notifyListeners();
   }
 
-  getTotal() {
-    double total = 0;
-    productos.map(
-      (e) => total += e.price,
-    );
-    return total;
+
+//! Velar si actualiza correctamente
+  updateCartItem(CartItem cartItem) {
+    final index = _cartItems.indexWhere((item) => item.id == cartItem.id);
+    _cartItems
+      ..removeAt(index)
+      ..insert(index, cartItem);
+    notifyListeners();
+  }
+
+  deleteCartItem(CartItem cartItem) {
+    _cartItems.removeWhere((item) => item.id == cartItem.id);
+    notifyListeners();
   }
 }
