@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 Widget loader() {
   return Container(
+    decoration: BoxDecoration(boxShadow: [
+      BoxShadow(color: Colors.black26)
+    ]),
     width: double.infinity,
     height: double.infinity,
     child: Column(

@@ -46,7 +46,7 @@ getListTile(BuildContext context, Map<String, dynamic> orderMap) {
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return const Center(
-                    child: Text('Ha ocurrido un Error'),
+                    child: Text('Ha ocurrido un error'),
                   );
                 } else if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());

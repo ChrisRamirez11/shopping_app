@@ -63,7 +63,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Center(
-                child: Text('Ha ocurrido un Error \nIntentelo mas tarde'),
+                child: Text('Ha ocurrido un error \nIntentelo mas tarde.'),
               );
             } else if (!snapshot.hasData) {
               return loader();
