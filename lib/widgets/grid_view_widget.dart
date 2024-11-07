@@ -63,12 +63,12 @@ class _GridViewWidgetState extends State<GridViewWidget> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Center(
-                child: Text('Ha ocurrido un Error'),
+                child: Text('Ha ocurrido un Error \nIntentelo mas tarde'),
               );
             } else if (!snapshot.hasData) {
               return loader();
             } else {
-              final data = snapshot.data!;
+              final data = snapshot.requireData;
               return GridView.builder(
                 itemCount: data.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
