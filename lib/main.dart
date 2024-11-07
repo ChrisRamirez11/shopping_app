@@ -5,6 +5,7 @@ import 'package:app_tienda_comida/utils/consts.dart';
 import 'package:app_tienda_comida/utils/notifications/local_notification.dart';
 import 'package:app_tienda_comida/utils/refresh_token.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/provider/theme_provider.dart';
@@ -35,7 +36,8 @@ Future<void> main() async {
 
   final prefs = PreferenciasUsuario();
   await prefs.initPrefs();
-  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((value) => runApp(const MyApp()));
 }
 
 final supabase = Supabase.instance.client;
