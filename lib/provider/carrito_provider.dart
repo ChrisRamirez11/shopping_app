@@ -1,16 +1,17 @@
 import 'package:app_tienda_comida/models/cart_item_model.dart';
+import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/cart_supabase_provider.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
 
-class Carrito extends ChangeNotifier {
+class CartProvider extends ChangeNotifier {
   List<CartItem> _cartItems = [];
   CartSupabaseProvider cartSupabaseProvider = CartSupabaseProvider();
 
   final userId = supabase.auth.currentUser!.id;
 
-  Carrito() {
+  CartProvider() {
     _loadCartItems();
   }
 
@@ -21,9 +22,10 @@ class Carrito extends ChangeNotifier {
 
   get cartItems => _cartItems;
 
-  addCartItem(CartItem cartItem) {
-    cartSupabaseProvider.addToCart(
-        userId, cartItem.productId, cartItem.quantity);
+  addCartItem(Product product) {
+    CartItem cartItem =
+        CartItem(id: '', userId: userId, productId: product.id, quantity: 1);
+    cartSupabaseProvider.addToCart(userId, product.id, 1);
 
     _cartItems.add(cartItem);
 

@@ -4,6 +4,8 @@ import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
+import 'package:app_tienda_comida/utils/cart_addition.dart';
+import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
 import 'package:app_tienda_comida/widgets/loader.dart';
 import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';
@@ -79,7 +81,7 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
                     displayButtomSheet(context, data[index]);
                   },
                   child:
-                      Container(child: _createGridTile(context, index, data)),
+                      Container(child: _createGridContainer(context, index, data)),
                 ),
               ),
             );
@@ -89,62 +91,119 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
     );
   }
 
-  _createGridTile(BuildContext context, int index, data) {
-    final product = data[index];
-    return GridTile(
-        header: GridTileBar(
-          title: Center(
-            child: Text(product['type'],
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodyMedium),
+  _createGridContainer(BuildContext context, int index, data) {
+  final Product product = Product.fromJson(data[index]);
+  return Container(
+    height: double.maxFinite,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(8.0),
+      color: second2,
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 8,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10.0, bottom: 5),
+            child: Center(
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white70,
+                      borderRadius: BorderRadius.circular(5)),
+                  height: double.maxFinite,
+                  width: 120,
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ClipRRect(borderRadius: BorderRadius.circular(5),
+                    child: _loadImage(product),
+                  )),
+            ),
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 40.0),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            Expanded(flex: 3,
-              child: Container(
-                  color: Colors.white70,
-                  height: 90,
-                  width: 160,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: _loadImage(product)),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal:  10.0),
+            child: Text(
+              product.name,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
-            Row(
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                SizedBox(
-                  width: 120,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 110,
-                        child: Text(
-                          overflow: TextOverflow.ellipsis,
-                          product['name'].toString(),
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
+          ),
+        ),
+        Center(
+          child: Divider(
+            color: white,
+            indent: 10,
+            endIndent: 10,
+            thickness: 0.5,
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          height: 20,
+          width: double.infinity-100,
+          child: Text(
+            '#${product.type}',
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context)
+                .textTheme
+                .labelSmall!
+                .copyWith(color: greenCustom),
+          ),
+        ),
+        Expanded(
+          flex: 4,
+          child: Row(
+            children: [
+              const SizedBox(width: 10),
+              Expanded(
+                flex: 4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                      width: 90,
+                      child: Text(
+                        '\$${product.price.toString()}',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.labelMedium,
                       ),
-                      SizedBox(
-                        width: 110,
-                        child: Text(
-                          overflow: TextOverflow.ellipsis,
-                          product['price'].toString(),
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      )
-                    ],
+                    )
+                  ],
+                ),
+              ),
+              Expanded(child: Container()),
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 1, bottom: 5),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 11),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: primary,
+                    ),
+                    child: IconButton(
+                      color: white,
+                      onPressed: () {
+                        cartAddition(context, product);
+                      },
+                      icon: const Icon(Icons.add_shopping_cart_outlined, size: 20,),
+                    ),
                   ),
                 ),
-              ],
-            ),SizedBox(height: 5,)
-          ]),
-        ));
-  }
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 3,)
+      ],
+    ),
+  );
+}
 
   _loadImage(product) {
     if (product['pic'].toString().isNotEmpty) {

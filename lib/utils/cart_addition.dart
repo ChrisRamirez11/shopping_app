@@ -1,12 +1,14 @@
-import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/producto.dart';
-import 'package:app_tienda_comida/provider/cart_supabase_provider.dart';
+import 'package:app_tienda_comida/provider/carrito_provider.dart';
 import 'package:app_tienda_comida/utils/account_validation.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 cartAddition(BuildContext context, Product product) {
+  CartProvider cartProvider = Provider.of<CartProvider>(context);
+
   if (!isAccountFinished(context)) return;
   if (!hasStock(product)) {
     showDialog(
@@ -34,8 +36,8 @@ cartAddition(BuildContext context, Product product) {
 
     return;
   } else {
-    CartSupabaseProvider().addToCart(
-        supabase.auth.currentSession!.user.id, product.id, 1);
+    cartProvider.addCartItem(product);
+
     return showDialog(
         context: context,
         builder: (context) => SimpleDialog(

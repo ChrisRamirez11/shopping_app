@@ -1,4 +1,5 @@
 import 'package:app_tienda_comida/provider/business_magement_selectedValue.dart';
+import 'package:app_tienda_comida/provider/carrito_provider.dart';
 import 'package:app_tienda_comida/screens/custom_error_screen.dart';
 import 'package:app_tienda_comida/utils/consts.dart';
 import 'package:app_tienda_comida/utils/notifications/local_notification.dart';
@@ -27,7 +28,6 @@ Future<void> main() async {
   listenToTableChanges();
   //*hasta aqui
 
-
   await refreshToken();
 
   ErrorWidget.builder = (FlutterErrorDetails details) =>
@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
           ),
           provider.ChangeNotifierProvider(create: (_) => ThemeProvider()),
           provider.ChangeNotifierProvider(create: (_) => SelectedValue()),
+          provider.ChangeNotifierProvider(create: (_) => CartProvider()),
         ],
         child: const MaterialAppFood.MaterialShopApp(),
       ),
