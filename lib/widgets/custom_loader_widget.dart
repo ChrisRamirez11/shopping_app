@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget loader() {
+Widget custom_loader_widget() {
   return Container(
     decoration: BoxDecoration(boxShadow: [
       BoxShadow(color: Colors.black26)

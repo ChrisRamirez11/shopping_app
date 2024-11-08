@@ -4,11 +4,15 @@ import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/utils/cart_addition.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
-import 'package:app_tienda_comida/widgets/loader.dart';
+import 'package:app_tienda_comida/widgets/custom_error_widget.dart';
+import 'package:app_tienda_comida/widgets/custom_loader_widget.dart';
 import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:top_modal_sheet/top_modal_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
+import '../provider/product_list_provider.dart';
 
 class GridViewWidget extends StatefulWidget {
   final String appBarTitle;
@@ -24,6 +28,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
   @override
   Widget build(BuildContext context) {
     var fetchData = _fetchDataSelector(widget.appBarTitle);
+    final productListNotifier = Provider.of<ProductsListNotifier>(context);
 
     Future displayButtomSheet(BuildContext context, Product product) async {
       return showModalBottomSheet(
@@ -62,11 +67,10 @@ class _GridViewWidgetState extends State<GridViewWidget> {
               : _productsProvider.getProduct(context, widget.appBarTitle),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return const Center(
-                child: Text('Ha ocurrido un error \nIntentelo mas tarde.'),
-              );
+              return custom_error_widget(productListNotifier);
+              
             } else if (!snapshot.hasData) {
-              return loader();
+              return custom_loader_widget();
             } else {
               final data = snapshot.requireData;
               return GridView.builder(
@@ -122,7 +126,8 @@ _createGridContainer(BuildContext context, int index, data) {
                   height: double.maxFinite,
                   width: 120,
                   margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ClipRRect(borderRadius: BorderRadius.circular(5),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
                     child: _loadImage(product),
                   )),
             ),
@@ -130,7 +135,7 @@ _createGridContainer(BuildContext context, int index, data) {
         ),
         Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal:  10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
               product.name,
               overflow: TextOverflow.ellipsis,
@@ -149,7 +154,7 @@ _createGridContainer(BuildContext context, int index, data) {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 10),
           height: 20,
-          width: double.infinity-100,
+          width: double.infinity - 100,
           child: Text(
             '#${product.type}',
             overflow: TextOverflow.ellipsis,
@@ -199,7 +204,10 @@ _createGridContainer(BuildContext context, int index, data) {
                       onPressed: () {
                         cartAddition(context, product);
                       },
-                      icon: const Icon(Icons.add_shopping_cart_outlined, size: 20,),
+                      icon: const Icon(
+                        Icons.add_shopping_cart_outlined,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ),
@@ -207,7 +215,9 @@ _createGridContainer(BuildContext context, int index, data) {
             ],
           ),
         ),
-        SizedBox(height: 3,)
+        SizedBox(
+          height: 3,
+        )
       ],
     ),
   );

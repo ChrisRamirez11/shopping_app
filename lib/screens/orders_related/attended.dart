@@ -1,6 +1,6 @@
 import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/orders_related/orders_simple_dialog.dart';
-import 'package:app_tienda_comida/widgets/loader.dart';
+import 'package:app_tienda_comida/widgets/custom_loader_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/pdf.dart';
@@ -15,7 +15,7 @@ class AttendedOrder extends StatelessWidget {
         future: limitTimeCheck(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return loader();
+            return custom_loader_widget();
           } else {
             List<Map<String, dynamic>>? orderMap = snapshot.data;
             return ListView.builder(
