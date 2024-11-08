@@ -97,6 +97,8 @@ class _GridViewWidgetState extends State<GridViewWidget> {
 }
 
 _createGridContainer(BuildContext context, int index, data) {
+  //TODO NULL VALUES ERROR
+
   CartProvider cartProvider = Provider.of<CartProvider>(context);
   final Product product = Product.fromJson(data[index]);
 

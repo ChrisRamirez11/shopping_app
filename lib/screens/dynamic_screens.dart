@@ -54,7 +54,7 @@ class _DynamicScreensState extends State<DynamicScreens> {
             IconButton(
               onPressed: () {
                 if (!isAccountFinished(context)) {
-                  return;
+                  return null;
                 }
                 scaffoldDynKey.currentState!.openEndDrawer();
               },

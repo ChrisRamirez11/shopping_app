@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
               IconButton(
                 onPressed: () {
                   if (!isAccountFinished(context)) {
-                    return;
+                    return null;
                   }
                   scaffoldKey.currentState!.openEndDrawer();
                 },

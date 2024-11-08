@@ -1,20 +1,26 @@
 import 'package:app_tienda_comida/main.dart';
+import 'package:app_tienda_comida/screens/account_relateds/redirect_screen.dart';
+import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 bool isAccountFinished(BuildContext context) {
+  PreferenciasUsuario prefs = PreferenciasUsuario();
   try {
     final session = supabase.auth.currentSession;
     if (session == null) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Debe registrarse')));
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => RedirectScreen(),
+      ));
       return false;
     } else {
-      //TODO arreglar es ver por el name en profiles
-      final userId = supabase.auth.currentSession!.user.id;
-      if (userId.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Debe terminar de rellenar los datos de su perfil')));
+      //TODO Comprobar todo el tema de prefs y tal
+      final userName = prefs.user;
+      final userPhone = prefs.phoneNumber;
+      if (userName.isEmpty || userPhone.isEmpty) {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => RedirectScreen(),
+        ));
         return false;
       }
     }

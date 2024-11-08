@@ -176,7 +176,8 @@ class SheetBottomWidget extends StatelessWidget {
 
     if (pic.isNotEmpty) {
       return CachedNetworkImage(
-        fit: BoxFit.cover, // Use BoxFit.cover for better image fitting
+        cacheManager: null,
+        fit: BoxFit.contain, // Use BoxFit.cover for better image fitting
         imageUrl: pic,
         placeholder: (context, url) =>
             const Center(child: CircularProgressIndicator()),

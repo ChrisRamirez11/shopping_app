@@ -13,13 +13,13 @@ class CartProvider extends ChangeNotifier {
   double total = 0;
   bool isLoading = true;
 
-  final userId = supabase.auth.currentUser!.id;
 
   CartProvider() {
     _loadCartItems();
   }
 
   Future<void> _loadCartItems() async {
+    final userId = supabase.auth.currentUser!.id;
     _cartItems = await _cartSupabaseProvider.getCart(userId);
     await _fetchProductsForCartItems();
     await getTotal();
@@ -31,6 +31,7 @@ class CartProvider extends ChangeNotifier {
   Map<int, Product> get productMap => _productMap;
 
   addCartItem(Product product) async {
+    final userId = supabase.auth.currentUser!.id;
     CartItem cartItem =
         CartItem(id: '', userId: userId, productId: product.id, quantity: 1);
     await _cartSupabaseProvider.addToCart(userId, product.id, 1);

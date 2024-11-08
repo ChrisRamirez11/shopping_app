@@ -1,6 +1,7 @@
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/provider/get_profile.dart';
 import 'package:app_tienda_comida/screens/account_relateds/log_in_screen.dart';
+import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,8 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       }
     } finally {
       if (mounted) {
+        prefs.user = _fullNameController.text;
+        prefs.phoneNumber = _cellphoneController.text;
         setState(() {
           _loading = false;
         });
@@ -51,7 +54,6 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     }
   }
 
-  /// Called when user taps `Update` button
   Future<void> _updateProfile() async {
     setState(() {
       _loading = true;
@@ -116,6 +118,8 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       }
     } finally {
       if (mounted) {
+        prefs.user = _fullNameController.text;
+        prefs.phoneNumber = _cellphoneController.text;
         setState(() {
           _loading = false;
         });
@@ -161,74 +165,98 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     super.dispose();
   }
 
+  /// Método para verificar si todos los campos están llenos
+  bool _areFieldsFilled() {
+    return _fullNameController.text.isNotEmpty &&
+        _directionController.text.isNotEmpty &&
+        _cellphoneController.text.isNotEmpty;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(onPressed: () => _signOut(), icon: Icon(Icons.logout))
-          ],
-          foregroundColor: secondary,
-          backgroundColor: primary,
-          title: Text(
-            'Perfil',
-            style: Theme.of(context).textTheme.bodyLarge,
+    return PopScope(
+      //check this
+      canPop: _areFieldsFilled() ? true : false,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                if (_areFieldsFilled()) {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => HomeScreen(),
+                  ));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text(
+                            'Por favor, complete todos los campos antes de salir')),
+                  );
+                }
+              },
+            ),
+            actions: [
+              IconButton(onPressed: () => _signOut(), icon: Icon(Icons.logout))
+            ],
+            foregroundColor: secondary,
+            backgroundColor: primary,
+            title: Text(
+              'Perfil',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
           ),
-        ),
-        body: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
-          children: [
-            TextFormField(
-              style: Theme.of(context).textTheme.labelLarge,
-              controller: _fullNameController,
-              decoration: InputDecoration(
-                labelStyle: Theme.of(context).textTheme.bodyMedium,
-                labelText: 'Nombre y Apellido',
-              ),
-            ),
-            const SizedBox(height: 18),
-            TextFormField(
-              style: Theme.of(context).textTheme.labelLarge,
-              maxLines: 3,
-              minLines: 1,
-              controller: _directionController,
-              decoration: InputDecoration(
-                labelStyle: Theme.of(context).textTheme.bodyMedium,
-                labelText: 'Dirección',
-              ),
-            ),
-            const SizedBox(height: 18),
-            TextFormField(
-              style: Theme.of(context).textTheme.labelLarge,
-              keyboardType: TextInputType.number,
-              controller: _cellphoneController,
-              decoration: InputDecoration(
+          body: ListView(
+            padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+            children: [
+              TextFormField(
+                style: Theme.of(context).textTheme.labelLarge,
+                controller: _fullNameController,
+                decoration: InputDecoration(
                   labelStyle: Theme.of(context).textTheme.bodyMedium,
-                  labelText: 'Teléfono de Contacto'),
-            ),
-            const SizedBox(height: 18),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                    side: BorderSide(
-                        color: primary,
-                        width: 1),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 15),
-                ),
-                onPressed: _loading ? null : _updateProfile,
-                child: Text(
-                  _loading ? 'Cargando...' : 'Actualizar',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  labelText: 'Nombre y Apellido',
                 ),
               ),
-            )
-          ],
+              const SizedBox(height: 18),
+              TextFormField(
+                style: Theme.of(context).textTheme.labelLarge,
+                maxLines: 3,
+                minLines: 1,
+                controller: _directionController,
+                decoration: InputDecoration(
+                  labelStyle: Theme.of(context).textTheme.bodyMedium,
+                  labelText: 'Dirección',
+                ),
+              ),
+              const SizedBox(height: 18),
+              TextFormField(
+                style: Theme.of(context).textTheme.labelLarge,
+                keyboardType: TextInputType.number,
+                controller: _cellphoneController,
+                decoration: InputDecoration(
+                    labelStyle: Theme.of(context).textTheme.bodyMedium,
+                    labelText: 'Teléfono de Contacto'),
+              ),
+              const SizedBox(height: 18),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      side: BorderSide(color: primary, width: 1),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  ),
+                  onPressed: _loading ? null : _updateProfile,
+                  child: Text(
+                    _loading ? 'Cargando...' : 'Actualizar',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
