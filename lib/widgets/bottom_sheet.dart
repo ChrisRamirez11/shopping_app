@@ -1,7 +1,9 @@
+import 'package:app_tienda_comida/provider/carrito_provider.dart';
 import 'package:app_tienda_comida/utils/cart_addition.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/producto.dart';
 
@@ -18,6 +20,7 @@ class _CustomizedBottomSheetState extends State<CustomizedBottomSheet> {
   Widget build(BuildContext context) {
     Product product = widget.product;
     String description = _getDescription(product.description);
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
 
     return SizedBox(
       height: double.infinity,
@@ -33,7 +36,7 @@ class _CustomizedBottomSheetState extends State<CustomizedBottomSheet> {
                 child: SheetBottomWidget(
                   product: product,
                   onAgregar: () {
-                    cartAddition(context, product);
+                    cartAddition(context, product, cartProvider);
                   },
                   descripcion: description,
                 ),

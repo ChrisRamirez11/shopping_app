@@ -4,10 +4,8 @@ import 'package:app_tienda_comida/utils/account_validation.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-cartAddition(BuildContext context, Product product) {
-  CartProvider cartProvider = Provider.of<CartProvider>(context);
+cartAddition(BuildContext context, Product product, CartProvider cartProvider) {
 
   if (!isAccountFinished(context)) return;
   if (!hasStock(product)) {

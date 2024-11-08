@@ -10,9 +10,12 @@ import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
 import 'package:app_tienda_comida/widgets/custom_loader_widget.dart';
 import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:top_modal_sheet/top_modal_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
+import '../../provider/carrito_provider.dart';
 
 class NoStockGridViewWidget extends StatefulWidget {
   final String appBarTitle;
@@ -92,6 +95,7 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
   }
 
   _createGridContainer(BuildContext context, int index, data) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
   final Product product = Product.fromJson(data[index]);
   return Container(
     height: double.maxFinite,
@@ -189,7 +193,7 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
                     child: IconButton(
                       color: white,
                       onPressed: () {
-                        cartAddition(context, product);
+                        cartAddition(context, product, cartProvider);
                       },
                       icon: const Icon(Icons.add_shopping_cart_outlined, size: 20,),
                     ),

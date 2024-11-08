@@ -12,10 +12,10 @@ class ProductsListNotifier extends ChangeNotifier {
   List<String> get productsListNotifier => _productsListNotifier;
 
   ProductsListNotifier() {
-    loadList();
+    _loadList();
   }
 
-  Future<void> loadList() async {
+  Future<void> _loadList() async {
     _productsListNotifier = await FetchingProductsTypes().productsTypesList();
     notifyListeners();
   }

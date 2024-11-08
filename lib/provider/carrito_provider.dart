@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app_tienda_comida/models/cart_item_model.dart';
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/cart_supabase_provider.dart';
@@ -10,16 +12,23 @@ class CartProvider extends ChangeNotifier {
   List<CartItem> _cartItems = [];
   CartSupabaseProvider _cartSupabaseProvider = CartSupabaseProvider();
   Map<int, Product> _productMap = {};
+  double total = 0;
+  bool isLoading = true;
 
   final userId = supabase.auth.currentUser!.id;
 
   CartProvider() {
+    log('constructor');
     _loadCartItems();
-    _fetchProductsForCartItems();
   }
 
-  _loadCartItems() async {
+  Future<void> _loadCartItems() async {
+    log('aqui');
     _cartItems = await _cartSupabaseProvider.getCart(userId);
+    await _fetchProductsForCartItems();
+    await getTotal();
+    log('hecho');
+    isLoading = false;
     notifyListeners();
   }
 
@@ -57,13 +66,13 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  double getTotal() {
-    double total = 0;
+  Future<void> getTotal() async{
+    double localTotal = 0;
     for (var cartItem in _cartItems) {
-      total += (_productMap[cartItem.productId]?.price ?? 0 * cartItem.quantity);
+      localTotal += (_productMap[cartItem.productId]?.price ?? 0 * cartItem.quantity);
     }
+    total = localTotal;
     notifyListeners();
-    return total;
   }
 
   ///////////////////////////////////////////

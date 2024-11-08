@@ -1,4 +1,5 @@
 import 'package:app_tienda_comida/models/producto.dart';
+import 'package:app_tienda_comida/provider/carrito_provider.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/utils/cart_addition.dart';
@@ -68,7 +69,6 @@ class _GridViewWidgetState extends State<GridViewWidget> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return custom_error_widget(productListNotifier);
-              
             } else if (!snapshot.hasData) {
               return custom_loader_widget();
             } else {
@@ -104,7 +104,9 @@ class _GridViewWidgetState extends State<GridViewWidget> {
 }
 
 _createGridContainer(BuildContext context, int index, data) {
+  CartProvider cartProvider = Provider.of<CartProvider>(context);
   final Product product = Product.fromJson(data[index]);
+  
   return Container(
     height: double.maxFinite,
     decoration: BoxDecoration(
@@ -202,7 +204,7 @@ _createGridContainer(BuildContext context, int index, data) {
                     child: IconButton(
                       color: white,
                       onPressed: () {
-                        cartAddition(context, product);
+                        cartAddition(context, product, cartProvider);
                       },
                       icon: const Icon(
                         Icons.add_shopping_cart_outlined,

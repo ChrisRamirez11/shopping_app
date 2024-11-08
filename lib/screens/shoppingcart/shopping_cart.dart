@@ -21,8 +21,6 @@ class ShoppingCart extends StatefulWidget {
 }
 
 class _ShoppingCartState extends State<ShoppingCart> {
-  bool isLoading = true; // Loading state
-
   final userId = supabase.auth.currentUser!.id;
 
   @override
@@ -40,19 +38,19 @@ class _ShoppingCartState extends State<ShoppingCart> {
     Size size = MediaQuery.of(context).size;
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     List<CartItem> cartItemList = cartProvider.cartItems;
-    double total = cartProvider.getTotal();
 
     Map<int, Product> productMap = cartProvider.productMap;
+    bool isLoading = cartProvider.isLoading;
 
     return Drawer(
       width: size.width * 0.80,
       child: isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator())
           : Column(
               children: [
                 getTopBar(size),
                 getListView(size, cartItemList, productMap, cartProvider),
-                getTotals(size, cartItemList, total)
+                getTotals(size, cartItemList, cartProvider)
               ],
             ),
     );
@@ -183,8 +181,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
                               quantityController.text = limitedValue.toString();
                               quantity = limitedValue;
                               cartItem.quantity = quantity;
-                              cartProvider.updateCartItem(cartItem);
                             });
+                            cartProvider.updateCartItem(cartItem);
                           },
                         ),
                       )
@@ -195,7 +193,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
         ));
   }
 
-  getTotals(Size size, List<CartItem> cartItemList, double total) {
+  getTotals(Size size, List<CartItem> cartItemList, CartProvider cartProvider) {
+    double total = cartProvider.total;
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
