@@ -1,4 +1,3 @@
-import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/screens/search_screen.dart';
 import 'package:app_tienda_comida/screens/shoppingcart/shopping_cart.dart';
@@ -8,8 +7,6 @@ import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
 import 'package:double_tap_to_exit/double_tap_to_exit.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -25,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final productListNotifier = Provider.of<ProductsListNotifier>(context);
     String appBarTitle = 'Inicio';
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return SafeArea(
@@ -75,18 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           endDrawer: const ShoppingCart(),
           drawer: MenuDrawer(appBarTitle: appBarTitle),
-          body: RefreshIndicator(
-            onRefresh: () async {
-              try {
-                await productListNotifier.loadList();
-              } catch (error) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Error al cargar la lista de productos')));
-              }
-            },
-            child: GridViewWidget(
-              appBarTitle: appBarTitle,
-            ),
+          body: GridViewWidget(
+            appBarTitle: appBarTitle,
           ),
         ),
       ),

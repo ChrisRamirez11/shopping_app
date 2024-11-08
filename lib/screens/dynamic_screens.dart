@@ -1,4 +1,3 @@
-import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/screens/search_screen.dart';
 import 'package:app_tienda_comida/screens/shoppingcart/shopping_cart.dart';
@@ -7,7 +6,6 @@ import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class DynamicScreens extends StatefulWidget {
   final Map<String, dynamic> args;
@@ -25,7 +23,6 @@ class _DynamicScreensState extends State<DynamicScreens> {
 
   @override
   Widget build(BuildContext context) {
-    final productListNotifier = Provider.of<ProductsListNotifier>(context);
     final scaffoldDynKey = GlobalKey<ScaffoldState>();
     return SafeArea(
       child: Scaffold(
@@ -69,9 +66,7 @@ class _DynamicScreensState extends State<DynamicScreens> {
         ),
         endDrawer: const ShoppingCart(),
         drawer: MenuDrawer(appBarTitle: widget.args['name']),
-        body: RefreshIndicator(
-            onRefresh: () => productListNotifier.loadList(),
-            child: GridViewWidget(appBarTitle: widget.args['name'])),
+        body: GridViewWidget(appBarTitle: widget.args['name']),
       ),
     );
   }
