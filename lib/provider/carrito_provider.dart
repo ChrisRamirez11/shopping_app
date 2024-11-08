@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_tienda_comida/models/cart_item_model.dart';
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/cart_supabase_provider.dart';
@@ -18,16 +16,13 @@ class CartProvider extends ChangeNotifier {
   final userId = supabase.auth.currentUser!.id;
 
   CartProvider() {
-    log('constructor');
     _loadCartItems();
   }
 
   Future<void> _loadCartItems() async {
-    log('aqui');
     _cartItems = await _cartSupabaseProvider.getCart(userId);
     await _fetchProductsForCartItems();
     await getTotal();
-    log('hecho');
     isLoading = false;
     notifyListeners();
   }
