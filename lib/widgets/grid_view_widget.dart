@@ -112,26 +112,31 @@ _createGridContainer(BuildContext context, int index, data) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          flex: 8,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10.0, bottom: 5),
-            child: Center(
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(5)),
-                  height: double.maxFinite,
-                  width: 120,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Hero(
-                        tag: '${product.id}',
-                        child: _loadImage(product),
-                      ))),
+  flex: 8,
+  child: Padding(
+    padding: const EdgeInsets.only(top: 10.0, bottom: 5),
+    child: Center(
+      child: AspectRatio(
+        aspectRatio: 16/8,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          height: double.maxFinite,
+          width: double.maxFinite,
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: Hero(
+              tag: '${product.id}',
+              child: _loadImage(product),
             ),
           ),
         ),
+      ),
+    ),
+  ),
+),
         Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -234,6 +239,7 @@ _loadImage(Product product) {
     );
   } else {
     return const Image(
+      fit: BoxFit.cover,
       image: AssetImage('assets/images/no-image.png'),
     );
   }

@@ -421,7 +421,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
   _createPicContainer() {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(

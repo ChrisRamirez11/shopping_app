@@ -22,7 +22,7 @@ class ProductDetailPage extends StatelessWidget {
         appBar: AppBar(
           foregroundColor: secondary,
           backgroundColor: primary,
-          title: Text(product.name),
+          title: Text(product.name, style: Theme.of(context).textTheme.bodyMedium,),
         ),
         body: Padding(
           padding: const EdgeInsets.only(top: 20),
@@ -78,15 +78,14 @@ class SheetBottomWidget extends StatelessWidget {
             flex: 11,
             child: Padding(
               padding: const EdgeInsets.all(25),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: SizedBox(
-                    height: 200,
-                    width: double.infinity,
-                    child: Hero(
-                      tag: '${product.id}',
-                      child: _loadImage(product),
-                    )),
+              child: Container(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Hero(
+                    tag: '${product.id}',
+                    child: _loadImage(product),
+                  ),
+                ),
               ),
             ),
           ),
