@@ -35,18 +35,17 @@ class CartProvider extends ChangeNotifier {
         CartItem(id: '', userId: userId, productId: product.id, quantity: 1);
     await _cartSupabaseProvider.addToCart(userId, product.id, 1);
 
+    _productMap[product.id] = product;
     _cartItems.add(cartItem);
-
     notifyListeners();
   }
 
-  //! Velar si actualiza correctamente
   updateCartItem(CartItem cartItem) async {
     final index = _cartItems.indexWhere((item) => item.id == cartItem.id);
 
-    _cartSupabaseProvider.updateCartItem(cartItem.id, cartItem.quantity);
+    await _cartSupabaseProvider.updateCartItem(cartItem.id, cartItem.quantity);
 
-    await _cartItems
+    _cartItems
       ..removeAt(index)
       ..insert(index, cartItem);
 
@@ -73,6 +72,7 @@ class CartProvider extends ChangeNotifier {
   ///////////////////////////////////////////
   //Products Fetching
   Future<void> _fetchProductsForCartItems() async {
+    _productMap.clear();
     for (var item in _cartItems) {
       final product = await _fetchProduct(item.productId);
       _productMap[item.productId] = product;

@@ -388,7 +388,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       }
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
-      }
+      
 
       String imageName = '${product.name}.png'..replaceAll(' ', '_');
       if (imageFile.path.isNotEmpty) {
@@ -405,7 +405,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           productProvider.updateProduct(context, product);
         }
         Navigator.of(context).pop();
-      });
+      });}
     }
   }
 

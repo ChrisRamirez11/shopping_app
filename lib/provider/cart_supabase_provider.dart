@@ -38,7 +38,7 @@ class CartSupabaseProvider {
   Future<void> deleteCartItem(String cartId) async {
     try {
       final response = await supabase.from('carts').delete().eq('id', cartId);
-      log('${response}updateCartItem');
+      log('${response}deletedCartItem');
     } on AuthException catch (e) {
       log('$e');
     } catch (e) {
