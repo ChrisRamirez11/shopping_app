@@ -4,7 +4,7 @@ import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/utils/cart_addition.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
-import 'package:app_tienda_comida/widgets/product_details_page.dart';
+import 'package:app_tienda_comida/screens/product_details_screen.dart';
 import 'package:app_tienda_comida/widgets/custom_error_widget.dart';
 import 'package:app_tienda_comida/widgets/custom_loader_widget.dart';
 import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';

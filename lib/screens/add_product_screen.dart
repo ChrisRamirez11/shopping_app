@@ -167,11 +167,15 @@ class _AddProductScreenState extends State<AddProductScreen> {
           flex: 7,
           child: _typeSelectorField(notifier.productsListNotifier),
         ),
+        SizedBox(
+          width: 10,
+        ),
         Expanded(
           flex: 1,
           child: IconButton(
-            style: const ButtonStyle(
-              shape: WidgetStatePropertyAll(ContinuousRectangleBorder()),
+            style: ButtonStyle(
+              shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10))),
             ),
             icon: const Icon(Icons.add),
             onPressed: () {
@@ -264,33 +268,35 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   TextFormField _priceField() {
-  return TextFormField(
-    style: Theme.of(context).textTheme.labelMedium,
-    initialValue: product.price.toString(),
-    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
-    decoration: const InputDecoration(
-      labelText: 'Precio',
-      border: OutlineInputBorder(),
-    ),
-    onSaved: (newValue) {
-      if (newValue != null) {
-        String cleanedValue = newValue.replaceAll(',', '.').replaceAll('-', '');
-        product.price = double.tryParse(cleanedValue) ?? 0.0;
-      }
-    },
-    validator: (value) {
-      if (value == null || value.isEmpty) {
-        return 'Por favor, ingresa un precio';
-      }
-      String cleanedValue = value.replaceAll(',', '.').replaceAll('-', '');
-      if (utils.isNumeric(cleanedValue)) {
-        return null;
-      } else {
-        return 'Solo números para el precio';
-      }
-    },
-  );
-}
+    return TextFormField(
+      style: Theme.of(context).textTheme.labelMedium,
+      initialValue: product.price.toString(),
+      keyboardType:
+          TextInputType.numberWithOptions(decimal: true, signed: false),
+      decoration: const InputDecoration(
+        labelText: 'Precio',
+        border: OutlineInputBorder(),
+      ),
+      onSaved: (newValue) {
+        if (newValue != null) {
+          String cleanedValue =
+              newValue.replaceAll(',', '.').replaceAll('-', '');
+          product.price = double.tryParse(cleanedValue) ?? 0.0;
+        }
+      },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Por favor, ingresa un precio';
+        }
+        String cleanedValue = value.replaceAll(',', '.').replaceAll('-', '');
+        if (utils.isNumeric(cleanedValue)) {
+          return null;
+        } else {
+          return 'Solo números para el precio';
+        }
+      },
+    );
+  }
 
   TextFormField _quantityField() {
     bool enabled = !product.availability;
@@ -320,7 +326,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        title: utils.getTexts('Siempre en stock', Theme.of(context).textTheme.bodyMedium),
+        title: utils.getTexts(
+            'Siempre en stock', Theme.of(context).textTheme.bodyMedium),
         value: product.availability,
         onChanged: (value) => setState(() {
               product.availability = value;
@@ -334,7 +341,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
       initialValue: product.description,
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.text,
-      decoration: InputDecoration(labelStyle: Theme.of(context).textTheme.bodyMedium,
+      decoration: InputDecoration(
+        labelStyle: Theme.of(context).textTheme.bodyMedium,
         contentPadding: const EdgeInsets.all(10),
         isCollapsed: product.description.isEmpty ? true : false,
         labelText: 'Descripción(opcional)',
@@ -348,11 +356,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
     return ElevatedButton(
       onPressed: _saving ? null : () => _submit(),
       style: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(primary),
           shape: WidgetStatePropertyAll(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
       child: Text(
         "Guardar",
-        style: Theme.of(context).textTheme.labelLarge,
+        style: Theme.of(context).textTheme.bodyMedium,
       ),
     );
   }
@@ -388,40 +397,46 @@ class _AddProductScreenState extends State<AddProductScreen> {
       }
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
-      
 
-      String imageName = '${product.name}.png'..replaceAll(' ', '_');
-      if (imageFile.path.isNotEmpty) {
-        productImageUpload(imageName);
-        productImageURLSet(imageName);
-      }
-
-      Timer(const Duration(milliseconds: 1500), () {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(_showSnackBar('Registro Guardado'));
-        if (widget.product == null) {
-          productProvider.insertProduct(context, product);
-        } else {
-          productProvider.updateProduct(context, product);
+        String imageName = '${product.name}.png'..replaceAll(' ', '_');
+        if (imageFile.path.isNotEmpty) {
+          productImageUpload(imageName);
+          productImageURLSet(imageName);
         }
-        Navigator.of(context).pop();
-      });}
+
+        Timer(const Duration(milliseconds: 1500), () {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(_showSnackBar('Registro Guardado'));
+          if (widget.product == null) {
+            productProvider.insertProduct(context, product);
+          } else {
+            productProvider.updateProduct(context, product);
+          }
+          Navigator.of(context).pop();
+        });
+      }
     }
   }
 
   _createPicContainer() {
     return Container(
-      decoration: const BoxDecoration(boxShadow: [
-        BoxShadow(
-            offset: Offset(1, 3),
-            blurRadius: 4,
-            spreadRadius: 2,
-            color: Colors.black38)
-      ]),
-      child: Image(
-        image: _loadImage(),
-        height: 300,
-        fit: BoxFit.contain,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+                offset: Offset(1, 3),
+                blurRadius: 4,
+                spreadRadius: 2,
+                color: Colors.black38)
+          ]),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image(
+          image: _loadImage(),
+          height: 300,
+          fit: BoxFit.contain,
+        ),
       ),
     );
   }

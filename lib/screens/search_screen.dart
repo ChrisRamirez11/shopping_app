@@ -1,7 +1,7 @@
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
-import 'package:app_tienda_comida/widgets/product_details_page.dart';
+import 'package:app_tienda_comida/screens/product_details_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
