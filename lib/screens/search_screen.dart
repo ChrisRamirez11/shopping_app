@@ -1,7 +1,7 @@
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
-import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
+import 'package:app_tienda_comida/widgets/product_details_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -81,31 +81,29 @@ class _SearchScreenState extends State<SearchScreen> {
       height: 70,
       child: Center(
         child: ListTile(
-          leading: SizedBox(width: 40, height: 40, child: _loadImage(product)),
-          title: Text(
-            product.name,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          onTap: () => displayButtomSheet(context, product),
-        ),
+            leading: SizedBox(
+              width: 40,
+              height: 40,
+              child: Hero(tag: '${product.id}', child: _loadImage(product)),
+            ),
+            title: Text(
+              product.name,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ProductDetailPage(product: product),
+              ));
+            }),
       ),
     );
   }
 }
 
-Future displayButtomSheet(BuildContext context, Product product) async {
-  return showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.elliptical(400, 40),
-              topRight: Radius.elliptical(400, 40))),
-      builder: (context) => CustomizedBottomSheet(product: product));
-}
-
 _loadImage(product) {
   if (product.pic.isNotEmpty) {
-    return CachedNetworkImage(fit: BoxFit.cover,
+    return CachedNetworkImage(
+      fit: BoxFit.cover,
       cacheManager: null,
       imageUrl: product.pic,
       placeholder: (context, url) =>

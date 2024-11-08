@@ -7,41 +7,42 @@ import 'package:provider/provider.dart';
 
 import '../models/producto.dart';
 
-class CustomizedBottomSheet extends StatefulWidget {
+class ProductDetailPage extends StatelessWidget {
   final Product product;
-  const CustomizedBottomSheet({super.key, required this.product});
 
-  @override
-  State<CustomizedBottomSheet> createState() => _CustomizedBottomSheetState();
-}
+  const ProductDetailPage({super.key, required this.product});
 
-class _CustomizedBottomSheetState extends State<CustomizedBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    Product product = widget.product;
     String description = _getDescription(product.description);
     CartProvider cartProvider = Provider.of<CartProvider>(context);
 
-    return SizedBox(
-      height: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.66,
-                width: double.infinity,
-                child: SheetBottomWidget(
-                  product: product,
-                  onAgregar: () {
-                    cartAddition(context, product, cartProvider);
-                  },
-                  descripcion: description,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          foregroundColor: secondary,
+          backgroundColor: primary,
+          title: Text(product.name),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.66,
+                  width: double.infinity,
+                  child: SheetBottomWidget(
+                    product: product,
+                    onAgregar: () {
+                      cartAddition(context, product, cartProvider);
+                    },
+                    descripcion: description,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -77,10 +78,13 @@ class SheetBottomWidget extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: SizedBox(
-                height: 200,
-                width: 250, // Use double.infinity for flexibility
-                child: _loadImage(product),
-              ),
+                  height: 200,
+                  width: double
+                      .infinity, // Cambiado a double.infinity para flexibilidad
+                  child: Hero(
+                    tag: '${product.id}',
+                    child: _loadImage(product),
+                  )),
             ),
           ),
         ),
@@ -119,8 +123,7 @@ class SheetBottomWidget extends StatelessWidget {
                       color: primary.withOpacity(0.1),
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                          borderRadius: BorderRadius.circular(8)),
                       child: Padding(
                         padding: const EdgeInsets.all(12),
                         child: SingleChildScrollView(
@@ -140,34 +143,24 @@ class SheetBottomWidget extends StatelessWidget {
         ),
         Expanded(
           flex: 1,
-          child: Center(
-            child: Text('\$${product.price.toString()}'),
-          ),
+          child: Center(child: Text('\$${product.price.toString()}')),
         ),
-        SizedBox(
-          height: 10,
-        ),
+        SizedBox(height: 10),
         Expanded(
           flex: 2,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton.icon(
-                style: ButtonStyle(
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            ElevatedButton.icon(
+              style: ButtonStyle(
                   backgroundColor:
                       WidgetStatePropertyAll(secondary.withOpacity(0.9)),
                   shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15))),
-                ),
-                onPressed: onAgregar,
-                icon: const Icon(Icons.add),
-                label: const Text(
-                  'Añadir',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-              ),
-            ],
-          ),
+                      borderRadius: BorderRadius.circular(15)))),
+              onPressed: onAgregar,
+              icon: const Icon(Icons.add),
+              label: const Text('Añadir',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            ),
+          ]),
         ),
         SizedBox(height: 10),
       ],
@@ -187,9 +180,8 @@ class SheetBottomWidget extends StatelessWidget {
       );
     } else {
       return const Image(
-        fit: BoxFit.cover, // Use BoxFit.cover for better image fitting
-        image: AssetImage('assets/images/no-image.png'),
-      );
+          fit: BoxFit.cover, // Use BoxFit.cover for better image fitting
+          image: AssetImage('assets/images/no-image.png'));
     }
   }
 }

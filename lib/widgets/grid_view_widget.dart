@@ -4,7 +4,7 @@ import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/utils/cart_addition.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
-import 'package:app_tienda_comida/widgets/bottom_sheet.dart';
+import 'package:app_tienda_comida/widgets/product_details_page.dart';
 import 'package:app_tienda_comida/widgets/custom_error_widget.dart';
 import 'package:app_tienda_comida/widgets/custom_loader_widget.dart';
 import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';
@@ -30,16 +30,6 @@ class _GridViewWidgetState extends State<GridViewWidget> {
   Widget build(BuildContext context) {
     var fetchData = _fetchDataSelector(widget.appBarTitle);
     final productListNotifier = Provider.of<ProductsListNotifier>(context);
-
-    Future displayButtomSheet(BuildContext context, Product product) async {
-      return showModalBottomSheet(
-          context: context,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.elliptical(400, 40),
-                  topRight: Radius.elliptical(400, 40))),
-          builder: (context) => CustomizedBottomSheet(product: product));
-    }
 
     Future displayTopSheet(BuildContext context, productMap) async {
       Product product = Product.fromJson(productMap);
@@ -87,7 +77,10 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                             context, data[index]), //TODO delete for user App
                         onTap: () {
                           Product product = Product.fromJson(data[index]);
-                          displayButtomSheet(context, product);
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                ProductDetailPage(product: product),
+                          ));
                         },
                         child: _createGridContainer(context, index, data),
                       ),
@@ -106,7 +99,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
 _createGridContainer(BuildContext context, int index, data) {
   CartProvider cartProvider = Provider.of<CartProvider>(context);
   final Product product = Product.fromJson(data[index]);
-  
+
   return Container(
     height: double.maxFinite,
     decoration: BoxDecoration(
@@ -129,9 +122,11 @@ _createGridContainer(BuildContext context, int index, data) {
                   width: 120,
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: _loadImage(product),
-                  )),
+                      borderRadius: BorderRadius.circular(5),
+                      child: Hero(
+                        tag: '${product.id}',
+                        child: _loadImage(product),
+                      ))),
             ),
           ),
         ),
