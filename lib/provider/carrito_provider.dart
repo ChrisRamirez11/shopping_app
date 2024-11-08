@@ -30,10 +30,10 @@ class CartProvider extends ChangeNotifier {
   List<CartItem> get cartItems => _cartItems;
   Map<int, Product> get productMap => _productMap;
 
-  addCartItem(Product product) {
+  addCartItem(Product product) async {
     CartItem cartItem =
         CartItem(id: '', userId: userId, productId: product.id, quantity: 1);
-    _cartSupabaseProvider.addToCart(userId, product.id, 1);
+    await _cartSupabaseProvider.addToCart(userId, product.id, 1);
 
     _cartItems.add(cartItem);
 
@@ -41,30 +41,30 @@ class CartProvider extends ChangeNotifier {
   }
 
   //! Velar si actualiza correctamente
-  updateCartItem(CartItem cartItem) {
+  updateCartItem(CartItem cartItem) async {
     final index = _cartItems.indexWhere((item) => item.id == cartItem.id);
 
     _cartSupabaseProvider.updateCartItem(cartItem.id, cartItem.quantity);
 
-    _cartItems
+    await _cartItems
       ..removeAt(index)
       ..insert(index, cartItem);
 
     notifyListeners();
   }
 
-  deleteCartItem(CartItem cartItem) {
+  deleteCartItem(CartItem cartItem) async {
+    await _cartSupabaseProvider.deleteCartItem(cartItem.id);
     _cartItems.removeWhere((item) => item.id == cartItem.id);
-
-    _cartSupabaseProvider.deleteCartItem(cartItem.id);
 
     notifyListeners();
   }
 
-  Future<void> getTotal() async{
+  Future<void> getTotal() async {
     double localTotal = 0;
     for (var cartItem in _cartItems) {
-      localTotal += (_productMap[cartItem.productId]?.price ?? 0 * cartItem.quantity);
+      localTotal +=
+          (_productMap[cartItem.productId]?.price ?? 0 * cartItem.quantity);
     }
     total = localTotal;
     notifyListeners();
