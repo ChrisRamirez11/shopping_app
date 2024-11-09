@@ -13,7 +13,6 @@ class CartProvider extends ChangeNotifier {
   double total = 0;
   bool isLoading = true;
 
-
   CartProvider() {
     _loadCartItems();
   }
@@ -32,9 +31,12 @@ class CartProvider extends ChangeNotifier {
 
   addCartItem(Product product) async {
     final userId = supabase.auth.currentUser!.id;
+    final resp = await _cartSupabaseProvider.addToCart(userId, product.id, 1);
+
+    if (resp.isEmpty) return;
+
     CartItem cartItem =
-        CartItem(id: '', userId: userId, productId: product.id, quantity: 1);
-    await _cartSupabaseProvider.addToCart(userId, product.id, 1);
+        CartItem(id: resp, userId: userId, productId: product.id, quantity: 1);
 
     _productMap[product.id] = product;
     _cartItems.add(cartItem);
@@ -44,34 +46,40 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateCartItem(CartItem cartItem) async {
-    final index = _cartItems.indexWhere((item) => item.id == cartItem.id);
-
-    await _cartSupabaseProvider.updateCartItem(cartItem.id, cartItem.quantity);
-
-    _cartItems
-      ..removeAt(index)
-      ..insert(index, cartItem);
-
+  Future<void> updateCartItem(CartItem cartItem) async {
+    try {
+      final index = _cartItems.indexWhere((item) => item.id == cartItem.id);
+      if (index == -1) {
+        throw Exception('Item not found in cart');
+      }
+      await _cartSupabaseProvider.updateCartItem(
+          cartItem.id, cartItem.quantity);
+      _cartItems[index] = cartItem;
       await getTotal();
-
-    notifyListeners();
+      notifyListeners();
+    } catch (e) {
+      throw ('Error updating cart item: $e');
+    }
   }
 
   deleteCartItem(CartItem cartItem) async {
-    await _cartSupabaseProvider.deleteCartItem(cartItem.id);
-    _cartItems.removeWhere((item) => item.id == cartItem.id);
+    try {
+      await _cartSupabaseProvider.deleteCartItem(cartItem.id);
+      _cartItems.removeWhere((item) => item.id == cartItem.id);
 
-    await getTotal();
-    
-    notifyListeners();
+      await getTotal();
+
+      notifyListeners();
+    } catch (e) {
+      throw ("Error al eliminar el artículo del carrito: $e");
+    }
   }
 
   Future<void> getTotal() async {
     double localTotal = 0;
     for (var cartItem in _cartItems) {
       localTotal +=
-          (_productMap[cartItem.productId]?.price ?? 0 * cartItem.quantity);
+          (_productMap[cartItem.productId]!.price * cartItem.quantity);
     }
     total = localTotal;
     notifyListeners();

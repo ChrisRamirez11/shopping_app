@@ -7,14 +7,19 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class CartSupabaseProvider {
   //addToCart
   //
-  Future<void> addToCart(String userId, int productId, int quantity) async {
+  Future<String> addToCart(String userId, int productId, int quantity) async {
     try {
-      await supabase.from('carts').insert(
-          {'user_id': userId, 'product_id': productId, 'quantity': quantity});
+      final resp = await supabase.from('carts').insert({
+        'user_id': userId,
+        'product_id': productId,
+        'quantity': quantity
+      }).select().single();
+      return resp['id'];
     } on AuthException catch (e) {
       throw ('$e');
     } catch (e) {
-      throw ('Ha ocurrido un error: $e');
+      log('Ha ocurrido un error: $e');
+      return '';
     }
   }
 
