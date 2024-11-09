@@ -117,7 +117,7 @@ _createGridContainer(BuildContext context, int index, data) {
             padding: const EdgeInsets.only(top: 10.0, bottom: 5),
             child: Center(
               child: AspectRatio(
-                aspectRatio: 16 / 8,
+                aspectRatio: 16 / 9,
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
@@ -155,31 +155,29 @@ _createGridContainer(BuildContext context, int index, data) {
             thickness: 0.5,
           ),
         ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          height: 20,
-          width: double.infinity - 100,
-          child: Text(
-            '#${product.type}',
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context)
-                .textTheme
-                .labelSmall!
-                .copyWith(color: greenCustom),
-          ),
-        ),
         Expanded(
           flex: 4,
           child: Row(
             children: [
               const SizedBox(width: 10),
               Expanded(
-                flex: 4,
+                flex: 5,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
                       height: 5,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      child: Text(
+                        '#${product.type}',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelSmall!
+                            .copyWith(color: greenCustom),
+                      ),
                     ),
                     SizedBox(
                       width: 90,
@@ -192,7 +190,6 @@ _createGridContainer(BuildContext context, int index, data) {
                   ],
                 ),
               ),
-              Expanded(child: Container()),
               Expanded(
                 flex: 3,
                 child: Padding(
