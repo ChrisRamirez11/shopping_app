@@ -31,26 +31,6 @@ class _GridViewWidgetState extends State<GridViewWidget> {
     var fetchData = _fetchDataSelector(widget.appBarTitle);
     final productListNotifier = Provider.of<ProductsListNotifier>(context);
 
-    Future displayTopSheet(BuildContext context, productMap) async {
-      Product product = Product.fromJson(productMap);
-
-      return showTopModalSheet(
-          context,
-          CustomizedTopShet(
-              productName: product.name,
-              onDelete: () {
-                _productsProvider.deleteProduct(context, product);
-                Navigator.of(context).pop();
-              },
-              onEdit: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => AddProductScreen(
-                    product: product,
-                  ),
-                ));
-              }));
-    }
-
     if (mounted) {
       return FutureBuilder<List<Map<String, dynamic>>>(
           future: fetchData
@@ -94,6 +74,26 @@ class _GridViewWidgetState extends State<GridViewWidget> {
       return Text('ERROR INESPERADO');
     }
   }
+
+  Future displayTopSheet(BuildContext context, productMap) async {
+    Product product = Product.fromJson(productMap);
+
+    return showTopModalSheet(
+        context,
+        CustomizedTopShet(
+            productName: product.name,
+            onDelete: () {
+              _productsProvider.deleteProduct(context, product);
+              Navigator.of(context).pop();
+            },
+            onEdit: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => AddProductScreen(
+                  product: product,
+                ),
+              ));
+            }));
+  }
 }
 
 _createGridContainer(BuildContext context, int index, data) {
@@ -112,31 +112,31 @@ _createGridContainer(BuildContext context, int index, data) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-  flex: 8,
-  child: Padding(
-    padding: const EdgeInsets.only(top: 10.0, bottom: 5),
-    child: Center(
-      child: AspectRatio(
-        aspectRatio: 16/8,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          height: double.maxFinite,
-          width: double.maxFinite,
-          margin: const EdgeInsets.symmetric(horizontal: 10),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: Hero(
-              tag: '${product.id}',
-              child: _loadImage(product),
+          flex: 8,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10.0, bottom: 5),
+            child: Center(
+              child: AspectRatio(
+                aspectRatio: 16 / 8,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  height: double.maxFinite,
+                  width: double.maxFinite,
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Hero(
+                      tag: '${product.id}',
+                      child: _loadImage(product),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
         ),
-      ),
-    ),
-  ),
-),
         Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),

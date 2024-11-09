@@ -12,18 +12,13 @@ import 'package:provider/provider.dart';
 // import '../screens/favorites_screen.dart';
 import '../screens/settings_screen.dart';
 
-class MenuDrawer extends StatefulWidget {
+class MenuDrawer extends StatelessWidget {
   final String appBarTitle;
   const MenuDrawer({
     super.key,
     required this.appBarTitle,
   });
 
-  @override
-  State<MenuDrawer> createState() => _MenuDrawerState();
-}
-
-class _MenuDrawerState extends State<MenuDrawer> {
   @override
   Widget build(BuildContext context) {
     final productListNotifier = Provider.of<ProductsListNotifier>(context);
@@ -75,7 +70,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
               leading: const Icon(Icons.store),
               title: getTexts('Inicio', theme.bodyMedium),
               onTap: () {
-                if (!widget.appBarTitle.contains('Inicio')) {
+                if (!appBarTitle.contains('Inicio')) {
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (context) => const HomeScreen(),
@@ -101,7 +96,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 leading: const Icon(Icons.local_mall_outlined),
                 title: getTexts(name, theme.bodyMedium),
                 onTap: () {
-                  if (widget.appBarTitle.contains('Inicio')) {
+                  if (appBarTitle.contains('Inicio')) {
                     Navigator.pop(context);
                     Navigator.of(context)
                         .pushNamed(name, arguments: {'name': name});
@@ -128,7 +123,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
               title: getTexts('Gestiòn del Negocio', theme.bodyMedium),
               onTap: () {
                 if (!isAccountFinished(context)) return;
-                if (widget.appBarTitle.contains('Inicio')) {
+                if (appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const BusinessManagement(),
                   ));
@@ -145,7 +140,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
               title: getTexts('Pedidos', theme.bodyMedium),
               onTap: () {
                 if (!isAccountFinished(context)) return;
-                if (widget.appBarTitle.contains('Inicio')) {
+                if (appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const OrdersScreen(),
                   ));
@@ -183,7 +178,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
               leading: const Icon(Icons.account_circle_outlined),
               title: getTexts('Perfil', theme.bodyMedium),
               onTap: () {
-                if (widget.appBarTitle.contains('Inicio')) {
+                if (appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const RedirectScreen(),
                   ));
@@ -197,7 +192,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
               leading: const Icon(Icons.settings),
               title: getTexts('Configuraciones', theme.bodyMedium),
               onTap: () {
-                if (widget.appBarTitle.contains('Inicio')) {
+                if (appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const Settings(),
                   ));
