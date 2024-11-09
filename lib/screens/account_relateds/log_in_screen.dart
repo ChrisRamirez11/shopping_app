@@ -57,7 +57,6 @@ class _LoginScreenState extends State<LoginScreen> {
         idToken: idToken,
         accessToken: accessToken,
       );
-//TODO
     } catch (e) {
       throw 'Error inesperado $e';
     }

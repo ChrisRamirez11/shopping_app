@@ -1,6 +1,7 @@
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/carrito_provider.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
+import 'package:app_tienda_comida/provider/theme_provider.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/utils/cart_addition.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
@@ -100,13 +101,14 @@ _createGridContainer(BuildContext context, int index, data) {
   //TODO NULL VALUES ERROR
 
   CartProvider cartProvider = Provider.of<CartProvider>(context);
+  ThemeProvider theme = Provider.of<ThemeProvider>(context);
   final Product product = Product.fromJson(data[index]);
 
   return Container(
     height: double.maxFinite,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8.0),
-      color: second2,
+      color: theme.themeData ? second2: null,
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,7 +151,7 @@ _createGridContainer(BuildContext context, int index, data) {
         ),
         Center(
           child: Divider(
-            color: white,
+            color: theme.themeData ? white : Colors.black,
             indent: 10,
             endIndent: 10,
             thickness: 0.5,
