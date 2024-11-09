@@ -38,6 +38,9 @@ class CartProvider extends ChangeNotifier {
 
     _productMap[product.id] = product;
     _cartItems.add(cartItem);
+
+    await getTotal();
+
     notifyListeners();
   }
 
@@ -50,6 +53,8 @@ class CartProvider extends ChangeNotifier {
       ..removeAt(index)
       ..insert(index, cartItem);
 
+      await getTotal();
+
     notifyListeners();
   }
 
@@ -57,6 +62,8 @@ class CartProvider extends ChangeNotifier {
     await _cartSupabaseProvider.deleteCartItem(cartItem.id);
     _cartItems.removeWhere((item) => item.id == cartItem.id);
 
+    await getTotal();
+    
     notifyListeners();
   }
 

@@ -7,15 +7,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class CartSupabaseProvider {
   //addToCart
   //
-  Future<void> addToCart(String userId, int productId,
-      int quantity) async {
+  Future<void> addToCart(String userId, int productId, int quantity) async {
     try {
       await supabase.from('carts').insert(
           {'user_id': userId, 'product_id': productId, 'quantity': quantity});
     } on AuthException catch (e) {
       throw ('$e');
     } catch (e) {
-      log('Ha ocurrido un error: $e');
+      throw ('Ha ocurrido un error: $e');
     }
   }
 
@@ -29,9 +28,9 @@ class CartSupabaseProvider {
 
       log('${response}updateCartItem');
     } on AuthException catch (e) {
-      log('$e');
+      throw ('$e');
     } catch (e) {
-      log('Ha ocurrido un error: $e');
+      throw ('Ha ocurrido un error: $e');
     }
   }
 
@@ -40,9 +39,9 @@ class CartSupabaseProvider {
       final response = await supabase.from('carts').delete().eq('id', cartId);
       log('${response}deletedCartItem');
     } on AuthException catch (e) {
-      log('$e');
+      throw ('$e');
     } catch (e) {
-      log('Ha ocurrido un error: $e');
+      throw ('Ha ocurrido un error: $e');
     }
   }
 
@@ -57,11 +56,9 @@ class CartSupabaseProvider {
           .order('id');
       return response.map((item) => CartItem.fromJson(item)).toList();
     } on AuthException catch (error) {
-      print('Error fetching cart: ${error.message}');
-      return [];
+      throw ('Error fetching cart: ${error.message}');
     } catch (e) {
-      print('Error fetching cart: $e');
-      return [];
+      throw ('Error fetching cart: $e');
     }
   }
 }

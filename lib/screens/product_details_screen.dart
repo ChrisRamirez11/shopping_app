@@ -78,7 +78,8 @@ class SheetBottomWidget extends StatelessWidget {
             flex: 11,
             child: Padding(
               padding: const EdgeInsets.all(25),
-              child: SizedBox(width: double.infinity,
+              child: SizedBox(
+                width: double.infinity,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Hero(
@@ -176,7 +177,7 @@ class SheetBottomWidget extends StatelessWidget {
     if (pic.isNotEmpty) {
       return CachedNetworkImage(
         cacheManager: null,
-        fit: BoxFit.cover, // Use BoxFit.cover for better image fitting
+        fit: BoxFit.contain, // Use BoxFit.cover for better image fitting
         imageUrl: pic,
         placeholder: (context, url) =>
             const Center(child: CircularProgressIndicator()),
