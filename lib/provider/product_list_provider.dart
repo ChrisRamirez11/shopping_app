@@ -12,10 +12,10 @@ class ProductsListNotifier extends ChangeNotifier {
   List<String> get productsListNotifier => _productsListNotifier;
 
   ProductsListNotifier() {
-    loadList();
+    _loadList();
   }
 
-  Future<void> loadList() async {
+  Future<void> _loadList() async {
     _productsListNotifier = await FetchingProductsTypes().productsTypesList();
     notifyListeners();
   }
@@ -33,8 +33,10 @@ class FetchingProductsTypes {
 
   Future<List<String>> productsTypesList() async {
     try {
-      Future<List<Map<String, dynamic>>> response =
-          supabase.from('products').select('type');
+      Future<List<Map<String, dynamic>>> response = supabase
+          .from('products')
+          .select('type')
+          .order('type', ascending: true);
 
       final list = await response.then((value) => value.toList());
 
@@ -42,7 +44,11 @@ class FetchingProductsTypes {
         types.add(row['type']);
       }
 
-      return types.toSet().toList();
+      final listToOrder = types.toSet().toList();
+      listToOrder.sort(
+        (a, b) => a.compareTo(b),
+      );
+      return listToOrder;
     } on AuthException catch (error) {
       log(error.message);
       return types;
