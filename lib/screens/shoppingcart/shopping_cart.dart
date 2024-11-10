@@ -233,23 +233,51 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(0))))),
-                    onPressed: () async {
-                      //*INSERT ORDER
-                      final orderedProductsMap = await ShoppingListModel()
-                          .getShoppingListOrder(cartItemList);
-                      final resp = orderedProductsMap
-                          .map(
-                            (e) => e.toJson(),
-                          )
-                          .toList();
-                      final order = Order(
-                          id: 0,
-                          createdAt: DateTime.now(),
-                          userId: userId,
-                          orderedProductsMap: resp,
-                          total: total);
+                    onPressed: () {
+                      if(cartItemList.isEmpty) return null;
                       if (mounted) {
-                        OrdersProviderSupabase().insertOrder(context, order);
+                        showDialog(
+                          context: context,
+                          builder: (context) => SimpleDialog(
+                            title: Text('Realizar Compra?'),
+                            children: [
+                              Text(
+                                  'Desea realizar la compra?\nEsta opciòn no es reversible'),
+                              Row(
+                                children: [
+                                  TextButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      child: Text('Cancelar')),
+                                      Expanded(child: Container()),
+                                  TextButton(
+                                      onPressed: () async {
+                                        final orderedProductsMap =
+                                            await ShoppingListModel()
+                                                .getShoppingListOrder(
+                                                    cartItemList);
+                                        final resp = orderedProductsMap
+                                            .map(
+                                              (e) => e.toJson(),
+                                            )
+                                            .toList();
+                                        final order = Order(
+                                            id: 0,
+                                            createdAt: DateTime.now(),
+                                            userId: userId,
+                                            orderedProductsMap: resp,
+                                            total: total);
+                                        OrdersProviderSupabase()
+                                            .insertOrder(context, order);
+                                        cartProvider.deleteWholeCart();
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('Ok')),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
                       }
                     },
                     icon: const Icon(

@@ -68,7 +68,7 @@ class MenuDrawer extends StatelessWidget {
           ),
           ListTile(
               leading: const Icon(Icons.store),
-              title: getTexts('Inicio', theme.bodyMedium),
+              title: getTexts('Inicio', theme.labelLarge),
               onTap: () {
                 if (!appBarTitle.contains('Inicio')) {
                   Navigator.of(context).pushAndRemoveUntil(
@@ -94,7 +94,7 @@ class MenuDrawer extends StatelessWidget {
             return Column(children: [
               ListTile(
                 leading: const Icon(Icons.local_mall_outlined),
-                title: getTexts(name, theme.bodyMedium),
+                title: getTexts(name, theme.labelLarge),
                 onTap: () {
                   if (appBarTitle.contains('Inicio')) {
                     Navigator.pop(context);
@@ -120,7 +120,7 @@ class MenuDrawer extends StatelessWidget {
           //TODO: DELETE THIS FOR USERS
           ListTile(
               leading: const Icon(Icons.business_center_outlined),
-              title: getTexts('Gestiòn del Negocio', theme.bodyMedium),
+              title: getTexts('Gestiòn del Negocio', theme.labelLarge),
               onTap: () {
                 if (!isAccountFinished(context)) return;
                 if (appBarTitle.contains('Inicio')) {
@@ -137,7 +137,7 @@ class MenuDrawer extends StatelessWidget {
 
           ListTile(
               leading: const Icon(Icons.list_alt),
-              title: getTexts('Pedidos', theme.bodyMedium),
+              title: getTexts('Pedidos', theme.labelLarge),
               onTap: () {
                 if (!isAccountFinished(context)) return;
                 if (appBarTitle.contains('Inicio')) {
@@ -176,7 +176,7 @@ class MenuDrawer extends StatelessWidget {
           */
           ListTile(
               leading: const Icon(Icons.account_circle_outlined),
-              title: getTexts('Perfil', theme.bodyMedium),
+              title: getTexts('Perfil', theme.labelLarge),
               onTap: () {
                 if (appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(
@@ -190,7 +190,7 @@ class MenuDrawer extends StatelessWidget {
               }),
           ListTile(
               leading: const Icon(Icons.settings),
-              title: getTexts('Configuraciones', theme.bodyMedium),
+              title: getTexts('Configuraciones', theme.labelLarge),
               onTap: () {
                 if (appBarTitle.contains('Inicio')) {
                   Navigator.of(context).push(MaterialPageRoute(

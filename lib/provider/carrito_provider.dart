@@ -75,6 +75,21 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
+  deleteWholeCart() async {
+    try {
+      for (CartItem cartItem in _cartItems) {
+        await _cartSupabaseProvider.deleteCartItem(cartItem.id);
+      }
+      _cartItems.clear();
+
+      await getTotal();
+
+      notifyListeners();
+    } catch (e) {
+      throw ("Error al limpiar el carrito $e");
+    }
+  }
+
   Future<void> getTotal() async {
     double localTotal = 0;
     for (var cartItem in _cartItems) {
