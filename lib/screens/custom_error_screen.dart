@@ -10,10 +10,14 @@ class CustomErrorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body: Stack(
-        children: [
-          getColumn(context),
-        ],
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: Stack(
+          children: [
+            getColumn(context),
+          ],
+        ),
       ),
     ));
   }
