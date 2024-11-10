@@ -19,17 +19,20 @@ class ProductDetailPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
+        appBar: AppBar(centerTitle: true,
           foregroundColor: secondary,
           backgroundColor: primary,
-          title: Text(product.name, style: Theme.of(context).textTheme.bodyMedium,),
+          title: Text(
+            product.name,
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
         ),
         body: Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 10),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.66,
                   width: double.infinity,
@@ -75,26 +78,30 @@ class SheetBottomWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
-            flex: 11,
+            flex: 14,
             child: Padding(
-              padding: const EdgeInsets.all(25),
-              child: SizedBox(
-                width: double.infinity,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Hero(
-                    tag: '${product.id}',
-                    child: _loadImage(product),
+              padding: const EdgeInsets.all(10),
+              child: Hero(
+                tag: '${product.id}',
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: AspectRatio(
+                      aspectRatio: 16 / 10,
+                      child: _loadImage(product),
+                    ),
                   ),
                 ),
               ),
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Center(
               child: Text(
-                product.name,
+                '#${product.type}',
                 style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.center,
               ),
@@ -144,14 +151,15 @@ class SheetBottomWidget extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Center(child: Text('\$${product.price.toString()}')),
           ),
           SizedBox(height: 10),
           Expanded(
-            flex: 2,
-            child: Row(mainAxisSize: MainAxisSize.min, children: [
-              ElevatedButton.icon(
+            flex: 3,
+            child: SizedBox(
+              height: 40,
+              child: ElevatedButton.icon(
                 style: ButtonStyle(
                     backgroundColor:
                         WidgetStatePropertyAll(secondary.withOpacity(0.9)),
@@ -163,7 +171,7 @@ class SheetBottomWidget extends StatelessWidget {
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               ),
-            ]),
+            ),
           ),
           SizedBox(height: 10),
         ],
@@ -177,7 +185,7 @@ class SheetBottomWidget extends StatelessWidget {
     if (pic.isNotEmpty) {
       return CachedNetworkImage(
         cacheManager: null,
-        fit: BoxFit.cover, 
+        fit: BoxFit.cover,
         imageUrl: pic,
         placeholder: (context, url) =>
             const Center(child: CircularProgressIndicator()),
@@ -185,8 +193,7 @@ class SheetBottomWidget extends StatelessWidget {
       );
     } else {
       return const Image(
-          fit: BoxFit.cover,
-          image: AssetImage('assets/images/no-image.png'));
+          fit: BoxFit.cover, image: AssetImage('assets/images/no-image.png'));
     }
   }
 }

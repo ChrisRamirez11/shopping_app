@@ -1,3 +1,4 @@
+import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/screens/search_screen.dart';
 import 'package:app_tienda_comida/screens/shoppingcart/shopping_cart.dart';
@@ -7,6 +8,8 @@ import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
 import 'package:double_tap_to_exit/double_tap_to_exit.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -14,6 +17,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     String appBarTitle = 'Inicio';
     final scaffoldKey = GlobalKey<ScaffoldState>();
+    final productListNotifier = Provider.of<ProductsListNotifier>(context);
+    // ignore: unused_local_variable
+    final prods = productListNotifier.productsListNotifier;
     return SafeArea(
       child: DoubleTapToExit(
         snackBar: const SnackBar(

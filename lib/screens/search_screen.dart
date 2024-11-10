@@ -72,7 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
           await supabase.from('products').select().ilike('name', '%$input%');
       return response;
     } catch (e) {
-      if(mounted){
+      if (mounted) {
         scaffoldErrorMessage(context, e);
       }
     }
@@ -84,10 +84,12 @@ class _SearchScreenState extends State<SearchScreen> {
       height: 70,
       child: Center(
         child: ListTile(
-            leading: SizedBox(
-              width: 40,
-              height: 40,
-              child: Hero(tag: '${product.id}', child: _loadImage(product)),
+            leading: Hero(tag: '${product.id}',
+              child: SizedBox(
+                width: 40,
+                height: 40,
+                child: _loadImage(product),
+              ),
             ),
             title: Text(
               product.name,

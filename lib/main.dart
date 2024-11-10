@@ -47,8 +47,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final prefs = PreferenciasUsuario();
-
     return ProviderP(
       child: provider.MultiProvider(
         providers: [

@@ -115,17 +115,16 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
               child: Center(
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    height: double.maxFinite,
-                    width: double.maxFinite,
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Hero(
-                        tag: '${product.id}',
+                  child: Hero(tag: '${product.id}',
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      height: double.maxFinite,
+                      width: double.maxFinite,
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
                         child: _loadImage(product),
                       ),
                     ),
