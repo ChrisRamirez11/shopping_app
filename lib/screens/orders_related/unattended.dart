@@ -2,6 +2,7 @@ import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/orders_related/orders_simple_dialog.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
+import 'package:app_tienda_comida/widgets/custom_error_widget.dart';
 import 'package:app_tienda_comida/widgets/custom_loader_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,9 +25,12 @@ class _UnattendedOrderState extends State<UnattendedOrder> {
       body: FutureBuilder(
         future: limitTimeCheck(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return custom_loader_widget();
-          } else {
+          }else if(snapshot.hasError){
+            return custom_error_widget();
+          }
+           else {
             List<Map<String, dynamic>>? orderMap = snapshot.data;
             return ListView.builder(
               itemCount: orderMap!.length,
@@ -62,11 +66,11 @@ getListTile(
                           return const Center(
                             child: Text('Ha ocurrido un error'),
                           );
-                        } else if (!snapshot.hasData) {
+                        } else if (snapshot.connectionState == ConnectionState.waiting) {
                           return const Center(
                               child: CircularProgressIndicator());
                         } else {
-                          return snapshot.requireData;
+                          return snapshot.data!;
                         }
                       },
                     ),

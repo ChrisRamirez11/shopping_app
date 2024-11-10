@@ -37,12 +37,12 @@ class _GridViewWidgetState extends State<GridViewWidget> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return custom_error_widget();
-            } else if (!snapshot.hasData) {
+            } else if (snapshot.connectionState ==  ConnectionState.waiting) {
               return custom_loader_widget();
             } else {
-              final data = snapshot.requireData;
+              final data = snapshot.data;
               return GridView.builder(
-                itemCount: data.length,
+                itemCount: data!.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
                 itemBuilder: (context, index) {

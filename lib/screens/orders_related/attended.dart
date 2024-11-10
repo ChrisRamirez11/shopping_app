@@ -1,5 +1,6 @@
 import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/orders_related/orders_simple_dialog.dart';
+import 'package:app_tienda_comida/widgets/custom_error_widget.dart';
 import 'package:app_tienda_comida/widgets/custom_loader_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +15,10 @@ class AttendedOrder extends StatelessWidget {
       body: FutureBuilder(
         future: limitTimeCheck(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return custom_loader_widget();
+          } else if (snapshot.hasError) {
+            return custom_error_widget();
           } else {
             List<Map<String, dynamic>>? orderMap = snapshot.data;
             return ListView.builder(
@@ -45,13 +48,12 @@ getListTile(BuildContext context, Map<String, dynamic> orderMap) {
               future: orderSimpleDialog(context, orderMap),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return const Center(
-                    child: Text('Ha ocurrido un error'),
-                  );
-                } else if (!snapshot.hasData) {
+                  return custom_error_widget();
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 } else {
-                  return snapshot.requireData;
+                  return snapshot.data!;
                 }
               },
             ),
