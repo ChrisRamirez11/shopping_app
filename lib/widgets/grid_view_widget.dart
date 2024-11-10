@@ -14,8 +14,6 @@ import 'package:provider/provider.dart';
 import 'package:top_modal_sheet/top_modal_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../provider/product_list_provider.dart';
-
 class GridViewWidget extends StatefulWidget {
   final String appBarTitle;
   const GridViewWidget({super.key, required this.appBarTitle});
@@ -30,7 +28,6 @@ class _GridViewWidgetState extends State<GridViewWidget> {
   @override
   Widget build(BuildContext context) {
     var fetchData = _fetchDataSelector(widget.appBarTitle);
-    final productListNotifier = Provider.of<ProductsListNotifier>(context);
 
     if (mounted) {
       return FutureBuilder<List<Map<String, dynamic>>>(
@@ -39,7 +36,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
               : _productsProvider.getProduct(context, widget.appBarTitle),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return custom_error_widget(productListNotifier);
+              return custom_error_widget();
             } else if (!snapshot.hasData) {
               return custom_loader_widget();
             } else {
@@ -98,8 +95,6 @@ class _GridViewWidgetState extends State<GridViewWidget> {
 }
 
 _createGridContainer(BuildContext context, int index, data) {
-  //TODO NULL VALUES ERROR
-
   CartProvider cartProvider = Provider.of<CartProvider>(context);
   ThemeProvider theme = Provider.of<ThemeProvider>(context);
   final Product product = Product.fromJson(data[index]);
@@ -108,7 +103,7 @@ _createGridContainer(BuildContext context, int index, data) {
     height: double.maxFinite,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8.0),
-      color: theme.themeData ? second2: null,
+      color: theme.themeData ? second2: secondary.withAlpha(100),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,7 +192,7 @@ _createGridContainer(BuildContext context, int index, data) {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 1, bottom: 5),
                   child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 11),
+                    margin: EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: primary,
@@ -209,7 +204,7 @@ _createGridContainer(BuildContext context, int index, data) {
                       },
                       icon: const Icon(
                         Icons.add_shopping_cart_outlined,
-                        size: 20,
+                        size: 18,
                       ),
                     ),
                   ),

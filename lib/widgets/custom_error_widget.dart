@@ -1,7 +1,6 @@
-import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:flutter/material.dart';
 
-Widget custom_error_widget(ProductsListNotifier provider) {
+Widget custom_error_widget() {
   return Container(
     decoration: BoxDecoration(boxShadow: [BoxShadow(color: Colors.black26)]),
     width: double.infinity,
