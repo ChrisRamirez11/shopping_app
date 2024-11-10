@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
@@ -50,11 +48,9 @@ class FetchingProductsTypes {
       );
       return listToOrder;
     } on AuthException catch (error) {
-      log(error.message);
-      return types;
+      throw (error.message);
     } catch (error) {
-      log('Ha ocurrido un error, vuelva a intentarlo. $error');
-      return types;
+      throw ('Ha ocurrido un error, vuelva a intentarlo. $error');
     }
   }
 }

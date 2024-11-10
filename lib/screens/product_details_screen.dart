@@ -177,7 +177,7 @@ class SheetBottomWidget extends StatelessWidget {
     if (pic.isNotEmpty) {
       return CachedNetworkImage(
         cacheManager: null,
-        fit: BoxFit.contain, // Use BoxFit.cover for better image fitting
+        fit: BoxFit.cover, 
         imageUrl: pic,
         placeholder: (context, url) =>
             const Center(child: CircularProgressIndicator()),
@@ -185,7 +185,7 @@ class SheetBottomWidget extends StatelessWidget {
       );
     } else {
       return const Image(
-          fit: BoxFit.cover, // Use BoxFit.cover for better image fitting
+          fit: BoxFit.cover,
           image: AssetImage('assets/images/no-image.png'));
     }
   }

@@ -8,6 +8,7 @@ import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/utils/image_compressor.dart';
+import 'package:app_tienda_comida/utils/scaffold_error_msg.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
@@ -420,15 +421,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   _createPicContainer() {
     return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(1, 3),
-                blurRadius: 4,
-                spreadRadius: 2,
-                color: Colors.black38)
-          ]),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(10), boxShadow: [
+        BoxShadow(
+            offset: Offset(1, 3),
+            blurRadius: 4,
+            spreadRadius: 2,
+            color: Colors.black38)
+      ]),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Image(
@@ -452,7 +452,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
           pic = base64Encode(imageData);
         });
       } catch (e) {
-        log("Error reading file: $e");
+        if(mounted){
+          scaffoldErrorMessage(context, "Error reading file: $e");
+        }
       }
     }
   }
@@ -484,7 +486,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
         file = File.fromUri(Uri.parse(imageFile.path));
         supabase.storage.from('pictures').upload(imageName, file);
       } catch (e) {
-        log('$e');
+        if (mounted) {
+          scaffoldErrorMessage(context, e);
+        }
       }
     } else {
       if (widget.product!.pic.isEmpty) {
@@ -493,14 +497,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
           supabase.storage.from('pictures').upload(imageName, file);
           return;
         } catch (e) {
-          log('$e');
+          if (mounted) {
+            scaffoldErrorMessage(context, e);
+          }
         }
       }
       try {
         file = File.fromUri(Uri.parse(imageFile.path));
         supabase.storage.from('pictures').update(imageName, file);
       } catch (e) {
-        log('$e');
+        if (mounted) {
+          scaffoldErrorMessage(context, e);
+        }
       }
     }
   }

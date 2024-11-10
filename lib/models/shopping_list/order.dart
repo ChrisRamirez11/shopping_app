@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_tienda_comida/models/shopping_list/ordered_product.dart';
 import 'package:app_tienda_comida/models/Producto.dart';
 import 'package:app_tienda_comida/models/cart_item_model.dart';
@@ -55,16 +53,8 @@ class ShoppingListModel {
           await supabase.from('products').select().eq('id', productId).single();
       return Product.fromJson(response);
     } catch (e) {
-      log(e.toString());
-      return Product(
-          id: 0,
-          name: 'Error',
-          type: 'Error',
-          price: 0,
-          availability: false,
-          quantity: 0,
-          description: '',
-          pic: '');
+      throw (e.toString());
+      
     }
   }
 }

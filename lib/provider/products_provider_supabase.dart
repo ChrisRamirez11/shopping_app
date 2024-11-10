@@ -12,10 +12,24 @@ class ProductsProviderSupabase {
           .select()
           .order('id', ascending: false)
           .limit(10);
-    } on AuthException catch (error) {
-      throw error.message;
+    } on AuthException catch (e) {
+      SchedulerBinding.instance.addPostFrameCallback(
+        (timeStamp) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content:
+                  Text('Ha ocurrido un error: Vuelva a cargar la pagina. $e')));
+        },
+      );
+      return[];
     } catch (e) {
-      throw 'Ha ocurrido un error: Vuelva a cargar la pagina. $e';
+      SchedulerBinding.instance.addPostFrameCallback(
+        (timeStamp) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content:
+                  Text('Ha ocurrido un error: Vuelva a cargar la pagina. $e')));
+        },
+      );
+      return [];
     }
   }
 
@@ -159,7 +173,7 @@ class ProductsProviderSupabase {
     } on AuthException catch (error) {
       throw error.message;
     } catch (e) {
-      throw 'Ha ocurrido un error: Vuelva a cargar la pagina. $e';
+      throw 'Ha ocurrido un error. \n$e';
     }
   }
 }
