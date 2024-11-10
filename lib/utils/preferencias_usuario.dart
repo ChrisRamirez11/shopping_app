@@ -16,7 +16,7 @@ class PreferenciasUsuario {
   }
 
   bool get darkMode {
-    return _prefs.getBool('ModoOscuro') ?? false;
+    return _prefs.getBool('ModoOscuro') ?? true;
   }
 
   String get token {

@@ -1,10 +1,12 @@
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/business_magement_selectedValue.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
+import 'package:app_tienda_comida/provider/theme_provider.dart';
 import 'package:app_tienda_comida/screens/no_stock/no_stock_products.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as provider;
+import 'package:provider/provider.dart';
 
 import '../utils/theme.dart';
 
@@ -76,12 +78,13 @@ class _BusinessManagementState extends State<BusinessManagement> {
     Size size = MediaQuery.of(context).size;
     TextEditingController _newPriceController = TextEditingController(text: '');
     SelectedValue valueProvider = provider.Provider.of<SelectedValue>(context);
+    ThemeProvider theme = Provider.of<ThemeProvider>(context);
     var selectedValue = valueProvider.selectedValue;
     return SimpleDialog(
-      backgroundColor: second2,
+      backgroundColor: theme.themeData ? second2 : secondary,
       title: Center(
         child: getTexts(
-            'Cambio Masivo de Precio', Theme.of(context).textTheme.labelMedium),
+            'Cambio Masivo de Precio', Theme.of(context).textTheme.bodyMedium),
       ),
       children: [
         Container(
@@ -121,14 +124,20 @@ class _BusinessManagementState extends State<BusinessManagement> {
                     decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                width: 0.5, color: Colors.grey.shade50)),
+                                width: 0.5,
+                                color: theme.themeData
+                                    ? Colors.grey.shade50
+                                    : tertiary)),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                width: 0.5, color: Colors.grey.shade50)),
+                                width: 0.5,
+                                color: theme.themeData
+                                    ? Colors.grey.shade50
+                                    : tertiary)),
                         isDense: true,
                         counterStyle: Theme.of(context).textTheme.labelMedium,
-                        labelText: 'Valor',
-                        labelStyle: Theme.of(context).textTheme.bodyMedium),
+                        labelText: 'Inserte un Valor',
+                        labelStyle: Theme.of(context).textTheme.labelMedium),
                   ),
                 ),
                 SizedBox(
