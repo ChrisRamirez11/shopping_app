@@ -4,6 +4,7 @@ import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/provider/theme_provider.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/utils/cart_addition.dart';
+import 'package:app_tienda_comida/utils/is_admin.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/screens/product_details_screen.dart';
 import 'package:app_tienda_comida/widgets/custom_error_widget.dart';
@@ -37,7 +38,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return custom_error_widget();
-            } else if (snapshot.connectionState ==  ConnectionState.waiting) {
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
               return custom_loader_widget();
             } else {
               final data = snapshot.data;
@@ -50,9 +51,12 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Card(
                       elevation: 10,
-                      child: GestureDetector(
-                        onLongPress: () => displayTopSheet(
-                            context, data[index]), //TODO delete for user App
+                      child: InkWell(
+                        onLongPress: () async {
+                          await AuthService().isAdmin()
+                              ? displayTopSheet(context, data[index])
+                              : null;
+                        },
                         onTap: () {
                           Product product = Product.fromJson(data[index]);
                           Navigator.of(context).push(MaterialPageRoute(
@@ -103,7 +107,7 @@ _createGridContainer(BuildContext context, int index, data) {
     height: double.maxFinite,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8.0),
-      color: theme.themeData ? second2: secondary.withAlpha(100),
+      color: theme.themeData ? second2 : secondary.withAlpha(100),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,7 +119,8 @@ _createGridContainer(BuildContext context, int index, data) {
             child: Center(
               child: AspectRatio(
                 aspectRatio: 16 / 9,
-                child: Hero(tag: '${product.id}',
+                child: Hero(
+                  tag: '${product.id}',
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
@@ -169,10 +174,10 @@ _createGridContainer(BuildContext context, int index, data) {
                       child: Text(
                         '#${product.type}',
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall!
-                            .copyWith(color: theme.themeData ? greenCustom : const Color.fromARGB(255, 17, 72, 22)),
+                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                            color: theme.themeData
+                                ? greenCustom
+                                : const Color.fromARGB(255, 17, 72, 22)),
                       ),
                     ),
                     SizedBox(

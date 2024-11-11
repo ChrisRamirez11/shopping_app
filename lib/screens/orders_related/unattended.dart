@@ -1,6 +1,7 @@
 import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/orders_related/orders_simple_dialog.dart';
+import 'package:app_tienda_comida/utils/custom_future_builder.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:app_tienda_comida/widgets/custom_error_widget.dart';
 import 'package:app_tienda_comida/widgets/custom_loader_widget.dart';
@@ -27,10 +28,9 @@ class _UnattendedOrderState extends State<UnattendedOrder> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return custom_loader_widget();
-          }else if(snapshot.hasError){
+          } else if (snapshot.hasError) {
             return custom_error_widget();
-          }
-           else {
+          } else {
             List<Map<String, dynamic>>? orderMap = snapshot.data;
             return ListView.builder(
               itemCount: orderMap!.length,
@@ -66,7 +66,8 @@ getListTile(
                           return const Center(
                             child: Text('Ha ocurrido un error'),
                           );
-                        } else if (snapshot.connectionState == ConnectionState.waiting) {
+                        } else if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const Center(
                               child: CircularProgressIndicator());
                         } else {
@@ -124,63 +125,64 @@ getListTile(
               ),
             ),
           )),
-      //TODO DELETE FOR USERS APP and also delete the above row
-      Expanded(
-        flex: 1,
-        child: IconButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => SimpleDialog(
-                  title: getTexts(
-                      'Atendido?', Theme.of(context).textTheme.bodyLarge),
-                  children: [
-                    Center(
-                      child: getTexts('Marcar orden como atenida?',
-                          Theme.of(context).textTheme.labelMedium),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                          width: 30,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: getTexts('Cancelar',
-                              Theme.of(context).textTheme.labelSmall),
-                        ),
-                        Expanded(child: Container()),
-                        TextButton(
-                          onPressed: () async {
-                            await OrdersProviderSupabase()
-                                .updateOrder(context, orderMap['id']);
-                            productsListNotifier.loadList();
-                            Navigator.pop(context);
-                          },
-                          child: getTexts(
-                              'Ok', Theme.of(context).textTheme.labelSmall),
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              );
-            },
-            icon: Icon(
-              size: 35,
-              color: Colors.green,
-              Icons.check_circle_outline,
-            )),
-      ),
+      customFutureBuilder(
+        child: Expanded(
+          flex: 1,
+          child: IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => SimpleDialog(
+                    title: getTexts(
+                        'Atendido?', Theme.of(context).textTheme.bodyLarge),
+                    children: [
+                      Center(
+                        child: getTexts('Marcar orden como atenida?',
+                            Theme.of(context).textTheme.labelMedium),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                            width: 30,
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: getTexts('Cancelar',
+                                Theme.of(context).textTheme.labelSmall),
+                          ),
+                          Expanded(child: Container()),
+                          TextButton(
+                            onPressed: () async {
+                              await OrdersProviderSupabase()
+                                  .updateOrder(context, orderMap['id']);
+                              productsListNotifier.loadList();
+                              Navigator.pop(context);
+                            },
+                            child: getTexts(
+                                'Ok', Theme.of(context).textTheme.labelSmall),
+                          ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              },
+              icon: Icon(
+                size: 35,
+                color: Colors.green,
+                Icons.check_circle_outline,
+              )),
+        ),
+      )
     ],
   );
 }

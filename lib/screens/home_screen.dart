@@ -3,6 +3,7 @@ import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/screens/search_screen.dart';
 import 'package:app_tienda_comida/screens/shoppingcart/shopping_cart.dart';
 import 'package:app_tienda_comida/utils/account_validation.dart';
+import 'package:app_tienda_comida/utils/custom_future_builder.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/widgets/grid_view_widget.dart';
 import 'package:app_tienda_comida/widgets/menu_drawer.dart';
@@ -28,13 +29,15 @@ class HomeScreen extends StatelessWidget {
         ),
         child: Scaffold(
           key: scaffoldKey,
-          floatingActionButton: FloatingActionButton(
-            foregroundColor: secondary,
-            backgroundColor: primary,
-            child: const Icon(Icons.add),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const AddProductScreen(),
-            )),
+          floatingActionButton: customFutureBuilder(
+            child: FloatingActionButton(
+              foregroundColor: secondary,
+              backgroundColor: primary,
+              child: const Icon(Icons.add),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const AddProductScreen(),
+              )),
+            ),
           ),
           appBar: AppBar(
             title: Text(

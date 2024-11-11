@@ -2,6 +2,7 @@ import 'package:app_tienda_comida/provider/business_magement_selectedValue.dart'
 import 'package:app_tienda_comida/provider/carrito_provider.dart';
 import 'package:app_tienda_comida/screens/custom_error_screen.dart';
 import 'package:app_tienda_comida/utils/consts.dart';
+import 'package:app_tienda_comida/utils/is_admin.dart';
 import 'package:app_tienda_comida/utils/notifications/local_notification.dart';
 import 'package:app_tienda_comida/utils/refresh_token.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
@@ -34,6 +35,8 @@ Future<void> main() async {
 
   final prefs = PreferenciasUsuario();
   await prefs.initPrefs();
+  
+  await AuthService().isAdmin();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) => runApp(const MyApp()));
 }

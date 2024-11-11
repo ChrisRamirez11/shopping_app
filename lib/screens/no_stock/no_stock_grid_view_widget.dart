@@ -73,7 +73,7 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
                       elevation: 10,
                       child: GestureDetector(
                         onLongPress: () => displayTopSheet(
-                            context, data[index]), //TODO delete for user App
+                            context, data[index]),
                         onTap: () {
                           Product product = Product.fromJson(data[index]);
                           Navigator.of(context).push(MaterialPageRoute(

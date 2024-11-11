@@ -4,6 +4,7 @@ import 'package:app_tienda_comida/screens/business_management.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/screens/orders_related/orders_screen.dart';
 import 'package:app_tienda_comida/utils/account_validation.dart';
+import 'package:app_tienda_comida/utils/custom_future_builder.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -117,7 +118,7 @@ class MenuDrawer extends StatelessWidget {
             indent: 5,
             height: 0,
           ),
-          //TODO: DELETE THIS FOR USERS
+          customFutureBuilder(child: 
           ListTile(
               leading: const Icon(Icons.business_center_outlined),
               title: getTexts('Gestiòn del Negocio', theme.labelLarge),
@@ -132,9 +133,8 @@ class MenuDrawer extends StatelessWidget {
                     builder: (context) => const BusinessManagement(),
                   ));
                 }
-              }),
-          //hasta aqui
-
+              })
+          ),
           ListTile(
               leading: const Icon(Icons.list_alt),
               title: getTexts('Pedidos', theme.labelLarge),
