@@ -1,6 +1,5 @@
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/producto.dart';
-import 'package:app_tienda_comida/utils/scaffold_error_msg.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/screens/product_details_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -73,7 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
       return response;
     } catch (e) {
       if (mounted) {
-        scaffoldErrorMessage(context, e);
+        return 'Ha ocurrido un error, revise su conexiòn a internet';
       }
     }
   }

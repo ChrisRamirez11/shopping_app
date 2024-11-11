@@ -234,24 +234,40 @@ class _ShoppingCartState extends State<ShoppingCart> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(0))))),
                     onPressed: () {
-                      if(cartItemList.isEmpty) return null;
+                      if (cartItemList.isEmpty) return null;
                       if (mounted) {
                         showDialog(
                           context: context,
                           builder: (context) => SimpleDialog(
-                            title: Text('Realizar Compra?'),
+                            title: Center(child: Text('Realizar Compra')),
                             children: [
-                              Text(
-                                  'Desea realizar la compra?\nEsta opciòn no es reversible'),
+                              Container(
+                                padding: EdgeInsets.all(20),
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                                child: Text(
+                                  'Desea realizar la compra?\nEsta opciòn no es reversible',
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ),
                               Row(
                                 children: [
+                                  SizedBox(
+                                    width: 10,
+                                  ),
                                   TextButton(
                                       onPressed: () =>
                                           Navigator.of(context).pop(),
-                                      child: Text('Cancelar')),
-                                      Expanded(child: Container()),
+                                      child: getTexts(
+                                          'Cancelar',
+                                          Theme.of(context)
+                                              .textTheme
+                                              .labelMedium)),
+                                  Expanded(child: Container()),
                                   TextButton(
                                       onPressed: () async {
+                                        await cartProvider.getTotal();
                                         final orderedProductsMap =
                                             await ShoppingListModel()
                                                 .getShoppingListOrder(
@@ -267,12 +283,20 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                             userId: userId,
                                             orderedProductsMap: resp,
                                             total: total);
-                                        OrdersProviderSupabase()
+                                        await OrdersProviderSupabase()
                                             .insertOrder(context, order);
-                                        cartProvider.deleteWholeCart();
+                                        await cartProvider.deleteWholeCart();
                                         Navigator.of(context).pop();
                                       },
-                                      child: Text('Ok')),
+                                      child: getTexts(
+                                          'Ok',
+                                          Theme.of(context)
+                                              .textTheme
+                                              .labelMedium!
+                                              .copyWith(color: primary))),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
                                 ],
                               )
                             ],
