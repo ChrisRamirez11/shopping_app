@@ -375,31 +375,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
       setState(() {
         _saving = true;
       });
-
-      if (await productProvider.productNameExists(context, product.name) &&
-          widget.product == null) {
-        (timeStamp) => showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Center(
-                    child: Text(
-                  'ERROR',
-                  style: TextStyle(color: errorColor),
-                )),
-                content: const Text('El producto ya existe'),
-                actions: [
-                  TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('Ok'))
-                ],
-              ),
-            );
-        return;
-      }
+      
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
 
-        String imageName = '${product.name}.png'..replaceAll(' ', '_');
+        String imageName = '${product.name}${product.type}.png'..replaceAll(' ', '_');
         if (imageFile.path.isNotEmpty) {
           productImageUpload(imageName);
           productImageURLSet(imageName);

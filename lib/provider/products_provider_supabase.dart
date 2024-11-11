@@ -134,11 +134,7 @@ class ProductsProviderSupabase {
         ));
       });
     } catch (error) {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content:
-                Text('Ha ocurrido un error, vuelva a intentarlo. $error')));
-      });
+      throw 'Ha ocurrido un error, vuelva a intentarlo.';
     }
   }
 
