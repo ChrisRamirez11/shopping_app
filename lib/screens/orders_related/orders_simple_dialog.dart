@@ -1,7 +1,8 @@
-import 'package:app_tienda_comida/provider/get_profile.dart';
+import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../utils/theme.dart';
 
@@ -20,7 +21,7 @@ Future<Widget> orderSimpleDialog(
               Theme.of(context).textTheme.bodyMedium),
         ),
       ),
-      await adminWidget(context),
+      await clientData(context, orderMap),
       Padding(
         padding: const EdgeInsets.only(top: 12.0),
         child: Row(
@@ -74,9 +75,9 @@ Future<Widget> orderSimpleDialog(
   );
 }
 
-Future<Widget> adminWidget(BuildContext context) async {
+Future<Widget> clientData(BuildContext context, Map<String, dynamic> orderMap) async {
   final themeCust = Theme.of(context).textTheme;
-  final userMap = await getProfile();
+  final userMap = await _getProfile(orderMap);
   String cellphone = userMap['cellphone'].toString();
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,4 +139,16 @@ Future<Widget> adminWidget(BuildContext context) async {
       ),
     ],
   );
+}
+
+Future<Map<String, dynamic>> _getProfile(Map<String, dynamic> orderMap) async {
+  try {
+    final profile =
+        await supabase.from('profiles').select().eq('id', orderMap['user_id']).single();
+    return profile;
+  } on AuthException catch (error) {
+    throw error.message;
+  } catch (error) {
+    throw 'Error inseperado ocurrido $error';
+  }
 }
