@@ -7,6 +7,7 @@ import 'dart:typed_data';
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
+import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/utils/image_compressor.dart';
 import 'package:app_tienda_comida/utils/scaffold_error_msg.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
@@ -375,7 +376,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       setState(() {
         _saving = true;
       });
-      
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
 
@@ -393,7 +394,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
           } else {
             productProvider.updateProduct(context, product);
           }
-          Navigator.of(context).pop();
+          Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(),
+                  ),
+                  (route) => false,
+                );
         });
       }
     }
