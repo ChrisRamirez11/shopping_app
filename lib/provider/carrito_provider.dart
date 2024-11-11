@@ -1,6 +1,7 @@
 import 'package:app_tienda_comida/models/cart_item_model.dart';
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/cart_supabase_provider.dart';
+import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -9,6 +10,8 @@ import '../main.dart';
 class CartProvider extends ChangeNotifier {
   List<CartItem> _cartItems = [];
   CartSupabaseProvider _cartSupabaseProvider = CartSupabaseProvider();
+  ProductsProviderSupabase productsProviderSupabase =
+      ProductsProviderSupabase();
   Map<int, Product> _productMap = {};
   double total = 0;
   bool isLoading = true;
@@ -75,12 +78,20 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
-  deleteWholeCart() async {
+  deleteWholeCart(BuildContext context) async {
     try {
       for (CartItem cartItem in _cartItems) {
+
+        Product product = productMap[cartItem.productId]!;
+        if (!product.availability) {
+          product.quantity -= cartItem.quantity;
+        }
+        await productsProviderSupabase.updateProduct(context, product);
+
         await _cartSupabaseProvider.deleteCartItem(cartItem.id);
       }
       _cartItems.clear();
+      _productMap.clear();
 
       await getTotal();
 

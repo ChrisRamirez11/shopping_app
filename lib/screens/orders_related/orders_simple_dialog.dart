@@ -91,12 +91,10 @@ Future<Widget> clientData(BuildContext context, Map<String, dynamic> orderMap) a
               flex: 1,
               child: Tooltip(
                   message: '${userMap['fullName']}',
-                  child: FittedBox(
-                    child: getTexts(
-                        '${userMap['fullName']}',
-                        themeCust.labelSmall!
-                            .copyWith(overflow: TextOverflow.ellipsis)),
-                  )))
+                  child: getTexts(
+                      '${userMap['fullName']}',
+                      themeCust.labelSmall!
+                          .copyWith(overflow: TextOverflow.ellipsis))))
         ],
       ),
       Row(

@@ -20,3 +20,22 @@ bool hasStock(Product product) {
 getTexts(String text, TextStyle? style){
   return Text(text, style: style,);
 }
+
+void showUndismissibleDialog(BuildContext context, String text) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Row(
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(width: 20),
+            Text(text),
+          ],
+        ),
+      );
+    },
+    
+  );
+}

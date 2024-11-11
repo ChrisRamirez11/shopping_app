@@ -5,6 +5,7 @@ import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/models/shopping_list/order.dart';
 import 'package:app_tienda_comida/provider/carrito_provider.dart';
 import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
+import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -265,8 +266,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                               .textTheme
                                               .labelMedium)),
                                   Expanded(child: Container()),
+                                  //
+                                  //Order Generation
                                   TextButton(
                                       onPressed: () async {
+                                        showUndismissibleDialog(
+                                            context, 'Generando Compra');
                                         await cartProvider.getTotal();
                                         final orderedProductsMap =
                                             await ShoppingListModel()
@@ -283,10 +288,20 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                             userId: userId,
                                             orderedProductsMap: resp,
                                             total: total);
+                                        await cartProvider
+                                            .deleteWholeCart(context);
                                         await OrdersProviderSupabase()
                                             .insertOrder(context, order);
-                                        await cartProvider.deleteWholeCart();
                                         Navigator.of(context).pop();
+                                        Navigator.of(context).pop();
+            //TODO change below when we have the product provider change notifier
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => HomeScreen(),
+                                          ),
+                                          (route) => false,
+                                        );
                                       },
                                       child: getTexts(
                                           'Ok',

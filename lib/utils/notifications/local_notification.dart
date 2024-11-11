@@ -40,6 +40,6 @@ Future<void> showNotification(String title, String body) async {//TODO implement
 
 void listenToTableChanges() {
     supabase.channel('orders').onPostgresChanges(event: PostgresChangeEvent.insert, table: 'orders', callback: (payload) {
-      showNotification('Pedidos', 'Tiene un nuevo pedido.');
+      showNotification('Pedidos', 'Nuevo pedido creado.');
     },).subscribe();
 }

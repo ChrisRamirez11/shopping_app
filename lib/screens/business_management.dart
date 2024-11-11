@@ -216,7 +216,7 @@ Future<void> massivePriceChange(BuildContext context,
     TextEditingController _newPriceController, String selectedValue) async {
   final ProductsProviderSupabase productsProviderSupabase =
       ProductsProviderSupabase();
-  showMassiveChangeDialog(context);
+  showUndismissibleDialog(context, "Actualizando precios...");
 
   try {
     List<Map<String, dynamic>> products =
@@ -246,22 +246,4 @@ Future<void> massivePriceChange(BuildContext context,
       SnackBar(content: Text('Error al actualizar precios: $e')),
     );
   }
-}
-
-void showMassiveChangeDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: Row(
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(width: 20),
-            Text("Actualizando precios..."),
-          ],
-        ),
-      );
-    },
-  );
 }
