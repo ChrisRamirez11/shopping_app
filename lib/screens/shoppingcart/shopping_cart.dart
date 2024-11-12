@@ -8,7 +8,7 @@ import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
-import 'package:app_tienda_comida/widgets/custom_image_loader_widget.dart';
+import 'package:app_tienda_comida/widgets/custom_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -352,7 +352,7 @@ int _getLimit(Product product) {
 
 _loadImage(Product product) {
   if (product.pic.toString().isNotEmpty) {
-    return CustomImageLoaderWidget(imageUrl: product.pic);
+    return CustomImageWidget(imageUrl: product.pic);
   } else {
     return const Image(
       image: AssetImage('assets/images/no-image.png'),

@@ -5,7 +5,7 @@ import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/utils/is_admin.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/screens/product_details_screen.dart';
-import 'package:app_tienda_comida/widgets/custom_image_loader_widget.dart';
+import 'package:app_tienda_comida/widgets/custom_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:top_modal_sheet/top_modal_sheet.dart';
 
@@ -140,7 +140,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   _loadImage(product) {
     if (product.pic.isNotEmpty) {
-      return CustomImageLoaderWidget(imageUrl: product.pic);
+      return CustomImageWidget(imageUrl: product.pic);
     } else {
       return const Image(
         image: AssetImage('assets/images/no-image.png'),

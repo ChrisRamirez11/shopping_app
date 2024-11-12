@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class CustomImageLoaderWidget extends StatelessWidget {
+class CustomImageWidget extends StatelessWidget {
   final String imageUrl;
 
-  CustomImageLoaderWidget({required this.imageUrl});
+  CustomImageWidget({required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {

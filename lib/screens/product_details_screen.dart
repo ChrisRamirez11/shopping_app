@@ -1,7 +1,7 @@
 import 'package:app_tienda_comida/provider/carrito_provider.dart';
 import 'package:app_tienda_comida/utils/cart_addition.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
-import 'package:app_tienda_comida/widgets/custom_image_loader_widget.dart';
+import 'package:app_tienda_comida/widgets/custom_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -183,7 +183,7 @@ class SheetBottomWidget extends StatelessWidget {
     String pic = product.pic;
 
     if (pic.isNotEmpty) {
-      return CustomImageLoaderWidget(imageUrl: product.pic);
+      return CustomImageWidget(imageUrl: product.pic);
     } else {
       return const Image(
           fit: BoxFit.cover, image: AssetImage('assets/images/no-image.png'));

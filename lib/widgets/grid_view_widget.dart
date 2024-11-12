@@ -8,7 +8,7 @@ import 'package:app_tienda_comida/utils/is_admin.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/screens/product_details_screen.dart';
 import 'package:app_tienda_comida/widgets/custom_error_widget.dart';
-import 'package:app_tienda_comida/widgets/custom_image_loader_widget.dart';
+import 'package:app_tienda_comida/widgets/custom_image_widget.dart';
 import 'package:app_tienda_comida/widgets/custom_loader_widget.dart';
 import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';
 import 'package:flutter/material.dart';
@@ -227,7 +227,7 @@ _createGridContainer(BuildContext context, int index, data) {
 
 _loadImage(Product product) {
   if (product.pic.isNotEmpty) {
-    return CustomImageLoaderWidget(imageUrl: product.pic);
+    return CustomImageWidget(imageUrl: product.pic);
   } else {
     return const Image(
       fit: BoxFit.cover,

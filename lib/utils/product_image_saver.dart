@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:app_tienda_comida/main.dart';
@@ -15,8 +14,7 @@ class ProductImageSaver {
   ProductImageSaver(
       {required this.context, required this.product, required this.imageFile});
 
-  void productImageUpload() {
-    log(product.id.toString());
+  Future<void> productImageUpload() async {
     String imageName = '${product.id.toString()}.png';
 
     if (imageFile.path.isNotEmpty) {
@@ -24,15 +22,15 @@ class ProductImageSaver {
       if (product.pic.isEmpty) {
         try {
           file = File.fromUri(Uri.parse(imageFile.path));
-          supabase.storage.from('pictures').upload(imageName, file);
-          _productImageURLSet(imageName);
+          await supabase.storage.from('pictures').upload(imageName, file);
+          await _productImageURLSet(imageName);
         } catch (e) {
           scaffoldErrorMessage(context, e);
         }
       } else {
         try {
           file = File.fromUri(Uri.parse(imageFile.path));
-          supabase.storage.from('pictures').update(imageName, file);
+          await supabase.storage.from('pictures').update(imageName, file);
         } catch (e) {
           scaffoldErrorMessage(context, e);
         }
@@ -40,8 +38,8 @@ class ProductImageSaver {
     }
   }
 
-  void _productImageURLSet(imageName) {
-    product.pic = supabase.storage.from('pictures').getPublicUrl(imageName);
-    ProductsProviderSupabase().updateProduct(context, product);
+  Future<void> _productImageURLSet(imageName) async {
+    product.pic = await supabase.storage.from('pictures').getPublicUrl(imageName);
+    await ProductsProviderSupabase().updateProduct(context, product);
   }
 }

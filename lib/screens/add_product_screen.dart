@@ -433,10 +433,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
       if (widget.product == null) {
         final resp = await productProvider.insertProduct(context, product);
         product.id = resp;
-        productImageSaver.productImageUpload();
+        await productImageSaver.productImageUpload();
       } else {
-        productProvider.updateProduct(context, product);
-        productImageSaver.productImageUpload();
+        await productProvider.updateProduct(context, product);
+        await productImageSaver.productImageUpload();
       }
       Navigator.pushAndRemoveUntil(
         context,
