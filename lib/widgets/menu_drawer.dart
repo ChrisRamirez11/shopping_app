@@ -4,7 +4,7 @@ import 'package:app_tienda_comida/screens/business_management.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/screens/orders_related/orders_screen.dart';
 import 'package:app_tienda_comida/utils/account_validation.dart';
-import 'package:app_tienda_comida/utils/custom_future_builder.dart';
+import 'package:app_tienda_comida/widgets/custom_future_builder.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';

@@ -1,7 +1,7 @@
 import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/orders_related/orders_simple_dialog.dart';
-import 'package:app_tienda_comida/utils/custom_future_builder.dart';
+import 'package:app_tienda_comida/widgets/custom_future_builder.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:app_tienda_comida/widgets/custom_error_widget.dart';
 import 'package:app_tienda_comida/widgets/custom_loader_widget.dart';

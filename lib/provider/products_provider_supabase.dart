@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +85,6 @@ class ProductsProviderSupabase {
 //insert Product
 ////////////////////////////////////////////////////////
   Future<int> insertProduct(BuildContext context, Product product) async {
-    log(product.toRawJson());
     try {
       final resp = await supabase
           .from('products')
@@ -152,7 +149,7 @@ class ProductsProviderSupabase {
       await supabase.from('products').delete().eq('id', product.id).then(
             (value) => supabase.storage
                 .from('pictures')
-                .remove(['${product.name}.png']),
+                .remove(['${product.id}.png']),
           );
     } on AuthException catch (error) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
