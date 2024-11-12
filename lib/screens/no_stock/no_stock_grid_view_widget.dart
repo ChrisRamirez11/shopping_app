@@ -8,13 +8,13 @@ import 'package:app_tienda_comida/utils/cart_addition.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/screens/product_details_screen.dart';
 import 'package:app_tienda_comida/widgets/custom_error_widget.dart';
+import 'package:app_tienda_comida/widgets/custom_image_loader_widget.dart';
 import 'package:app_tienda_comida/widgets/custom_loader_widget.dart';
 import 'package:app_tienda_comida/widgets/top_modal_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:top_modal_sheet/top_modal_sheet.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../provider/carrito_provider.dart';
 import '../../provider/theme_provider.dart';
@@ -222,14 +222,7 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
 
   _loadImage(Product product) {
     if (product.pic.isNotEmpty) {
-      return CachedNetworkImage(
-        fit: BoxFit.cover,
-        cacheManager: null,
-        imageUrl: product.pic,
-        placeholder: (context, url) =>
-            const Center(child: CircularProgressIndicator()),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
-      );
+      return CustomImageLoaderWidget(imageUrl: product.pic);
     } else {
       return const Image(
         fit: BoxFit.cover,

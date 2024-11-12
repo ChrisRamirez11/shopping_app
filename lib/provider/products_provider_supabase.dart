@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,7 @@ class ProductsProviderSupabase {
                   Text('Ha ocurrido un error: Vuelva a cargar la pagina. $e')));
         },
       );
-      return[];
+      return [];
     } catch (e) {
       SchedulerBinding.instance.addPostFrameCallback(
         (timeStamp) {
@@ -84,19 +86,23 @@ class ProductsProviderSupabase {
 
 //insert Product
 ////////////////////////////////////////////////////////
-  Future<void> insertProduct(BuildContext context, Product product) async {
+  Future<int> insertProduct(BuildContext context, Product product) async {
+    log(product.toRawJson());
     try {
-      await supabase.from('products').insert([
-        {
-          'name': product.name,
-          'type': product.type,
-          'price': product.price,
-          'availability': product.availability,
-          'pic': product.pic,
-          'quantity': product.quantity,
-          'description': product.description
-        }
-      ]);
+      final resp = await supabase
+          .from('products')
+          .insert({
+            'name': product.name,
+            'type': product.type,
+            'price': product.price,
+            'availability': product.availability,
+            'pic': product.pic,
+            'quantity': product.quantity,
+            'description': product.description
+          })
+          .select()
+          .single();
+      return resp['id'];
     } on AuthException catch (error) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -104,12 +110,13 @@ class ProductsProviderSupabase {
           backgroundColor: Theme.of(context).colorScheme.error,
         ));
       });
+      return 0;
     } catch (error) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content:
-                Text('Ha ocurrido un error, vuelva a intentarlo. $error')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Ha ocurrido un error. $error')));
       });
+      return 0;
     }
   }
 

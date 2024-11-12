@@ -43,7 +43,7 @@ dependencies:
   top_modal_sheet: ^2.1.0
   flutter_image_compress: ^2.3.0
   path: ^1.9.0
-  cached_network_image: ^3.4.1
+  #cached_network_image: ^3.4.1
   double_tap_to_exit: ^1.0.1
   google_sign_in: ^6.2.1
   flutter_local_notifications: ^17.2.2

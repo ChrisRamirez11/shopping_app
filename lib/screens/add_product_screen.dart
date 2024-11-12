@@ -1,21 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 import 'dart:typed_data';
-
-import 'package:app_tienda_comida/main.dart';
+import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/utils/image_compressor.dart';
+import 'package:app_tienda_comida/utils/product_image_saver.dart';
 import 'package:app_tienda_comida/utils/scaffold_error_msg.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/src/provider.dart' as provider;
-import '../models/producto.dart';
 
 class AddProductScreen extends StatefulWidget {
   final Product? product;
@@ -32,7 +30,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
   late Product product;
 
   //picture
-  bool _saving = false;
   String pic = '';
   late XFile imageFile = XFile.fromData(Uint8List.fromList([]));
 
@@ -140,13 +137,35 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 
+  _createPicContainer() {
+    return Container(
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(10), boxShadow: [
+        BoxShadow(
+            offset: Offset(1, 3),
+            blurRadius: 4,
+            spreadRadius: 2,
+            color: Colors.black38)
+      ]),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image(
+          image: _loadImage(),
+          height: 300,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
   TextFormField _nameField() {
     return TextFormField(
       style: Theme.of(context).textTheme.labelMedium,
       initialValue: product.name,
       textCapitalization: TextCapitalization.sentences,
       keyboardType: TextInputType.name,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
+        labelStyle: Theme.of(context).textTheme.bodyMedium,
         labelText: 'Nombre del producto',
         border: OutlineInputBorder(),
       ),
@@ -242,7 +261,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   DropdownButtonFormField _typeSelectorField(List<String> notifier) {
     return DropdownButtonFormField<String>(
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
+        labelStyle: Theme.of(context).textTheme.bodyMedium,
         labelText: 'Seleccione tipo de producto',
         border: OutlineInputBorder(),
       ),
@@ -308,6 +328,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       initialValue: product.quantity.toString(),
       keyboardType: const TextInputType.numberWithOptions(decimal: false),
       decoration: InputDecoration(
+        labelStyle: Theme.of(context).textTheme.bodyMedium,
         enabled: enabled,
         labelText: 'Cantidad en stock',
         border: const OutlineInputBorder(),
@@ -356,7 +377,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   _createButton() {
     return ElevatedButton(
-      onPressed: _saving ? null : () => _submit(),
+      onPressed: () => _submit(),
       style: ButtonStyle(
           backgroundColor: WidgetStatePropertyAll(primary),
           shape: WidgetStatePropertyAll(
@@ -364,65 +385,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
       child: Text(
         "Guardar",
         style: Theme.of(context).textTheme.bodyMedium,
-      ),
-    );
-  }
-
-  Future<void> _submit() async {
-    if (mounted) {
-      if (!formKey.currentState!.validate()) return;
-      formKey.currentState!.save();
-
-      setState(() {
-        _saving = true;
-      });
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(_showSnackBar('Guardando'));
-
-        String imageName = '${product.name}${product.type}.png'..replaceAll(' ', '_');
-        if (imageFile.path.isNotEmpty) {
-          productImageUpload(imageName);
-          productImageURLSet(imageName);
-        }
-
-        Timer(const Duration(milliseconds: 1500), () {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(_showSnackBar('Registro Guardado'));
-          if (widget.product == null) {
-            productProvider.insertProduct(context, product);
-          } else {
-            productProvider.updateProduct(context, product);
-          }
-          Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomeScreen(),
-                  ),
-                  (route) => false,
-                );
-        });
-      }
-    }
-  }
-
-  _createPicContainer() {
-    return Container(
-      decoration:
-          BoxDecoration(borderRadius: BorderRadius.circular(10), boxShadow: [
-        BoxShadow(
-            offset: Offset(1, 3),
-            blurRadius: 4,
-            spreadRadius: 2,
-            color: Colors.black38)
-      ]),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Image(
-          image: _loadImage(),
-          height: 300,
-          fit: BoxFit.contain,
-        ),
       ),
     );
   }
@@ -439,7 +401,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           pic = base64Encode(imageData);
         });
       } catch (e) {
-        if(mounted){
+        if (mounted) {
           scaffoldErrorMessage(context, "Error reading file: $e");
         }
       }
@@ -459,48 +421,32 @@ class _AddProductScreenState extends State<AddProductScreen> {
     }
   }
 
-  _showSnackBar(String s) {
-    return SnackBar(
-      content: Text(s),
-      duration: const Duration(milliseconds: 1500),
-    );
-  }
+  Future<void> _submit() async {
+    if (mounted) {
+      if (!formKey.currentState!.validate()) return;
+      formKey.currentState!.save();
 
-  void productImageUpload(imageName) {
-    File file;
-    if (widget.product == null) {
-      try {
-        file = File.fromUri(Uri.parse(imageFile.path));
-        supabase.storage.from('pictures').upload(imageName, file);
-      } catch (e) {
-        if (mounted) {
-          scaffoldErrorMessage(context, e);
-        }
+      utils.showUndismissibleDialog(context, 'Guardando');
+
+      ProductImageSaver productImageSaver = ProductImageSaver(
+          context: context, product: product, imageFile: imageFile);
+      if (widget.product == null) {
+        final resp = await productProvider.insertProduct(context, product);
+        product.id = resp;
+        productImageSaver.productImageUpload();
+      } else {
+        productProvider.updateProduct(context, product);
+        productImageSaver.productImageUpload();
       }
-    } else {
-      if (widget.product!.pic.isEmpty) {
-        try {
-          file = File.fromUri(Uri.parse(imageFile.path));
-          supabase.storage.from('pictures').upload(imageName, file);
-          return;
-        } catch (e) {
-          if (mounted) {
-            scaffoldErrorMessage(context, e);
-          }
-        }
-      }
-      try {
-        file = File.fromUri(Uri.parse(imageFile.path));
-        supabase.storage.from('pictures').update(imageName, file);
-      } catch (e) {
-        if (mounted) {
-          scaffoldErrorMessage(context, e);
-        }
-      }
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        ),
+        (route) => false,
+      );
+      ;
     }
   }
 
-  void productImageURLSet(imageName) {
-    product.pic = supabase.storage.from('pictures').getPublicUrl(imageName);
-  }
 }

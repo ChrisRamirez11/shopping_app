@@ -1,5 +1,5 @@
 import 'package:app_tienda_comida/models/shopping_list/ordered_product.dart';
-import 'package:app_tienda_comida/models/Producto.dart';
+import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/models/cart_item_model.dart';
 import '../../main.dart';
 
