@@ -154,7 +154,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         child: TextFormField(
                           style: Theme.of(context).textTheme.bodyMedium,
                           controller: quantityController,
-                          maxLength: 3,
+                          maxLength: 4,
                           textAlign: TextAlign.center,
                           textAlignVertical: TextAlignVertical.center,
                           keyboardType: const TextInputType.numberWithOptions(
@@ -331,7 +331,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     int pQuantity = product.quantity;
 
     if (product.availability) {
-      pQuantity = 100;
+      pQuantity = 1000;
     }
 
     return cartItem.quantity > pQuantity ? pQuantity : cartItem.quantity;
