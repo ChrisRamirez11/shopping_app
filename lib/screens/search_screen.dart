@@ -1,9 +1,15 @@
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/producto.dart';
+import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
+import 'package:app_tienda_comida/screens/add_product_screen.dart';
+import 'package:app_tienda_comida/utils/is_admin.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/screens/product_details_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:top_modal_sheet/top_modal_sheet.dart';
+
+import '../widgets/top_modal_sheet.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -83,7 +89,8 @@ class _SearchScreenState extends State<SearchScreen> {
       height: 70,
       child: Center(
         child: ListTile(
-            leading: Hero(tag: '${product.id}',
+            leading: Hero(
+              tag: '${product.id}',
               child: SizedBox(
                 width: 40,
                 height: 40,
@@ -94,6 +101,15 @@ class _SearchScreenState extends State<SearchScreen> {
               product.name,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
+            subtitle: Text(
+              '#${product.type}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            onLongPress: () async {
+              await AuthService().isAdmin()
+                  ? displayTopSheet(context, product)
+                  : null;
+            },
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => ProductDetailPage(product: product),
@@ -102,21 +118,40 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
     );
   }
-}
 
-_loadImage(product) {
-  if (product.pic.isNotEmpty) {
-    return CachedNetworkImage(
-      fit: BoxFit.cover,
-      cacheManager: null,
-      imageUrl: product.pic,
-      placeholder: (context, url) =>
-          const Center(child: CircularProgressIndicator()),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
-    );
-  } else {
-    return const Image(
-      image: AssetImage('assets/images/no-image.png'),
-    );
+  Future displayTopSheet(BuildContext context, Product product) async {
+    ProductsProviderSupabase _productsProvider = ProductsProviderSupabase();
+    return showTopModalSheet(
+        context,
+        CustomizedTopShet(
+            productName: product.name,
+            onDelete: () {
+              _productsProvider.deleteProduct(context, product);
+              Navigator.of(context).pop();
+            },
+            onEdit: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => AddProductScreen(
+                  product: product,
+                ),
+              ));
+            }));
+  }
+
+  _loadImage(product) {
+    if (product.pic.isNotEmpty) {
+      return CachedNetworkImage(
+        fit: BoxFit.cover,
+        cacheManager: null,
+        imageUrl: product.pic,
+        placeholder: (context, url) =>
+            const Center(child: CircularProgressIndicator()),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+      );
+    } else {
+      return const Image(
+        image: AssetImage('assets/images/no-image.png'),
+      );
+    }
   }
 }

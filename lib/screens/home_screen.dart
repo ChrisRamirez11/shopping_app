@@ -41,7 +41,7 @@ class HomeScreen extends StatelessWidget {
           ),
           appBar: AppBar(
             title: Text(
-              'Recientes',
+              'Inicio',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             foregroundColor: secondary,
