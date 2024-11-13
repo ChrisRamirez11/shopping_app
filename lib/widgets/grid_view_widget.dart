@@ -177,7 +177,7 @@ _createGridContainer(BuildContext context, int index, data) {
                         style: Theme.of(context).textTheme.labelSmall!.copyWith(
                             color: theme.themeData
                                 ? greenCustom
-                                : const Color.fromARGB(255, 17, 72, 22)),
+                                : Colors.green.shade900),
                       ),
                     ),
                     SizedBox(

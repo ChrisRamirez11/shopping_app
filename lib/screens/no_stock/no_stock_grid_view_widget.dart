@@ -176,7 +176,7 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
                               .copyWith(
                                   color: theme.themeData
                                       ? greenCustom
-                                      : const Color.fromARGB(255, 17, 72, 22)),
+                                      : Colors.green.shade900),
                         ),
                       ),
                       SizedBox(

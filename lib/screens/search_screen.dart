@@ -46,10 +46,10 @@ class _SearchScreenState extends State<SearchScreen> {
           foregroundColor: secondary,
           backgroundColor: primary,
           title: TextField(
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.labelMedium,
             onChanged: _onSearchFieldChanged,
             decoration: InputDecoration(
-                labelStyle: Theme.of(context).textTheme.bodyMedium,
+                labelStyle: Theme.of(context).textTheme.labelMedium,
                 labelText: 'Buscar',
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 border: const OutlineInputBorder(borderSide: BorderSide.none),
@@ -113,7 +113,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 .copyWith(
                                     color: theme
                                         ? greenCustom
-                                        : const Color.fromARGB(255, 17, 72, 22)),
+                                        : Colors.green.shade900),
                       overflow: TextOverflow.ellipsis,),
               onLongPress: () async {
                 await AuthService().isAdmin()

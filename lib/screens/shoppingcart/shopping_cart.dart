@@ -137,7 +137,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                               .copyWith(
                                   color: theme
                                       ? greenCustom
-                                      : const Color.fromARGB(255, 17, 72, 22)),
+                                      : Colors.green.shade900),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
