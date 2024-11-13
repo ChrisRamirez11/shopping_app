@@ -1,4 +1,7 @@
+import 'package:app_tienda_comida/provider/theme_provider.dart';
+import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomizedTopShet extends StatefulWidget {
   final String productName;
@@ -17,13 +20,14 @@ class CustomizedTopShet extends StatefulWidget {
 class _CustomizedTopShetState extends State<CustomizedTopShet> {
   @override
   Widget build(BuildContext context) {
+    bool themeData = Provider.of<ThemeProvider>(context).themeData;
     bool multiSelect = false;
 
     return SafeArea(
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color: themeData ? second2 : secondary,
           boxShadow: [
             BoxShadow(color: Colors.black.withOpacity(0.1), spreadRadius: 1),
           ],
@@ -53,9 +57,9 @@ class _Eliminar extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () => widget.onDelete(),
-      child: const Row(
+      child: Row(
         children: [
-          Text('Eliminar'),
+          Text('Eliminar', style: Theme.of(context).textTheme.bodyMedium),
           SizedBox(
             width: 4,
           ),
@@ -77,9 +81,9 @@ class _Editar extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () => widget.onEdit(),
-      child: const Row(
+      child: Row(
         children: [
-          Text('Editar'),
+          Text('Editar', style: Theme.of(context).textTheme.bodyMedium),
           SizedBox(
             width: 4,
           ),

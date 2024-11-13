@@ -10,7 +10,6 @@ import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// import '../screens/favorites_screen.dart';
 import '../screens/settings_screen.dart';
 
 class MenuDrawer extends StatelessWidget {
@@ -158,22 +157,6 @@ class MenuDrawer extends StatelessWidget {
             indent: 5,
             height: 0,
           ),
-          /*
-           ListTile(
-               leading: const Icon(Icons.favorite),
-               title: const Text('Favoritos'),
-               onTap: () {
-                 if (widget.appBarTitle.contains('Inicio')) {
-                   Navigator.of(context).push(MaterialPageRoute(
-                     builder: (context) => const FavoriteScreen(),
-                   ));
-                 } else {
-                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                     builder: (context) => const FavoriteScreen(),
-                   ));
-                 }
-               }),
-          */
           ListTile(
               leading: const Icon(Icons.account_circle_outlined),
               title: getTexts('Perfil', theme.labelLarge),
