@@ -7,12 +7,11 @@ import 'package:app_tienda_comida/utils/notifications/local_notification.dart';
 import 'package:app_tienda_comida/utils/refresh_token.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart' as provider;
+import 'package:provider/provider.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/provider/theme_provider.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/screens/dynamic_screens.dart';
-import 'package:app_tienda_comida/utils/bloc/loginBloc/provider.dart';
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -48,18 +47,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProviderP(
-      child: provider.MultiProvider(
-        providers: [
-          provider.ChangeNotifierProvider(
-            create: (_) => ProductsListNotifier(),
-          ),
-          provider.ChangeNotifierProvider(create: (_) => ThemeProvider()),
-          provider.ChangeNotifierProvider(create: (_) => SelectedValue()),
-          provider.ChangeNotifierProvider(create: (_) => CartProvider()),
-        ],
-        child: const MaterialAppFood.MaterialShopApp(),
-      ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ProductsListNotifier(),
+        ),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => SelectedValue()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+      ],
+      child: const MaterialAppFood.MaterialShopApp(),
     );
   }
 }
@@ -74,7 +71,7 @@ class MaterialAppFood extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'App Comida',
-        theme: provider.Provider.of<ThemeProvider>(context).themeData
+        theme: Provider.of<ThemeProvider>(context).themeData
             ? themeDark
             : theme,
         home: const HomeScreen(),

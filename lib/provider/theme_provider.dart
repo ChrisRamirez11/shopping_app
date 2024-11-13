@@ -25,7 +25,6 @@ class ThemeProvider extends ChangeNotifier {
   Future toggleTheme(value) async {
     _themeData = value;
     prefs.darkMode = themeData;
-    _loadTheme();
     notifyListeners();
   }
 }
