@@ -5,6 +5,7 @@ import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/models/shopping_list/order.dart';
 import 'package:app_tienda_comida/provider/carrito_provider.dart';
 import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
+import 'package:app_tienda_comida/provider/theme_provider.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
@@ -39,7 +40,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     Size size = MediaQuery.of(context).size;
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     List<CartItem> cartItemList = cartProvider.cartItems;
-
+    bool theme = Provider.of<ThemeProvider>(context).themeData;
     Map<int, Product> productMap = cartProvider.productMap;
     bool isLoading = cartProvider.isLoading;
 
@@ -47,18 +48,20 @@ class _ShoppingCartState extends State<ShoppingCart> {
       width: size.width * 0.80,
       child: isLoading
           ? Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                getTopBar(size),
-                getListView(size, cartItemList, productMap, cartProvider),
-                getTotals(size, cartItemList, cartProvider)
-              ],
-            ),
+          : Container(color: theme ? second2 : null,
+            child: Column(
+                children: [
+                  getTopBar(size),
+                  getListView(size, cartItemList, productMap, cartProvider,theme),
+                  getTotals(size, cartItemList, cartProvider)
+                ],
+              ),
+          ),
     );
   }
 
   Widget getListView(Size size, List<CartItem> cartItemList,
-      Map<int, Product> productMap, CartProvider cartProvider) {
+      Map<int, Product> productMap, CartProvider cartProvider, bool theme) {
     return SizedBox(
       height: size.height * 0.80,
       child: ListView.builder(
@@ -67,7 +70,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
         padding: const EdgeInsets.only(top: 10),
         itemCount: cartItemList.length,
         itemBuilder: (context, index) =>
-            getListTile(cartItemList[index], productMap, cartProvider),
+            getListTile(cartItemList[index], productMap, cartProvider, theme),
       ),
     );
   }
@@ -87,7 +90,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
   }
 
   Widget getListTile(CartItem cartItem, Map<int, Product> productMap,
-      CartProvider cartProvider) {
+      CartProvider cartProvider, bool theme) {
     Product product = productMap[cartItem.productId]!;
     int quantity = _getQuantity(cartItem, product);
     final quantityController = TextEditingController.fromValue(TextEditingValue(
@@ -123,8 +126,21 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   Text('\$${product.price}'),
+                  const SizedBox(height: 5),
+                  Text(
+                    '#${product.type}',
+                    style: Theme.of(context)
+                              .textTheme
+                              .labelSmall!
+                              .copyWith(
+                                  color: theme
+                                      ? greenCustom
+                                      : const Color.fromARGB(255, 17, 72, 22)),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
                 ],
               ),
             ),
@@ -294,7 +310,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                             .insertOrder(context, order);
                                         Navigator.of(context).pop();
                                         Navigator.of(context).pop();
-            //TODO change below when we have the product provider change notifier
+                                        //TODO change below when we have the product provider change notifier
                                         Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(

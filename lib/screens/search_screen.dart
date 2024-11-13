@@ -7,8 +7,10 @@ import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/screens/product_details_screen.dart';
 import 'package:app_tienda_comida/widgets/custom_image_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:top_modal_sheet/top_modal_sheet.dart';
 
+import '../provider/theme_provider.dart';
 import '../widgets/top_modal_sheet.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -37,6 +39,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool theme = Provider.of<ThemeProvider>(context).themeData;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -61,7 +64,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 itemCount: _results?.length ?? 0,
                 itemBuilder: (context, index) {
                   final product = Product.fromJson(_results![index]);
-                  return getListTile(product);
+                  return getListTile(product, theme);
                 },
               ),
             ),
@@ -83,38 +86,46 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
-  Widget getListTile(Product product) {
-    return SizedBox(
-      width: double.infinity,
-      height: 70,
-      child: Center(
-        child: ListTile(
-            leading: Hero(
-              tag: '${product.id}',
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child: _loadImage(product),
+  Widget getListTile(Product product, bool theme) {
+    return Card(color: theme ? second2 : null,
+      child: SizedBox(
+        width: double.infinity,
+        height: 70,
+        child: Center(
+          child: ListTile(
+              leading: Hero(
+                tag: '${product.id}',
+                child: SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: _loadImage(product),
+                ),
               ),
-            ),
-            title: Text(
-              product.name,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            subtitle: Text(
-              '#${product.type}',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            onLongPress: () async {
-              await AuthService().isAdmin()
-                  ? displayTopSheet(context, product)
-                  : null;
-            },
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ProductDetailPage(product: product),
-              ));
-            }),
+              title: Text(
+                product.name,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              subtitle: Text(
+                      '#${product.type}',
+                      style: Theme.of(context)
+                                .textTheme
+                                .labelSmall!
+                                .copyWith(
+                                    color: theme
+                                        ? greenCustom
+                                        : const Color.fromARGB(255, 17, 72, 22)),
+                      overflow: TextOverflow.ellipsis,),
+              onLongPress: () async {
+                await AuthService().isAdmin()
+                    ? displayTopSheet(context, product)
+                    : null;
+              },
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ProductDetailPage(product: product),
+                ));
+              }),
+        ),
       ),
     );
   }

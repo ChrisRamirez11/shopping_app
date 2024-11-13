@@ -72,8 +72,8 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
                     child: Card(
                       elevation: 10,
                       child: GestureDetector(
-                        onLongPress: () => displayTopSheet(
-                            context, data[index]),
+                        onLongPress: () =>
+                            displayTopSheet(context, data[index]),
                         onTap: () {
                           Product product = Product.fromJson(data[index]);
                           Navigator.of(context).push(MaterialPageRoute(
@@ -115,7 +115,8 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
               child: Center(
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: Hero(tag: '${product.id}',
+                  child: Hero(
+                    tag: '${product.id}',
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
@@ -172,7 +173,10 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
                           style: Theme.of(context)
                               .textTheme
                               .labelSmall!
-                              .copyWith(color: theme.themeData ? greenCustom : const Color.fromARGB(255, 17, 72, 22)),
+                              .copyWith(
+                                  color: theme.themeData
+                                      ? greenCustom
+                                      : const Color.fromARGB(255, 17, 72, 22)),
                         ),
                       ),
                       SizedBox(
