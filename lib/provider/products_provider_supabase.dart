@@ -35,7 +35,7 @@ class ProductsProviderSupabase {
 
 //get Product
 ////////////////////////////////////////////////////////
-  Future<List<Map<String, dynamic>>> getProduct(
+  Future<List<Map<String, dynamic>>> getProductByType(
       BuildContext context, String from) async {
     try {
       return await supabase.from('products').select().eq('type', from);
@@ -147,9 +147,8 @@ class ProductsProviderSupabase {
   Future<void> deleteProduct(BuildContext context, Product product) async {
     try {
       await supabase.from('products').delete().eq('id', product.id).then(
-            (value) => supabase.storage
-                .from('pictures')
-                .remove(['${product.id}.png']),
+            (value) =>
+                supabase.storage.from('pictures').remove(['${product.id}.png']),
           );
     } on AuthException catch (error) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {

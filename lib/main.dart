@@ -1,5 +1,6 @@
 import 'package:app_tienda_comida/provider/business_magement_selectedValue.dart';
 import 'package:app_tienda_comida/provider/carrito_provider.dart';
+import 'package:app_tienda_comida/provider/product_type_value_provider.dart';
 import 'package:app_tienda_comida/screens/custom_error_screen.dart';
 import 'package:app_tienda_comida/utils/consts.dart';
 import 'package:app_tienda_comida/utils/is_admin.dart';
@@ -34,7 +35,7 @@ Future<void> main() async {
 
   final prefs = PreferenciasUsuario();
   await prefs.initPrefs();
-  
+
   await AuthService().isAdmin();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) => runApp(const MyApp()));
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => SelectedValue()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => ProductTypeValueProvider())
       ],
       child: const MaterialAppFood.MaterialShopApp(),
     );
@@ -71,9 +73,8 @@ class MaterialAppFood extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'App Comida',
-        theme: Provider.of<ThemeProvider>(context).themeData
-            ? themeDark
-            : theme,
+        theme:
+            Provider.of<ThemeProvider>(context).themeData ? themeDark : theme,
         home: const HomeScreen(),
         onGenerateRoute: (settings) {
           final Map<String, dynamic> args =

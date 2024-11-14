@@ -1,3 +1,4 @@
+import 'package:app_tienda_comida/screens/change_product_type_typo_screen.dart';
 import 'package:app_tienda_comida/screens/no_stock/no_stock_products.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
 import 'package:app_tienda_comida/widgets/massive_price_change_dialog.dart';
@@ -31,8 +32,9 @@ class _BusinessManagementState extends State<BusinessManagement> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                getNoStockProducts(context),
-                MassivePriceChangeDialog()
+                getNoStockProducts(),
+                MassivePriceChangeDialog(),
+                getChangeProductTypeTypos()
               ],
             ),
           ),
@@ -41,7 +43,7 @@ class _BusinessManagementState extends State<BusinessManagement> {
     );
   }
 
-  getNoStockProducts(BuildContext context) {
+  getNoStockProducts() {
     return Card(
       child: ListTile(
         leading: Icon(Icons.production_quantity_limits),
@@ -49,6 +51,18 @@ class _BusinessManagementState extends State<BusinessManagement> {
             'Productos Agotados', Theme.of(context).textTheme.bodyMedium),
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => NoStockProducts(),
+        )),
+      ),
+    );
+  }
+  getChangeProductTypeTypos() {
+    return Card(
+      child: ListTile(
+        leading: Icon(Icons.label_important),
+        title: getTexts(
+            'Arreglar Error en Tipo de Producto', Theme.of(context).textTheme.bodyMedium),
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ChangeProductTypeTyposScreen(),
         )),
       ),
     );

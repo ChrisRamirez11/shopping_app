@@ -34,7 +34,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
       return FutureBuilder<List<Map<String, dynamic>>>(
           future: fetchData
               ? _productsProvider.productsStart(context)
-              : _productsProvider.getProduct(context, widget.appBarTitle),
+              : _productsProvider.getProductByType(context, widget.appBarTitle),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return custom_error_widget();

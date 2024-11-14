@@ -215,8 +215,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         onChanged: (value) => type = value,
                         textCapitalization: TextCapitalization.sentences,
                         keyboardType: TextInputType.name,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Tipo de Producto',
+                          labelStyle: Theme.of(context).textTheme.labelMedium,
                           border: OutlineInputBorder(),
                         ),
                       ),
