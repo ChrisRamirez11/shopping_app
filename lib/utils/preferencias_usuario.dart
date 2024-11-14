@@ -19,14 +19,6 @@ class PreferenciasUsuario {
     return _prefs.getBool('ModoOscuro') ?? true;
   }
 
-  String get token {
-    return _prefs.getString('Token') ?? '';
-  }
-
-  set token(String value) {
-    _prefs.setString('Token', value);
-  }
-
   String get user {
     return _prefs.getString('usuario') ?? '';
   }
@@ -41,13 +33,5 @@ class PreferenciasUsuario {
 
   set phoneNumber(String value) {
     _prefs.setString('numero', value);
-  }
-
-  List<String> get productsTypesList {
-    return _prefs.getStringList('productsTypeList') ?? [];
-  }
-
-  set productsTypesList(List<String> value) {
-    _prefs.setStringList('productsTypeList', value);
   }
 }

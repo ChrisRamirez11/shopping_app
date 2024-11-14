@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class SelectedValue extends ChangeNotifier{
-  String selectedValue = 'Plus';
+  String _selectedValue = 'Plus';
+
+  String get selectedValue => _selectedValue;
 
   changeValue(String value){
-    selectedValue = value;
+    _selectedValue = value;
     notifyListeners();
   }
 }
