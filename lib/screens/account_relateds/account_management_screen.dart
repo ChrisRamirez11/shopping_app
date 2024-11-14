@@ -45,8 +45,6 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       }
     } finally {
       if (mounted) {
-        prefs.user = _fullNameController.text;
-        prefs.phoneNumber = _cellphoneController.text;
         setState(() {
           _loading = false;
         });
@@ -103,6 +101,8 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Perfil actualizado con éxito'),
         ));
+        prefs.user = _fullNameController.text;
+        prefs.phoneNumber = _cellphoneController.text;
         Navigator.of(context).pop();
       }
     } on PostgrestException catch (error) {
@@ -118,8 +118,6 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       }
     } finally {
       if (mounted) {
-        prefs.user = _fullNameController.text;
-        prefs.phoneNumber = _cellphoneController.text;
         setState(() {
           _loading = false;
         });

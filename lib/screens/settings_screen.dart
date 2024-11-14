@@ -43,9 +43,12 @@ class _SettingsState extends State<Settings> {
   }
 
   _createThemeSelector(flag, ThemeProvider notifier) {
+    bool darkMode = notifier.themeData;
     return SwitchListTile(
+        thumbIcon: WidgetStatePropertyAll(
+            darkMode ? Icon(Icons.dark_mode) : Icon(Icons.light_mode)),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        title: const Text('Tema Oscuro'),
+        title: Text('Modo Oscuro', style: Theme.of(context).textTheme.labelLarge,),
         value: flag,
         onChanged: (value) {
           setState(() {});
