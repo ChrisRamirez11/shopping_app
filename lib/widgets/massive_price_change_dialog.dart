@@ -38,7 +38,7 @@ class MassivePriceChangeDialog extends StatelessWidget {
             case 'Less':
               product.price -= double.parse(_newPriceController.text);
               break;
-            case 'Divide':
+            case 'Divide' when double.parse(_newPriceController.text) != 0:
               product.price /= double.parse(_newPriceController.text);
               break;
           }
