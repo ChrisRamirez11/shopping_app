@@ -4,7 +4,7 @@ import 'package:app_tienda_comida/provider/product_type_value_provider.dart';
 import 'package:app_tienda_comida/screens/custom_error_screen.dart';
 import 'package:app_tienda_comida/utils/consts.dart';
 import 'package:app_tienda_comida/utils/is_admin.dart';
-import 'package:app_tienda_comida/utils/notifications/local_notification.dart';
+import 'package:app_tienda_comida/utils/local_notification.dart';
 import 'package:app_tienda_comida/utils/refresh_token.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/services.dart';

@@ -1,5 +1,5 @@
 import 'package:app_tienda_comida/main.dart';
-import 'package:app_tienda_comida/provider/get_profile.dart';
+import 'package:app_tienda_comida/services/get_profile.dart';
 import 'package:app_tienda_comida/screens/account_relateds/log_in_screen.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/utils/preferencias_usuario.dart';

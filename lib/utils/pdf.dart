@@ -1,5 +1,5 @@
 import 'package:app_tienda_comida/main.dart';
-import 'package:app_tienda_comida/provider/get_profile.dart';
+import 'package:app_tienda_comida/services/get_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:pdf/widgets.dart' as pw;

@@ -2,9 +2,9 @@ import 'dart:math' as math;
 
 import 'package:app_tienda_comida/models/cart_item_model.dart';
 import 'package:app_tienda_comida/models/producto.dart';
-import 'package:app_tienda_comida/models/shopping_list/order.dart';
+import 'package:app_tienda_comida/models/order.dart';
 import 'package:app_tienda_comida/provider/carrito_provider.dart';
-import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
+import 'package:app_tienda_comida/services/orders_provider_supabase.dart';
 import 'package:app_tienda_comida/provider/theme_provider.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/utils/theme.dart';

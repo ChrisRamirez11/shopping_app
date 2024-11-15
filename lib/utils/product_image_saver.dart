@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/models/producto.dart';
-import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
+import 'package:app_tienda_comida/services/products_provider_supabase.dart';
 import 'package:app_tienda_comida/utils/scaffold_error_msg.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

@@ -1,6 +1,6 @@
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/carrito_provider.dart';
-import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
+import 'package:app_tienda_comida/services/products_provider_supabase.dart';
 import 'package:app_tienda_comida/provider/theme_provider.dart';
 import 'package:app_tienda_comida/screens/add_product_screen.dart';
 import 'package:app_tienda_comida/utils/cart_addition.dart';

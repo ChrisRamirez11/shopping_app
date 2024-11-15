@@ -1,4 +1,4 @@
-import 'package:app_tienda_comida/provider/orders_provider_supabase.dart';
+import 'package:app_tienda_comida/services/orders_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/orders_related/orders_simple_dialog.dart';
 import 'package:app_tienda_comida/widgets/custom_error_widget.dart';
 import 'package:app_tienda_comida/widgets/custom_loader_widget.dart';

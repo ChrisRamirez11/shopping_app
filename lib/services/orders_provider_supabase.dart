@@ -1,5 +1,5 @@
 import 'package:app_tienda_comida/main.dart';
-import 'package:app_tienda_comida/models/shopping_list/order.dart';
+import 'package:app_tienda_comida/models/order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

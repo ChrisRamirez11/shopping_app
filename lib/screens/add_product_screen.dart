@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'dart:typed_data';
 import 'package:app_tienda_comida/models/producto.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
-import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
+import 'package:app_tienda_comida/services/products_provider_supabase.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/utils/image_compressor.dart';
 import 'package:app_tienda_comida/utils/product_image_saver.dart';

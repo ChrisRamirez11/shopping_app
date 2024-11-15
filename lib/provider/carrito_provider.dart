@@ -1,7 +1,7 @@
 import 'package:app_tienda_comida/models/cart_item_model.dart';
 import 'package:app_tienda_comida/models/producto.dart';
-import 'package:app_tienda_comida/provider/cart_supabase_provider.dart';
-import 'package:app_tienda_comida/provider/products_provider_supabase.dart';
+import 'package:app_tienda_comida/services/cart_supabase_provider.dart';
+import 'package:app_tienda_comida/services/products_provider_supabase.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
