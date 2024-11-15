@@ -10,8 +10,9 @@ Route crearRuta(Widget page, Duration duration) {
       final curvedAnimation =
           CurvedAnimation(parent: animation, curve: Curves.easeInOut);
       return SlideTransition(
-          position: Tween<Offset>(begin: const Offset(1.0, 0.0), end: Offset.zero)
-              .animate(curvedAnimation),
+          position:
+              Tween<Offset>(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                  .animate(curvedAnimation),
           child: child);
     },
   );

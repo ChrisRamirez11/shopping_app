@@ -55,12 +55,13 @@ class _BusinessManagementState extends State<BusinessManagement> {
       ),
     );
   }
+
   getChangeProductTypeTypos() {
     return Card(
       child: ListTile(
         leading: Icon(Icons.label_important),
-        title: getTexts(
-            'Arreglar Error en Tipo de Producto', Theme.of(context).textTheme.bodyMedium),
+        title: getTexts('Arreglar Error en Tipo de Producto',
+            Theme.of(context).textTheme.bodyMedium),
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => ChangeProductTypeTyposScreen(),
         )),

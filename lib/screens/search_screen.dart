@@ -87,7 +87,8 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget getListTile(Product product, bool theme) {
-    return Card(color: theme ? second2 : null,
+    return Card(
+      color: theme ? second2 : null,
       child: SizedBox(
         width: double.infinity,
         height: 70,
@@ -106,15 +107,11 @@ class _SearchScreenState extends State<SearchScreen> {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               subtitle: Text(
-                      '#${product.type}',
-                      style: Theme.of(context)
-                                .textTheme
-                                .labelSmall!
-                                .copyWith(
-                                    color: theme
-                                        ? greenCustom
-                                        : Colors.green.shade900),
-                      overflow: TextOverflow.ellipsis,),
+                '#${product.type}',
+                style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    color: theme ? greenCustom : Colors.green.shade900),
+                overflow: TextOverflow.ellipsis,
+              ),
               onLongPress: () async {
                 await AuthService().isAdmin()
                     ? displayTopSheet(context, product)

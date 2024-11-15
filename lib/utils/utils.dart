@@ -17,8 +17,11 @@ bool hasStock(Product product) {
   }
 }
 
-getTexts(String text, TextStyle? style){
-  return Text(text, style: style,);
+getTexts(String text, TextStyle? style) {
+  return Text(
+    text,
+    style: style,
+  );
 }
 
 void showUndismissibleDialog(BuildContext context, String text) {
@@ -36,6 +39,5 @@ void showUndismissibleDialog(BuildContext context, String text) {
         ),
       );
     },
-    
   );
 }

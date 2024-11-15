@@ -48,15 +48,19 @@ class MenuDrawer extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(boxShadow: [
                         BoxShadow(
-                            color: Colors.black45,
-                            spreadRadius: 10,
-                            blurRadius: 10,)
+                          color: Colors.black45,
+                          spreadRadius: 10,
+                          blurRadius: 10,
+                        )
                       ]),
                       width: double.infinity,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Text(
-                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: white),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: white),
                           'Menú',
                         ),
                       ),
@@ -117,23 +121,22 @@ class MenuDrawer extends StatelessWidget {
             indent: 5,
             height: 0,
           ),
-          customFutureBuilder(child: 
-          ListTile(
-              leading: const Icon(Icons.business_center_outlined),
-              title: getTexts('Gestiòn del Negocio', theme.labelLarge),
-              onTap: () {
-                if (!isAccountFinished(context)) return;
-                if (appBarTitle.contains('Inicio')) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const BusinessManagement(),
-                  ));
-                } else {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const BusinessManagement(),
-                  ));
-                }
-              })
-          ),
+          customFutureBuilder(
+              child: ListTile(
+                  leading: const Icon(Icons.business_center_outlined),
+                  title: getTexts('Gestiòn del Negocio', theme.labelLarge),
+                  onTap: () {
+                    if (!isAccountFinished(context)) return;
+                    if (appBarTitle.contains('Inicio')) {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const BusinessManagement(),
+                      ));
+                    } else {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const BusinessManagement(),
+                      ));
+                    }
+                  })),
           ListTile(
               leading: const Icon(Icons.list_alt),
               title: getTexts('Pedidos', theme.labelLarge),

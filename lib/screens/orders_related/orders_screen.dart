@@ -17,7 +17,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
   Widget build(BuildContext context) {
     String appBarTitle = 'Pedidos';
     return SafeArea(
-      child: Scaffold(drawer: MenuDrawer(appBarTitle: appBarTitle),
+      child: Scaffold(
+        drawer: MenuDrawer(appBarTitle: appBarTitle),
         bottomNavigationBar: getBottomNavigatioBar(),
         appBar: AppBar(
           title: Text(
@@ -33,14 +34,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
   }
 
   getBottomNavigatioBar() {
-    return BottomNavigationBar(currentIndex: currentIndex,
+    return BottomNavigationBar(
+        currentIndex: currentIndex,
         onTap: (index) {
           setState(() {
             currentIndex = index;
           });
         },
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: 'Pendiente'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.list_alt), label: 'Pendiente'),
           BottomNavigationBarItem(
               icon: Icon(Icons.fact_check), label: 'Atendido'),
         ]);

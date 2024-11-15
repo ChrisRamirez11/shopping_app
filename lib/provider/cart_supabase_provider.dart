@@ -9,11 +9,15 @@ class CartSupabaseProvider {
   //
   Future<String> addToCart(String userId, int productId, int quantity) async {
     try {
-      final resp = await supabase.from('carts').insert({
-        'user_id': userId,
-        'product_id': productId,
-        'quantity': quantity
-      }).select().single();
+      final resp = await supabase
+          .from('carts')
+          .insert({
+            'user_id': userId,
+            'product_id': productId,
+            'quantity': quantity
+          })
+          .select()
+          .single();
       return resp['id'];
     } on AuthException catch (e) {
       throw ('$e');

@@ -75,7 +75,8 @@ Future<Widget> orderSimpleDialog(
   );
 }
 
-Future<Widget> clientData(BuildContext context, Map<String, dynamic> orderMap) async {
+Future<Widget> clientData(
+    BuildContext context, Map<String, dynamic> orderMap) async {
   final themeCust = Theme.of(context).textTheme;
   final userMap = await _getProfile(orderMap);
   String cellphone = userMap['cellphone'].toString();
@@ -141,8 +142,11 @@ Future<Widget> clientData(BuildContext context, Map<String, dynamic> orderMap) a
 
 Future<Map<String, dynamic>> _getProfile(Map<String, dynamic> orderMap) async {
   try {
-    final profile =
-        await supabase.from('profiles').select().eq('id', orderMap['user_id']).single();
+    final profile = await supabase
+        .from('profiles')
+        .select()
+        .eq('id', orderMap['user_id'])
+        .single();
     return profile;
   } on AuthException catch (error) {
     throw error.message;

@@ -36,7 +36,9 @@ class OrdersProviderSupabase {
 
   Future<void> updateOrder(BuildContext context, int orderId) async {
     try {
-      return await supabase.from('orders').update({'attended': true}).eq('id', orderId);
+      return await supabase
+          .from('orders')
+          .update({'attended': true}).eq('id', orderId);
     } on AuthException catch (error) {
       throw error.message;
     } catch (error) {

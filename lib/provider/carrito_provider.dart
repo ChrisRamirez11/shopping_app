@@ -81,7 +81,6 @@ class CartProvider extends ChangeNotifier {
   deleteWholeCart(BuildContext context) async {
     try {
       for (CartItem cartItem in _cartItems) {
-
         Product product = productMap[cartItem.productId]!;
         if (!product.availability) {
           product.quantity -= cartItem.quantity;

@@ -48,15 +48,17 @@ class _ShoppingCartState extends State<ShoppingCart> {
       width: size.width * 0.80,
       child: isLoading
           ? Center(child: CircularProgressIndicator())
-          : Container(color: theme ? second2 : null,
-            child: Column(
+          : Container(
+              color: theme ? second2 : null,
+              child: Column(
                 children: [
                   getTopBar(size),
-                  getListView(size, cartItemList, productMap, cartProvider,theme),
+                  getListView(
+                      size, cartItemList, productMap, cartProvider, theme),
                   getTotals(size, cartItemList, cartProvider)
                 ],
               ),
-          ),
+            ),
     );
   }
 
@@ -131,13 +133,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   const SizedBox(height: 5),
                   Text(
                     '#${product.type}',
-                    style: Theme.of(context)
-                              .textTheme
-                              .labelSmall!
-                              .copyWith(
-                                  color: theme
-                                      ? greenCustom
-                                      : Colors.green.shade900),
+                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        color: theme ? greenCustom : Colors.green.shade900),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),

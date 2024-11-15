@@ -31,11 +31,11 @@ class Order {
 }
 
 class ShoppingListModel {
-  Future<List<OrderedProduct>> getShoppingListOrder(List<CartItem> cartItems) async {
+  Future<List<OrderedProduct>> getShoppingListOrder(
+      List<CartItem> cartItems) async {
     List<OrderedProduct> orderedProducts = [];
 
     for (var cartItem in cartItems) {
-
       Product product = await fetchProduct(cartItem.productId);
 
       OrderedProduct orderedProduct = OrderedProduct(
@@ -54,7 +54,6 @@ class ShoppingListModel {
       return Product.fromJson(response);
     } catch (e) {
       throw (e.toString());
-      
     }
   }
 }

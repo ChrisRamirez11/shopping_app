@@ -19,7 +19,8 @@ class ProductDetailPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(centerTitle: true,
+        appBar: AppBar(
+          centerTitle: true,
           foregroundColor: secondary,
           backgroundColor: primary,
           title: Text(

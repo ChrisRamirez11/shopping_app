@@ -39,7 +39,8 @@ class ProductImageSaver {
   }
 
   Future<void> _productImageURLSet(imageName) async {
-    product.pic = await supabase.storage.from('pictures').getPublicUrl(imageName);
+    product.pic =
+        await supabase.storage.from('pictures').getPublicUrl(imageName);
     await ProductsProviderSupabase().updateProduct(context, product);
   }
 }

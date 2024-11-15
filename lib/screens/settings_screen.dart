@@ -48,7 +48,10 @@ class _SettingsState extends State<Settings> {
         thumbIcon: WidgetStatePropertyAll(
             darkMode ? Icon(Icons.dark_mode) : Icon(Icons.light_mode)),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        title: Text('Modo Oscuro', style: Theme.of(context).textTheme.labelLarge,),
+        title: Text(
+          'Modo Oscuro',
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
         value: flag,
         onChanged: (value) {
           setState(() {});

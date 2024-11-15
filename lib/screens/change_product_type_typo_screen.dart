@@ -79,7 +79,8 @@ class _ChangeProductTypeTyposScreenState
 
   getButton(ProductTypeValueProvider typeValueProvider) {
     return ElevatedButton(
-        onPressed: () async => await changeProductTypeTypo(typeValueProvider, _newTypeName),
+        onPressed: () async =>
+            await changeProductTypeTypo(typeValueProvider, _newTypeName),
         child: Text('Cambiar'));
   }
 

@@ -5,11 +5,8 @@ const Color secondary = const Color(0xFFF1EAB9);
 const Color tertiary = Colors.black;
 const Color white = Color(0xFFF9F6ED);
 
-
 const Color second2 = Color.fromARGB(255, 58, 54, 43);
 const Color greenCustom = Color(0xFF57B35F);
-
-
 
 Color errorColor = Colors.red.shade300;
 
@@ -22,7 +19,7 @@ const double smallSize = 12;
 ThemeData theme = ThemeData(
   textTheme: TextTheme(
     bodyLarge: const TextStyle(
-      fontSize: largeSize, color: tertiary, fontWeight: FontWeight.bold),
+        fontSize: largeSize, color: tertiary, fontWeight: FontWeight.bold),
     bodyMedium: const TextStyle(
         fontSize: mediumSize, color: tertiary, fontWeight: FontWeight.bold),
     bodySmall: const TextStyle(
@@ -126,9 +123,8 @@ ThemeData themeDark = ThemeData.dark().copyWith(
     //Color Scheme
     //
     colorScheme: ColorScheme.fromSeed(
-      seedColor: primary,
-      brightness: Brightness.dark,
-      primary: primary,
-      secondary: secondary,
-      tertiary: Color(0xFF57B35F)
-    ));
+        seedColor: primary,
+        brightness: Brightness.dark,
+        primary: primary,
+        secondary: secondary,
+        tertiary: Color(0xFF57B35F)));
