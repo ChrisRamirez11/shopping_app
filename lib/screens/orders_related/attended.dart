@@ -16,7 +16,7 @@ class AttendedOrder extends StatelessWidget {
         future: limitTimeCheck(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return custom_loader_widget();
+            return customLoaderWidget();
           } else if (snapshot.hasError) {
             return custom_error_widget();
           } else {

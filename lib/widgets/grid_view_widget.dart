@@ -39,7 +39,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
             if (snapshot.hasError) {
               return custom_error_widget();
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return custom_loader_widget();
+              return customLoaderWidget();
             } else {
               final data = snapshot.data;
               return GridView.builder(
