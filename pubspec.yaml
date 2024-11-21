@@ -50,6 +50,7 @@ dependencies:
   pdf: ^3.11.1
   open_file: ^3.5.9
   flutter_native_splash: ^2.4.2
+  permission_handler: ^11.3.1
   #change_app_package_name: ^1.4.0
   
 

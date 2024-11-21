@@ -8,6 +8,7 @@ import 'package:app_tienda_comida/utils/local_notification.dart';
 import 'package:app_tienda_comida/utils/refresh_token.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/provider/theme_provider.dart';
@@ -24,7 +25,7 @@ Future<void> main() async {
       anonKey: Consts.anonKey,
       authOptions:
           const FlutterAuthClientOptions(authFlowType: AuthFlowType.pkce));
-
+  await Permission.notification;
   await initNotifications();
   listenToTableChanges();
 
