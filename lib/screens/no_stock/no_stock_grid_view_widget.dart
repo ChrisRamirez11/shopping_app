@@ -59,7 +59,7 @@ class _NoStockGridViewWidgetState extends State<NoStockGridViewWidget> {
             if (snapshot.hasError) {
               return custom_error_widget();
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return customLoaderWidget();
+              return custom_loader_widget();
             } else {
               final data = snapshot.data!;
               return GridView.builder(
