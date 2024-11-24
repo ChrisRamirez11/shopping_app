@@ -1,13 +1,19 @@
+import 'dart:io';
+
+import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/provider/product_list_provider.dart';
 import 'package:app_tienda_comida/screens/account_relateds/redirect_screen.dart';
 import 'package:app_tienda_comida/screens/business_management.dart';
 import 'package:app_tienda_comida/screens/home_screen.dart';
 import 'package:app_tienda_comida/screens/orders_related/orders_screen.dart';
 import 'package:app_tienda_comida/utils/account_validation.dart';
+import 'package:app_tienda_comida/utils/image_compressor.dart';
 import 'package:app_tienda_comida/widgets/custom_future_builder.dart';
 import 'package:app_tienda_comida/utils/theme.dart';
 import 'package:app_tienda_comida/utils/utils.dart';
+import 'package:app_tienda_comida/widgets/custom_image_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../screens/settings_screen.dart';
@@ -32,16 +38,17 @@ class MenuDrawer extends StatelessWidget {
           DrawerHeader(
             margin: EdgeInsets.zero,
             padding: EdgeInsets.zero,
-            decoration: BoxDecoration(color: primary),
+            decoration: BoxDecoration(color: second2),
             child: ClipRect(
               child: Stack(
                 children: [
                   SizedBox(
                       width: double.infinity,
                       height: double.infinity,
-                      child: Image.asset(
-                        'assets/des/menu_drawer.png',
-                        fit: BoxFit.cover,
+                      child: CustomImageWidget(
+                        //TODO CHANGE THIS URL FOR OTHER BUSINESS
+                        imageUrl:
+                            'https://lsohakpxtnsjxexmvdmj.supabase.co/storage/v1/object/public/business/menu_drawer.png',
                       )),
                   Align(
                     alignment: Alignment.bottomLeft,
@@ -66,6 +73,7 @@ class MenuDrawer extends StatelessWidget {
                       ),
                     ),
                   ),
+                  _changeImageButton(context)
                 ],
               ),
             ),
@@ -189,6 +197,33 @@ class MenuDrawer extends StatelessWidget {
                 }
               }),
         ],
+      ),
+    );
+  }
+
+  _changeImageButton(BuildContext context) {
+    return customFutureBuilder(
+      child: Align(
+        alignment: Alignment.bottomRight,
+        child: IconButton(
+            onPressed: () async {
+              XFile? pickedFile =
+                  await ImagePicker().pickImage(source: ImageSource.gallery);
+              File file;
+              if (pickedFile != null) {
+                try {
+                  XFile compressedImage =
+                      await compressImage(imageFile: pickedFile);
+                    file = File.fromUri(Uri.parse(compressedImage.path));
+                    await supabase.storage
+                        .from('business')
+                        .update('menu_drawer.png', file);
+                } catch (e) {
+                  throw e;
+                }
+              }
+            },
+            icon: Icon(Icons.image)),
       ),
     );
   }
