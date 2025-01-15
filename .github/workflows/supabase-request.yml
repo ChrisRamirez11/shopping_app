@@ -12,9 +12,4 @@ jobs:
     steps:
     - name: Send request to Supabase
       run: |
-        curl -X POST \
-          -H "apikey: ${{ secrets.SUPABASE_API_KEY }}" \
-          -H "Authorization: Bearer ${{ secrets.SUPABASE_ACCESS_TOKEN }}" \
-          -H "Content-Type: application/json" \
-          -d '{"key": "value"}' \
-          https://lsohakpxtnsjxexmvdmj.supabase.co
+        curl 'https://lsohakpxtnsjxexmvdmj.supabase.co'
