@@ -3,6 +3,7 @@ name: Supabase Request Every 5 Days
 on:
   schedule:
     - cron: '0 0 */5 * *'
+  workflow_dispatch:
 
 jobs:
   make-request:
