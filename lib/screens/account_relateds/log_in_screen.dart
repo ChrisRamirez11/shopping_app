@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:app_tienda_comida/main.dart';
 import 'package:app_tienda_comida/screens/account_relateds/account_management_screen.dart';
+import 'package:app_tienda_comida/utils/consts.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -27,14 +28,12 @@ class _LoginScreenState extends State<LoginScreen> {
     /// TODO: update the Web client ID with your own.
     ///
     /// Web Client ID that you registered with Google Cloud.
-    const webClientId =
-        '122831544722-odr9q2t813bhp2of7shchsumgc7p77t2.apps.googleusercontent.com';
+    const webClientId = Consts.webClientId;
 
     /// TODO: update the iOS client ID with your own.
     ///
     /// iOS Client ID that you registered with Google Cloud.
-    const iosClientId =
-        '122831544722-cc9k2hnvjqrl62cc9svq6qafmb6hlb5a.apps.googleusercontent.com';
+    const iosClientId = Consts.iosClientId;
 
     final GoogleSignIn googleSignIn = GoogleSignIn(
       clientId: iosClientId,
