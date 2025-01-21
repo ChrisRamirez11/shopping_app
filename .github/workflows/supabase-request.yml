@@ -1,0 +1,17 @@
+name: Supabase Request Every 5 Days
+
+on:
+  schedule:
+    - cron: '0 0 */5 * *'
+  workflow_dispatch:
+
+jobs:
+  make-request:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Send request to Supabase
+      run: |
+        curl 'https://lsohakpxtnsjxexmvdmj.supabase.co/rest/v1/' \
+          -H "apikey: ${{ secrets.SUPABASE_API_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_API_KEY }}" \
