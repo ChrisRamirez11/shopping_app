@@ -25,14 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
   late final StreamSubscription<AuthState> _authStateSubscription;
 
   Future<void> _googleNativeSignIn() async {
-    /// TODO: update the Web client ID with your own.
-    ///
-    /// Web Client ID that you registered with Google Cloud.
     const webClientId = Consts.webClientId;
 
-    /// TODO: update the iOS client ID with your own.
-    ///
-    /// iOS Client ID that you registered with Google Cloud.
     const iosClientId = Consts.iosClientId;
 
     final GoogleSignIn googleSignIn = GoogleSignIn(
