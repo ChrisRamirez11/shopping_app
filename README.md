@@ -1,16 +1,7 @@
 # app_tienda_comida
 
-A new Flutter project.
+PART 2:
 
-## Getting Started
+Making this repository public now. It's been a long time since I don't check this project. This is the second of my first projects on my way of learning. A lot of bad practices and some thing I didn't did and should have; experiences that made me better and learn by the bad ways that clean and readable code is a most be rather than I'll fix it later.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Supabase as a backend, this projects helped me a lot in my improvement, it was my first hard hit in my programming career(a necessary ill).
